@@ -1,5 +1,5 @@
 console.log("Version Name:");
-console.log("All I want for Christmas");
+console.log("Nothing but blue skies");
 
 
 Textures = function(){
@@ -121,7 +121,7 @@ ChaseCamera = function(){
 function loadTexture(gl, tu, url){
 	var image = new Image();
 	image.src = url;
-	image.addEventListener('load',function(){	
+	image.addEventListener('load',function(){
 		gl.activeTexture(gl.TEXTURE0+tu);
 		var texture = gl.createTexture();
 		gl.bindTexture(gl.TEXTURE_2D,texture);
@@ -502,12 +502,12 @@ Renderer.drawScene = function (gl) {
 
   // drawing the static elements (ground, track and buldings)
   gl.uniform1f(this.shader.u_texture_blending, 1); // TEXTURES ON
-    gl.uniform1i(this.shader.uSamplerLocation,Textures.GRASS);   // ROAD TEXTURE
+    gl.uniform1i(this.shader.uSamplerLocation, 0);   // ROAD TEXTURE
 	this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0]);
     
 
 
-    gl.uniform1i(this.shader.uSamplerLocation,Textures.ROAD);   // ROAD TEXTURE
+    gl.uniform1i(this.shader.uSamplerLocation, 0);   // ROAD TEXTURE
     gl.uniform1f(this.shader.u_flat_blending, .9);
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
 
