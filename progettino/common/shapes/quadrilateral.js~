@@ -1,0 +1,32 @@
+function Quadrilateral(quad,scale) {
+
+	this.vertices = new Float32Array([
+    -1,-1,0,
+     1, -1,0,
+     1, 1,0,
+     -1,1,0
+  ]);
+
+	this.texCoords = new Float32Array([
+    0.0,0.0,
+    1.0,0.0,
+    1.0,1.0,
+    0.0,1.0
+	  ]);
+
+
+	this.triangleIndices = new Uint16Array(2*3);
+
+ 
+	this.triangleIndices[0] = 0;
+	this.triangleIndices[1] = 1;
+	this.triangleIndices[2] = 2;
+
+	this.triangleIndices[3] = 0;
+	this.triangleIndices[4] = 2;
+	this.triangleIndices[5] = 3;
+	
+
+	this.numVertices  = 4;
+	this.numTriangles = 2;
+};
