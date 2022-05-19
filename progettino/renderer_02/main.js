@@ -1,5 +1,5 @@
 console.log("Version Name:");
-console.log("Wakey Wakey");
+console.log("Wakey Wakey, rise");
 
 
 Textures = function(){
@@ -288,7 +288,7 @@ Renderer.initializeObjects = function (gl) {
     Renderer.createObjectBuffers(gl,Game.scene.buildingsObj[i]);
   }
   
-  loadTexture(gl, ROAD,"../common/textures/street4.png");
+  loadTexture(gl, Textures.ROAD,"../common/textures/street4.png");
 };
 
 
@@ -504,7 +504,7 @@ Renderer.drawScene = function (gl) {
     
     gl.uniform1f(this.shader.u_texture_blending, 1); // TEXTURES ON
 
-    gl.uniform1i(this.shader.uSamplerLocation,ROAD);   // ROAD TEXTURE
+    gl.uniform1i(this.shader.uSamplerLocation,Textures.ROAD);   // ROAD TEXTURE
     gl.uniform1f(this.shader.u_flat_blending, .9);
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
 
