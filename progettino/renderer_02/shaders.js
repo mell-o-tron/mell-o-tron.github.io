@@ -111,7 +111,7 @@ lightingShader = function (gl) {//line 1,Listing 2.14
         // specular component
         vec3 specular = specular_component(N, L, NdotL, 4., uLightColor);
         
-        vec3 final = lambert + (specular * (1.-u_flat_blending)) + texture2D(uSampler,vTexCoords).xyz * u_texture_blending;
+        vec3 final = lambert + (specular * (1.-u_flat_blending)) + texture2D(uSampler,vTexCoords).xyz * 0.;
         
         
         for(int i = 0; i < 12; i++){

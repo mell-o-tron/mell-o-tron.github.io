@@ -1,4 +1,4 @@
-console.log("19/05/22, 23:51");
+console.log("Manual Fuckaroo");
 
 /* directional light */
 DirLight = function(){
