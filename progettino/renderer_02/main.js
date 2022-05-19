@@ -1,5 +1,5 @@
 console.log("Version Name:");
-console.log("Wakey Wakey, rise and shine");
+console.log("All I want for Christmas");
 
 
 Textures = function(){
@@ -289,6 +289,7 @@ Renderer.initializeObjects = function (gl) {
   }
   
   loadTexture(gl, Textures.ROAD,"../common/textures/street4.png");
+  loadTexture(gl, Textures.GRASS,"../common/textures/grass_tile.png");
 };
 
 
