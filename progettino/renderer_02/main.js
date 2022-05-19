@@ -475,7 +475,7 @@ Renderer.drawScene = function (gl) {
   this.stack.push();
   this.stack.multiply(this.car.frame); // projection * viewport
   
-  gl.uniform1f(this.shader.u_flat_blending, 0);
+  gl.uniform1f(this.shader.u_texture_blending, 0); // TEXTURES OFF
   
   //gl.uniformMatrix4fv(this.shader.uM, false, stack.matrix);
   this.drawCar(gl);
@@ -487,11 +487,13 @@ Renderer.drawScene = function (gl) {
   // drawing the static elements (ground, track and buldings)
 	this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0]);
     
-    gl.uniform1f(this.shader.u_flat_blending, 1);
-    gl.uniform1i(this.shader.uSamplerLocation,0);
+    gl.uniform1f(this.shader.u_texture_blending, 1); // TEXTURES ON
+
+    gl.uniform1i(this.shader.uSamplerLocation,0);   // ROAD TEXTURE
     gl.uniform1f(this.shader.u_flat_blending, .9);
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
-    gl.uniform1f(this.shader.u_flat_blending, 0);
+
+    gl.uniform1f(this.shader.u_texture_blending, 0);  // TEXTURES OFF
 
     gl.uniform1f(this.shader.u_flat_blending, .7);
 	for (var i in Game.scene.buildingsObj) 
