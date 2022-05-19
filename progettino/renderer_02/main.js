@@ -1,4 +1,4 @@
-console.log("Manual Fuckaroo");
+console.log("Solvey Solvey");
 
 /* directional light */
 DirLight = function(){
@@ -488,7 +488,7 @@ Renderer.drawScene = function (gl) {
   // drawing the static elements (ground, track and buldings)
 	this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0]);
     
-    gl.uniform1f(this.shader.u_texture_blending, 0); // TEXTURES ON
+    gl.uniform1f(this.shader.u_texture_blending, 1); // TEXTURES ON
 
     gl.uniform1i(this.shader.uSamplerLocation,0);   // ROAD TEXTURE
     gl.uniform1f(this.shader.u_flat_blending, .9);
