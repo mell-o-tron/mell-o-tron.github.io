@@ -1,5 +1,5 @@
 console.log("Version Name:");
-console.log("Nothing but blue skies");
+console.log("Aighty");
 
 
 Textures = function(){
@@ -116,6 +116,32 @@ ChaseCamera = function(){
   }
 }
 
+
+function createTexture(gl, url, nomipmap){
+  var texture = gl.createTexture();
+  texture.image = new Image();
+  //texture.image.crossOrigin = "anonymous"; // this line is needed only in local-noserv mode (not in the book)
+    //NVMCClient.n_resources_to_wait_for++;
+  var that = texture;
+  texture.image.onload = function () {
+    gl.bindTexture(gl.TEXTURE_2D, that);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, that.image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    if (nomipmap) gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    else gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    if (!nomipmap) gl.generateMipmap(gl.TEXTURE_2D);
+    gl.bindTexture(gl.TEXTURE_2D, null);
+    //NVMCClient.n_resources_to_wait_for--;
+  };
+
+  texture.image.src = url;
+  return texture;
+}
 
 
 function loadTexture(gl, tu, url){
@@ -253,6 +279,9 @@ Renderer.drawObject = function (gl, obj, fillColor, lineColor) {
 initialize the object in the scene
 */
 
+var STREET_TEXTURE;
+var GRASS_TEXTURE;
+
 var lamp_position_array=[];
 
 Renderer.initializeObjects = function (gl) {
@@ -288,8 +317,8 @@ Renderer.initializeObjects = function (gl) {
     Renderer.createObjectBuffers(gl,Game.scene.buildingsObj[i]);
   }
   
-  loadTexture(gl, Textures.ROAD,"../common/textures/street4.png");
-  loadTexture(gl, Textures.GRASS,"../common/textures/grass_tile.png");
+  STREET_TEXTURE = createTexture(gl, "../common/textures/street4.png", 0);
+  GRASS_TEXTURE = createTexture(gl, "../common/textures/grass_tile.png", 0);
 };
 
 
@@ -502,12 +531,17 @@ Renderer.drawScene = function (gl) {
 
   // drawing the static elements (ground, track and buldings)
   gl.uniform1f(this.shader.u_texture_blending, 1); // TEXTURES ON
-    gl.uniform1i(this.shader.uSamplerLocation, 0);   // ROAD TEXTURE
+
+  gl.bindTexture(gl.TEXTURE_2D, GRASS_TEXTURE);
+  gl.uniform1i(this.shader.uSamplerLocation, 0);
+
 	this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0]);
     
 
 
-    gl.uniform1i(this.shader.uSamplerLocation, 0);   // ROAD TEXTURE
+    gl.uniform1i(this.shader.uSamplerLocation, 0);
+    gl.bindTexture(gl.TEXTURE_2D, STREET_TEXTURE);
+
     gl.uniform1f(this.shader.u_flat_blending, .9);
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
 
