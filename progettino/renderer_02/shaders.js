@@ -10,28 +10,30 @@ lightingShader = function (gl) {//line 1,Listing 2.14
     
     attribute vec3 aPosition;
     attribute vec3 aNormal;
-    
-        
+    attribute vec2 aTexCoords;
+
     uniform   vec3 uColor;
     
     uniform   vec3 uLightDirection;
 
     varying vec3 vpos;   
     varying vec3 vnormal;
-
+    varying vec2 vTexCoords;
     
     // computed color to be interpolated 
     varying vec3 vShadedColor;
     void main(void)                                
     {   
-      
-        
+
         // in realtà qua dovrei mettere trasposta inversa ma boh ok
         mat4 uViewSpaceNormalMatrix = uM;
         
         // vertex normal (in view space)   
         vnormal = normalize(uViewSpaceNormalMatrix * vec4(aNormal, 0)).xyz;
-       
+
+        // texture coordinates
+        vTexCoords = vec2(aTexCoords.x,aTexCoords.y);
+
         // vertex position (in view space) 
         vec4 position = vec4(aPosition, 1.0);
         vpos = vec3(uM * position); 
@@ -51,10 +53,12 @@ lightingShader = function (gl) {//line 1,Listing 2.14
     // positional light: position and color
     uniform vec3 uLightColor;  
     uniform vec3 uColor;    
-    
+    uniform sampler2D uSampler;
+
     varying vec3 vnormal;
     varying vec3 vpos;   
-    
+    varying vec2 vTexCoords;
+
     vec4 vdiffuse;
     vec4 vambient;
     vec4 vspecular;
@@ -106,7 +110,7 @@ lightingShader = function (gl) {//line 1,Listing 2.14
         // specular component
         vec3 specular = specular_component(N, L, NdotL, 4., uLightColor);
         
-        vec3 final = lambert + (specular * (1.-u_flat_blending));
+        vec3 final = lambert + (specular * (1.-u_flat_blending)) + texture2D(uSampler,vTexCoords).xyz;;
         
         
         for(int i = 0; i < 12; i++){
@@ -153,14 +157,15 @@ lightingShader = function (gl) {//line 1,Listing 2.14
   var aPositionIndex = 0;
   var aDiffuseIndex = 1;
   var aNormalIndex = 2;
-  
+  var aTexCoordsIndex = 3;
+
   var shaderProgram = gl.createProgram();
   gl.attachShader(shaderProgram, vertexShader);
   gl.attachShader(shaderProgram, fragmentShader);
   gl.bindAttribLocation(shaderProgram, aPositionIndex, "aPosition");
   gl.bindAttribLocation(shaderProgram, aDiffuseIndex, "aDiffuse");
   gl.bindAttribLocation(shaderProgram, aNormalIndex, "aNormal");
-
+gl.bindAttribLocation(shaderProgram, aTexCoordsIndex, "aTexCoords");
   
   gl.linkProgram(shaderProgram);
 
@@ -176,6 +181,7 @@ lightingShader = function (gl) {//line 1,Listing 2.14
   shaderProgram.aPositionIndex = aPositionIndex;
   shaderProgram.aDiffuseIndex = aDiffuseIndex;
   shaderProgram.aNormalIndex = aNormalIndex;
+  shaderProgram.aTexCoordsIndex = aTexCoordsIndex;
 
   shaderProgram.uM  = gl.getUniformLocation(shaderProgram, "uM");
   shaderProgram.uFrame  = gl.getUniformLocation(shaderProgram, "uFrame");
@@ -190,7 +196,9 @@ lightingShader = function (gl) {//line 1,Listing 2.14
   shaderProgram.uLightColorLocation = gl.getUniformLocation(shaderProgram, "uLightColor");
 
   shaderProgram.u_flat_blending  = gl.getUniformLocation(shaderProgram, "u_flat_blending");
-  
+
+  shaderProgram.uSamplerLocation  = gl.getUniformLocation(shaderProgram, "uSampler");
+
   shaderProgram.uLampLocation= new Array();
   
   nLights = 12;

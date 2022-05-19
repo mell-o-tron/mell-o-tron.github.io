@@ -152,6 +152,17 @@ Renderer.createObjectBuffers = function (gl, obj) {
   }
   else console.log(`(!)\t${obj.name} has no normals`);
 
+
+  if(obj.texCoords){
+    console.log(`::\tCreating tex buffer for ${obj.name}`);
+    obj.texCoordsBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, obj.texCoordsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, obj.texCoords, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+  }
+  else console.log(`(!)\t${obj.name} has no tex coords`);
+
+
   obj.indexBufferTriangles = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBufferTriangles);
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, obj.triangleIndices, gl.STATIC_DRAW);
@@ -190,7 +201,15 @@ Renderer.drawObject = function (gl, obj, fillColor, lineColor) {
     gl.enableVertexAttribArray(this.shader.aNormalIndex);
     gl.vertexAttribPointer(this.shader.aNormalIndex, 3, gl.FLOAT, false, 0, 0);
   }
-  
+
+
+  if(obj.texCoords){
+    gl.bindBuffer(gl.ARRAY_BUFFER, obj.texCoordsBuffer);
+    gl.enableVertexAttribArray(this.shader.aTexCoordsIndex);
+    gl.vertexAttribPointer(this.shader.aTexCoordsIndex, 2, gl.FLOAT, false, 0, 0);
+  }
+
+
   gl.enable(gl.POLYGON_OFFSET_FILL);
   gl.polygonOffset(1.0, 1.0);
 
@@ -418,7 +437,7 @@ Renderer.drawScene = function (gl) {
   
   gl.useProgram(this.shader);
   
-  
+  gl.uniform1i(this.shader.uSamplerLocation,0);
   
   gl.uniformMatrix4fv(this.shader.uViewMatrixLocation,false,view_transform);
   
