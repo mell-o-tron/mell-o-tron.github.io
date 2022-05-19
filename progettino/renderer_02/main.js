@@ -436,8 +436,7 @@ Renderer.drawScene = function (gl) {
   
   
   gl.useProgram(this.shader);
-  
-  gl.uniform1i(this.shader.uSamplerLocation,0);
+  gl.uniform1f(this.shader.u_texture_blending, 0);
   
   gl.uniformMatrix4fv(this.shader.uViewMatrixLocation,false,view_transform);
   
@@ -488,9 +487,12 @@ Renderer.drawScene = function (gl) {
   // drawing the static elements (ground, track and buldings)
 	this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0]);
     
+    gl.uniform1f(this.shader.u_flat_blending, 1);
+    gl.uniform1i(this.shader.uSamplerLocation,0);
     gl.uniform1f(this.shader.u_flat_blending, .9);
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
-    
+    gl.uniform1f(this.shader.u_flat_blending, 0);
+
     gl.uniform1f(this.shader.u_flat_blending, .7);
 	for (var i in Game.scene.buildingsObj) 
 		this.drawObject(gl, Game.scene.buildingsObj[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
