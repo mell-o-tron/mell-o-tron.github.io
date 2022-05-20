@@ -105,13 +105,15 @@ lightingShader = function (gl) {//line 1,Listing 2.14
         
         float NdotL_Ambient = max(darkness_blending, NdotL_raw);   
         
-        vec3 lambert = (uColor) * NdotL_Ambient;    
+        vec3 col_tex_blending = u_texture_blending * texture2D(uSampler,vTexCoords).xyz + (1. - u_texture_blending) * uColor;
+
+        vec3 lambert = (col_tex_blending) * NdotL_Ambient;
         
         
         // specular component
         vec3 specular = specular_component(N, L, NdotL, 4., uLightColor);
         
-        vec3 final = lambert + (specular * (1.-u_flat_blending)) + texture2D(uSampler,vTexCoords).xyz * u_texture_blending;
+        vec3 final = lambert + (specular * (1.-u_flat_blending));
         
         
         for(int i = 0; i < 12; i++){
