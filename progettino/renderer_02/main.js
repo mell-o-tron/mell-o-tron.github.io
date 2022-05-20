@@ -1,5 +1,5 @@
 console.log("Version Name:");
-console.log("What be a roof?");
+console.log("Does the roof work honestly?");
 
 /* directional light */
 DirLight = function(){
