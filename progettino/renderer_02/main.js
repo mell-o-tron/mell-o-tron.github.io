@@ -531,7 +531,7 @@ Renderer.drawScene = function (gl) {
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
 
 
-    gl.bindTexture(gl.TEXTURE_2D, Renderer.FACADES[1]);
+
     gl.uniform1f(this.shader.u_flat_blending, .7);
     /*
 	for (var i in Game.scene.buildingsObj)
@@ -539,7 +539,8 @@ Renderer.drawScene = function (gl) {
 
 
 	for (var i in Game.scene.buildingsObjTex){
-		this.drawObject(gl, Game.scene.buildingsObjTex[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
+        //gl.bindTexture(gl.TEXTURE_2D, Renderer.FACADES[1]);
+		//this.drawObject(gl, Game.scene.buildingsObjTex[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
         gl.bindTexture(gl.TEXTURE_2D, Renderer.ROOF);
         this.drawObject(gl, Game.scene.buildingsObjTex[i].roof, [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
     }
