@@ -1,5 +1,5 @@
 console.log("Version Name:");
-console.log("Trash Out");
+console.log("Trash In");
 
 /* directional light */
 DirLight = function(){
