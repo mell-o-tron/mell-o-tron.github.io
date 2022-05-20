@@ -251,9 +251,10 @@ initialize the object in the scene
 var lamp_position_array=[];
 
 Renderer.initializeTextures = function(gl){
-  Renderer.STREET_TEXTURE  = createTexture(gl, "../common/textures/street4.png", 0);
-  Renderer.GRASS_TEXTURE   = createTexture(gl, "../common/textures/grass_tile.png", 0);
-  Renderer.FACADES         = [];
+  Renderer.STREET_TEXTURE   = createTexture(gl, "../common/textures/street4.png", 0);
+  Renderer.GRASS_TEXTURE    = createTexture(gl, "../common/textures/grass_tile.png", 0);
+  Renderer.FACADES          = [];
+  Renderer.ROOF             = createTexture(gl, "../common/textures/roof.jpg", 0);
 
   for (let i = 1; i <= 3; i++)
     Renderer.FACADES.push(createTexture(gl, `../common/textures/facade${i}.jpg`, 0));
