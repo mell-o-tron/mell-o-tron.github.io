@@ -247,10 +247,17 @@ Renderer.drawObject = function (gl, obj, fillColor, lineColor) {
 initialize the object in the scene
 */
 
-var STREET_TEXTURE;
-var GRASS_TEXTURE;
 
 var lamp_position_array=[];
+
+Renderer.initializeTextures = function(gl){
+  Renderer.STREET_TEXTURE  = createTexture(gl, "../common/textures/street4.png", 0);
+  Renderer.GRASS_TEXTURE   = createTexture(gl, "../common/textures/grass_tile.png", 0);
+  Renderer.FACADES         = [];
+
+  for (let i = 1; i <= 3; i++)
+    Renderer.FACADES.push(createTexture(gl, `../common/textures/facade${i}.jpg`, 0));
+}
 
 Renderer.initializeObjects = function (gl) {
   Game.setScene(scene_0);
@@ -284,9 +291,7 @@ Renderer.initializeObjects = function (gl) {
     ComputeNormals(Game.scene.buildingsObj[i]);
     Renderer.createObjectBuffers(gl,Game.scene.buildingsObj[i]);
   }
-  
-  STREET_TEXTURE = createTexture(gl, "../common/textures/street4.png", 0);
-  GRASS_TEXTURE = createTexture(gl, "../common/textures/grass_tile.png", 0);
+  Renderer.initializeTextures(gl);
 };
 
 
@@ -500,29 +505,30 @@ Renderer.drawScene = function (gl) {
   // drawing the static elements (ground, track and buldings)
   gl.uniform1f(this.shader.u_texture_blending, 1); // TEXTURES ON
 
-  gl.bindTexture(gl.TEXTURE_2D, GRASS_TEXTURE);
+  gl.bindTexture(gl.TEXTURE_2D, Renderer.GRASS_TEXTURE);
   gl.uniform1i(this.shader.uSamplerLocation, 0);
 
 	this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0]);
     
 
-
-    gl.uniform1i(this.shader.uSamplerLocation, 0);
-    gl.bindTexture(gl.TEXTURE_2D, STREET_TEXTURE);
+    gl.bindTexture(gl.TEXTURE_2D, Renderer.STREET_TEXTURE);
 
     gl.uniform1f(this.shader.u_flat_blending, .9);
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
 
-    gl.uniform1f(this.shader.u_texture_blending, 0);  // TEXTURES OFF
 
+    gl.bindTexture(gl.TEXTURE_2D, Renderer.FACADES[1]);
     gl.uniform1f(this.shader.u_flat_blending, .7);
 	for (var i in Game.scene.buildingsObj) 
 		this.drawObject(gl, Game.scene.buildingsObj[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
 
+
+    gl.uniform1f(this.shader.u_texture_blending, 0);  // TEXTURES OFF
+
     for(var i = 0; i<12; i++){
         gl.uniform3fv(this.shader.uLampLocation[i], lamp_position_array[i]);
     }
-    
+
     
 	gl.useProgram(null);
 };
