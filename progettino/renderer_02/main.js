@@ -297,6 +297,9 @@ Renderer.initializeObjects = function (gl) {
   for (var i = 0; i < Game.scene.buildings.length; ++i){
     ComputeNormals(Game.scene.buildingsObjTex[i]);
     Renderer.createObjectBuffers(gl,Game.scene.buildingsObjTex[i]);
+
+    ComputeNormals(Game.scene.buildingsObjTex[i].roof);
+    Renderer.createObjectBuffers(gl,Game.scene.buildingsObjTex[i].roof);
   }
 
 
@@ -534,9 +537,11 @@ Renderer.drawScene = function (gl) {
 		this.drawObject(gl, Game.scene.buildingsObj[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);*/
 
 
-	for (var i in Game.scene.buildingsObjTex)
+	for (var i in Game.scene.buildingsObjTex){
 		this.drawObject(gl, Game.scene.buildingsObjTex[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
-
+        gl.bindTexture(gl.TEXTURE_2D, Renderer.ROOF);
+        this.drawObject(gl, Game.scene.buildingsObjTex[i].roof, [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
+    }
 
 
     gl.uniform1f(this.shader.u_texture_blending, 0);  // TEXTURES OFF
