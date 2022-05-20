@@ -1,5 +1,5 @@
 console.log("Version Name:");
-console.log("Trash In");
+console.log("What be a roof?");
 
 /* directional light */
 DirLight = function(){
@@ -537,15 +537,15 @@ Renderer.drawScene = function (gl) {
 	for (var i in Game.scene.buildingsObj)
 		this.drawObject(gl, Game.scene.buildingsObj[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);*/
 
-
+    gl.bindTexture(gl.TEXTURE_2D, Renderer.FACADES[1]);
 	for (var i in Game.scene.buildingsObjTex){
-        //gl.bindTexture(gl.TEXTURE_2D, Renderer.FACADES[1]);
-		//this.drawObject(gl, Game.scene.buildingsObjTex[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
-        gl.bindTexture(gl.TEXTURE_2D, Renderer.ROOF);
+		this.drawObject(gl, Game.scene.buildingsObjTex[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
+    }
+    gl.bindTexture(gl.TEXTURE_2D, Renderer.ROOF);
+
+    for (var i in Game.scene.buildingsObjTex){
         this.drawObject(gl, Game.scene.buildingsObjTex[i].roof, [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
     }
-
-
     gl.uniform1f(this.shader.u_texture_blending, 0);  // TEXTURES OFF
 
     for(var i = 0; i<12; i++){
