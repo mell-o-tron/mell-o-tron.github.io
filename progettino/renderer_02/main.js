@@ -287,10 +287,20 @@ Renderer.initializeObjects = function (gl) {
   
   ComputeNormals(Game.scene.groundObj);
   Renderer.createObjectBuffers(gl,Game.scene.groundObj);
-  for (var i = 0; i < Game.scene.buildings.length; ++i){ 
+
+
+  /*for (var i = 0; i < Game.scene.buildings.length; ++i){
     ComputeNormals(Game.scene.buildingsObj[i]);
     Renderer.createObjectBuffers(gl,Game.scene.buildingsObj[i]);
+  }*/
+
+  for (var i = 0; i < Game.scene.buildings.length; ++i){
+    ComputeNormals(Game.scene.buildingsObjTex[i]);
+    Renderer.createObjectBuffers(gl,Game.scene.buildingsObjTex[i]);
   }
+
+
+
   Renderer.initializeTextures(gl);
 };
 
@@ -519,8 +529,14 @@ Renderer.drawScene = function (gl) {
 
     gl.bindTexture(gl.TEXTURE_2D, Renderer.FACADES[1]);
     gl.uniform1f(this.shader.u_flat_blending, .7);
-	for (var i in Game.scene.buildingsObj) 
-		this.drawObject(gl, Game.scene.buildingsObj[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
+    /*
+	for (var i in Game.scene.buildingsObj)
+		this.drawObject(gl, Game.scene.buildingsObj[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);*/
+
+
+	for (var i in Game.scene.buildingsObjTex)
+		this.drawObject(gl, Game.scene.buildingsObjTex[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
+
 
 
     gl.uniform1f(this.shader.u_texture_blending, 0);  // TEXTURES OFF
