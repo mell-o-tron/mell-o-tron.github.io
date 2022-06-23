@@ -83,13 +83,28 @@ lightingShader = function (gl) {
 
   shaderProgram.uSamplerLocation  = gl.getUniformLocation(shaderProgram, "uSampler");
 
-  shaderProgram.uProjectionSamplerLocation  = gl.getUniformLocation(shaderProgram, "uProjectionSampler");
+  shaderProgram.uProjectionSamplerRLocation  = gl.getUniformLocation(shaderProgram, "uProjectionSamplerR");
+  shaderProgram.uProjectionSamplerLLocation  = gl.getUniformLocation(shaderProgram, "uProjectionSamplerL");
 
   shaderProgram.uHeadlightsViewMatrix = gl.getUniformLocation(shaderProgram, "uHeadlightsViewMatrix");
 
+  shaderProgram.uHeadlightsViewMatrixR = gl.getUniformLocation(shaderProgram, "uHeadlightsViewMatrixR");
+  shaderProgram.uHeadlightsViewMatrixL = gl.getUniformLocation(shaderProgram, "uHeadlightsViewMatrixL");
+
+
+
   shaderProgram.uLampLocation= new Array();
 
-  shaderProgram.uDepthSamplerLocation   = gl.getUniformLocation(shaderProgram, "uDepthSampler");
+  shaderProgram.uDepthSamplerRLocation   = gl.getUniformLocation(shaderProgram, "uDepthSamplerR");
+  shaderProgram.uDepthSamplerLLocation   = gl.getUniformLocation(shaderProgram, "uDepthSamplerL");
+
+  shaderProgram.uFogMulOffset = gl.getUniformLocation(shaderProgram, "uFogMulOffset");
+  shaderProgram.uHeadlightMulOffset = gl.getUniformLocation(shaderProgram, "uHeadlightMulOffset");
+  shaderProgram.uInnerConeOffset = gl.getUniformLocation(shaderProgram, "uInnerConeOffset");
+  shaderProgram.uOuterConeOffset = gl.getUniformLocation(shaderProgram, "uOuterConeOffset");
+  shaderProgram.uShadowBias = gl.getUniformLocation(shaderProgram, "uShadowBias");
+
+
   nLights = 12;
 
   for(var i = 0; i < nLights; ++i){
@@ -103,11 +118,10 @@ lightingShader = function (gl) {
   return shaderProgram;
 };
 
-// fake depth shader, for debugging
 depthShader = function (gl) {
 
-  var vertexShaderSource = readTextFile("./Shaders/1_vs.vert");
-  var fragmentShaderSource = readTextFile("./Shaders/1_fs.frag");
+  var vertexShaderSource = readTextFile("./Shaders/depth_vs.vert");
+  var fragmentShaderSource = readTextFile("./Shaders/depth_fs.frag");
 
   // create the vertex shader
   var vertexShader = gl.createShader(gl.VERTEX_SHADER);
@@ -185,77 +199,4 @@ depthShader = function (gl) {
   shaderProgram.fragment_shader = fragmentShaderSource;
 
   return shaderProgram;
-};
-
-
-
-depthShader_THE_OG = function(gl){
-
-  var vertexShaderSource = readTextFile("./Shaders/depth_vs.vert");
-
-  var fragmentShaderSource = readTextFile("./Shaders/depth_fs.frag");
-
-
-  // create the vertex shader
-
-  var vertexShader = gl.createShader(gl.VERTEX_SHADER);
-
-  gl.shaderSource(vertexShader, vertexShaderSource);
-
-  gl.compileShader(vertexShader);
-
-
-
-  // create the fragment shader
-
-  var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-
-  gl.shaderSource(fragmentShader, fragmentShaderSource);
-
-  gl.compileShader(fragmentShader);
-
-
-
-  // Create the shader program
-
-  var aPositionIndex = 0;
-  var shaderProgram = gl.createProgram();
-
-  gl.attachShader(shaderProgram, vertexShader);
-  gl.attachShader(shaderProgram, fragmentShader);
-  gl.bindAttribLocation(shaderProgram, aPositionIndex, "aPosition");
-  gl.linkProgram(shaderProgram);
-
-
-
-  // If creating the shader program failed, alert
-
-  if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-
-    var str = "Unable to initialize the shader program.n";
-
-    str += "VS:\n"   + gl.getShaderInfoLog(vertexShader)   + "\n";
-
-    str += "FS:\n"   + gl.getShaderInfoLog(fragmentShader) + "\n";
-
-    str += "PROG:\n" + gl.getProgramInfoLog(shaderProgram);
-
-    alert(str);
-
-  }
-
-
-
-  shaderProgram.aPositionIndex = aPositionIndex;
-  shaderProgram.uHeadlightsViewMatrix = gl.getUniformLocation(shaderProgram, "uHeadlightsViewMatrix");
-  shaderProgram.uLightProjectionMatrix = gl.getUniformLocation(shaderProgram, "uLightProjectionMatrix");
-  shaderProgram.uInverseViewMatrix = gl.getUniformLocation(shaderProgram, "uInverseViewMatrix");
-
-  shaderProgram.uM  = gl.getUniformLocation(shaderProgram, "uM");
-  shaderProgram.vertex_shader = vertexShaderSource;
-
-  shaderProgram.fragment_shader = fragmentShaderSource;
-
-  return shaderProgram;
-
 };

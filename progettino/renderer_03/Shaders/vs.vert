@@ -7,8 +7,8 @@ uniform   mat4 uFrame;
 
 uniform   mat4 uInverseViewMatrix;
 
-uniform   mat4 uHeadlightsViewMatrix;
-
+uniform   mat4 uHeadlightsViewMatrixR;
+uniform   mat4 uHeadlightsViewMatrixL;
 
 attribute vec3 aPosition;
 attribute vec3 aNormal;
@@ -21,7 +21,8 @@ varying vec3 vpos;
 varying vec3 vnormal;
 varying vec2 vTexCoords;
 
-varying vec4 vprojectedThing;
+varying vec4 vprojectedThingR;
+varying vec4 vprojectedThingL;
 //varying vec2 vProjectedTexCoords;
 
 // computed color to be interpolated
@@ -44,8 +45,10 @@ void main(void)
     vpos = vec3(uM * position);
 
     // projector's texture coordinates
-    vec4 posProj = uLightProjectionMatrix * uHeadlightsViewMatrix * uInverseViewMatrix * uM * position;
-    vprojectedThing = posProj;
+
+    vprojectedThingR = uLightProjectionMatrix * uHeadlightsViewMatrixR * uInverseViewMatrix * uM * position;
+    vprojectedThingL = uLightProjectionMatrix * uHeadlightsViewMatrixL * uInverseViewMatrix * uM * position;
+
     //vProjectedTexCoords = (posProj).xy;
 
     // output

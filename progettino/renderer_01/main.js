@@ -1,14 +1,19 @@
+/* directional light */
+DirLight = function(){
+    this.direction = [1,-1,0];
+    this.color = [1,.8,.9];
+}
 
+sun = new DirLight();
 
+shaders = [lightingShader]
 
+shader = shaders[0]
 
 /*
 the FollowFromUpCamera always look at the car from a position abova right over the car
 */
 FollowFromUpCamera = function(){
-
-
-  
   /* the only data it needs is the position of the camera */
   this.frame = glMatrix.mat4.create();
   
@@ -61,6 +66,8 @@ ChaseCamera = function(){
     let up  = Renderer.car.control_keys['i'];
     let down = Renderer.car.control_keys['k'];
     
+    let hold  = Renderer.car.control_keys['h'];
+    
     if(isRotatingLeft){
       alpha -= .02
       alpha = alpha % (2 * 3.14159)
@@ -70,9 +77,13 @@ ChaseCamera = function(){
       alpha = alpha % (2 * 3.14159) 
     }
     
-    else if(Math.abs(alpha) > 0.08)
-      alpha -= Math.sign(alpha) * 0.08;
-    else alpha = 0;
+    else {
+        if(!hold){
+            if(Math.abs(alpha) > 0.08)
+                alpha -= Math.sign(alpha) * 0.08;
+            else alpha = 0;
+        }
+    }
     
     if(up && vertPos < 5){
         vertPos += .2;
@@ -111,6 +122,15 @@ Renderer.createObjectBuffers = function (gl, obj) {
   gl.bindBuffer(gl.ARRAY_BUFFER, obj.vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, obj.vertices, gl.STATIC_DRAW);
   gl.bindBuffer(gl.ARRAY_BUFFER, null);
+  
+  if(obj.normals){
+    console.log(`>\tCreating normal buffer for ${obj.name}`);
+    obj.normalBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, obj.normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, obj.normals, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+  }
+  else console.log(`(!)\t${obj.name} has no normals`);
 
   obj.indexBufferTriangles = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBufferTriangles);
@@ -138,53 +158,80 @@ Renderer.createObjectBuffers = function (gl, obj) {
 draw an object as specified in common/shapes/triangle.js for which the buffer 
 have alrady been created
 */
-Renderer.drawObject = function (gl, obj, fillColor, lineColor) {
-
+Renderer.drawObject = function (gl, obj, fillColor, lineColor) {   
+    
   gl.bindBuffer(gl.ARRAY_BUFFER, obj.vertexBuffer);
-  gl.enableVertexAttribArray(this.uniformShader.aPositionIndex);
-  gl.vertexAttribPointer(this.uniformShader.aPositionIndex, 3, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(this.shader.aPositionIndex);
+  gl.vertexAttribPointer(this.shader.aPositionIndex, 3, gl.FLOAT, false, 0, 0);
 
+  
+  if(obj.normals){
+    gl.bindBuffer(gl.ARRAY_BUFFER, obj.normalBuffer);
+    gl.enableVertexAttribArray(this.shader.aNormalIndex);
+    gl.vertexAttribPointer(this.shader.aNormalIndex, 3, gl.FLOAT, false, 0, 0);
+  }
+  
   gl.enable(gl.POLYGON_OFFSET_FILL);
   gl.polygonOffset(1.0, 1.0);
-  
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBufferTriangles);
-  
-  // aaah for fuck's sake
-  gl.uniform3fv(this.uniformShader.uColorLocation, [fillColor[0], fillColor[1], fillColor[2]]);
+  gl.uniform3fv(this.shader.uColorLocation, [fillColor[0], fillColor[1], fillColor[2]]);
   gl.drawElements(gl.TRIANGLES, obj.triangleIndices.length, gl.UNSIGNED_SHORT, 0);
 
   gl.disable(gl.POLYGON_OFFSET_FILL);
   
-  gl.uniform3fv(this.uniformShader.uColorLocation, [lineColor[0], lineColor[1], lineColor[2]]);
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBufferEdges);
-  gl.drawElements(gl.LINES, obj.numTriangles * 3 * 2, gl.UNSIGNED_SHORT, 0);
+  // draw wireframe?
+  
+  //gl.uniform3fv(this.shader.uColorLocation, [/*lineColor[0]*/ 0, lineColor[1], lineColor[2]]);
+  //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBufferEdges);
+  //gl.drawElements(gl.LINES, obj.numTriangles * 3 * 2, gl.UNSIGNED_SHORT, 0);
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-  gl.disableVertexAttribArray(this.uniformShader.aPositionIndex);
+  
+  
+  gl.disableVertexAttribArray(this.shader.aPositionIndex);
+  gl.disableVertexAttribArray(this.shader.aNormalIndex);
   gl.bindBuffer(gl.ARRAY_BUFFER, null);
 };
 
 /*
 initialize the object in the scene
 */
+
+var lamp_position_array=[];
+
 Renderer.initializeObjects = function (gl) {
   Game.setScene(scene_0);
+  
+   for(lamp of Game.scene.lamps)
+       lamp_position_array.push(lamp.position);
+  
   this.car = Game.addCar("mycar");
   Renderer.triangle = new Triangle();
 
   this.cube = new Cube(10);
+  ComputeNormals(this.cube);
+  console.log(`>\tComputed normals: ${this.cube.name}`)
   this.createObjectBuffers(gl,this.cube);
   
+  
   this.cylinder = new Cylinder(10);
+  ComputeNormals(this.cylinder);
+  console.log(`>\tComputed normals: ${this.cylinder.name}`)
   this.createObjectBuffers(gl,this.cylinder );
   
+  ComputeNormals(this.triangle);
   Renderer.createObjectBuffers(gl, this.triangle);
-
+  
+  ComputeNormals(Game.scene.trackObj);
   Renderer.createObjectBuffers(gl,Game.scene.trackObj);
+  
+  ComputeNormals(Game.scene.groundObj);
   Renderer.createObjectBuffers(gl,Game.scene.groundObj);
-  for (var i = 0; i < Game.scene.buildings.length; ++i) 
-	  	Renderer.createObjectBuffers(gl,Game.scene.buildingsObj[i]);
+  for (var i = 0; i < Game.scene.buildings.length; ++i){ 
+    ComputeNormals(Game.scene.buildingsObj[i]);
+    Renderer.createObjectBuffers(gl,Game.scene.buildingsObj[i]);
+  }
 };
 
 
@@ -197,6 +244,12 @@ let rolling = 0;
 
 Renderer.drawCar = function (gl) {
 
+    var Ka = 0.4;
+    var Kd = 0.8;
+    var Ks = 0.0;
+    var shininess = 10.0;
+    
+    
     M                 = glMatrix.mat4.create();
     rotate_transform  = glMatrix.mat4.create();
     translate_matrix  = glMatrix.mat4.create();
@@ -212,7 +265,9 @@ Renderer.drawCar = function (gl) {
 
     Renderer.stack.push();
     Renderer.stack.multiply(M);
-    gl.uniformMatrix4fv(this.uniformShader.uModelViewMatrixLocation, false, this.stack.matrix);
+    
+    
+    gl.uniformMatrix4fv(this.shader.uM, false, this.stack.matrix);
 
     this.drawObject(gl,this.cube,[0.8,0.6,0.7,1.0],[0.8,0.6,0.7,1.0]);
     Renderer.stack.pop();
@@ -253,8 +308,8 @@ Renderer.drawCar = function (gl) {
     
     Renderer.stack.push();
     Renderer.stack.multiply(M);
-    gl.uniformMatrix4fv(this.uniformShader.uModelViewMatrixLocation, false, this.stack.matrix);
-  
+    gl.uniformMatrix4fv(this.shader.uM, false, this.stack.matrix);
+    
     this.drawObject(gl,this.cylinder,[1.0,0.6,0.5,1.0],[0.0,0.0,0.0,1.0]);
     Renderer.stack.pop();
     
@@ -267,7 +322,7 @@ Renderer.drawCar = function (gl) {
     
     Renderer.stack.push();
     Renderer.stack.multiply(M);
-    gl.uniformMatrix4fv(this.uniformShader.uModelViewMatrixLocation, false, this.stack.matrix); 
+    gl.uniformMatrix4fv(this.shader.uM, false, this.stack.matrix); 
     this.drawObject(gl,this.cylinder,[1.0,0.6,0.5,1.0],[0.0,0.0,0.0,1.0]);
     Renderer.stack.pop();
 
@@ -283,7 +338,7 @@ Renderer.drawCar = function (gl) {
 
     Renderer.stack.push();
     Renderer.stack.multiply(M);
-    gl.uniformMatrix4fv(this.uniformShader.uModelViewMatrixLocation, false, this.stack.matrix); 
+    gl.uniformMatrix4fv(this.shader.uM, false, this.stack.matrix); 
     Renderer.stack.pop();
 
     this.drawObject(gl,this.cylinder,[1.0,0.6,0.5,1.0],[0.0,0.0,0.0,1.0]);
@@ -295,14 +350,29 @@ Renderer.drawCar = function (gl) {
     
     Renderer.stack.push();
     Renderer.stack.multiply(M);
-    gl.uniformMatrix4fv(this.uniformShader.uModelViewMatrixLocation, false, this.stack.matrix); 
+    gl.uniformMatrix4fv(this.shader.uM, false, this.stack.matrix); 
     this.drawObject(gl,this.cylinder,[1.0,0.6,0.5,1.0],[0.0,0.0,0.0,1.0]);
     Renderer.stack.pop();
 };
 
 
+view_transform    = glMatrix.mat4.create();
+identity          = glMatrix.mat4.create();
+scale_matrix      = glMatrix.mat4.create();
+rotation_matrix      = glMatrix.mat4.create();
+let rotangle = 0;
 Renderer.drawScene = function (gl) {
-
+  rotangle+= .01;
+  
+  
+  sun.direction = Game.scene.weather.sunLightDirection;
+  sun.color = Game.scene.weather.sunLightColor;
+  
+  gl.uniform3fv(shader.uLightDirectionLocation,sun.direction);
+  gl.uniform3fv(shader.uLightColorLocation,sun.color);
+  
+  
+  
   var width = this.canvas.width;
   var height = this.canvas.height
   var ratio = width / height;
@@ -316,11 +386,40 @@ Renderer.drawScene = function (gl) {
   gl.clearColor(0.34, 0.5, 0.74, 1.0);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-
-  gl.useProgram(this.uniformShader);
+  // setup the view transform
   
-  gl.uniformMatrix4fv(this.uniformShader.uProjectionMatrixLocation,     false,glMatrix.mat4.perspective(glMatrix.mat4.create(),3.14 / 4, ratio, 1, 500));
+  view_transform = Renderer.cameras[Renderer.currentCamera].matrix();
+  
+  //glMatrix.mat4.lookAt(view_transform,[0.0,2.0,100.0],[0.0,0.0,0.0],[0,1,0]);
 
+  
+  
+  gl.useProgram(this.shader);
+  
+  
+  
+  gl.uniformMatrix4fv(this.shader.uViewMatrixLocation,false,view_transform);
+  
+  
+  var inv_view_matrix = glMatrix.mat4.create();
+  
+  glMatrix.mat4.invert(inv_view_matrix, view_transform);
+  
+ 
+  gl.uniformMatrix4fv(this.shader.uInverseViewMatrix,false,inv_view_matrix);
+  
+  glMatrix.mat4.fromRotation(rotation_matrix, rotangle,[0,1,0]);
+  gl.uniformMatrix4fv(this.shader.uRotationMatrixLocation,false,rotation_matrix);
+  
+  gl.uniformMatrix4fv(this.shader.uProjectionMatrixLocation,     false,glMatrix.mat4.perspective(glMatrix.mat4.create(),3.14 / 4, ratio, 1, 500));
+
+  glMatrix.mat4.fromScaling(scale_matrix,[4,1,4]);
+  gl.uniformMatrix4fv(lightingShader.uM,false,scale_matrix);
+  
+  /* the shader will just output the base color if a null light direction is given */
+  gl.uniform3fv(this.shader.uLightDirectionLocation,sun.direction);
+  gl.uniform3fv(this.shader.uLightColorLocation,sun.color);
+  
   Renderer.cameras[Renderer.currentCamera].update(this.car.frame);
 
 
@@ -335,17 +434,31 @@ Renderer.drawScene = function (gl) {
   // drawing the car
   this.stack.push();
   this.stack.multiply(this.car.frame); // projection * viewport
-  //gl.uniformMatrix4fv(this.uniformShader.uModelViewMatrixLocation, false, stack.matrix);
+  
+  gl.uniform1f(this.shader.u_flat_blending, 0);
+  
+  //gl.uniformMatrix4fv(this.shader.uM, false, stack.matrix);
   this.drawCar(gl);
   this.stack.pop();
-
-  gl.uniformMatrix4fv(this.uniformShader.uModelViewMatrixLocation, false, this.stack.matrix);
+  
+  gl.uniform1f(this.shader.u_flat_blending, .7);
+  gl.uniformMatrix4fv(this.shader.uM, false, this.stack.matrix);
 
   // drawing the static elements (ground, track and buldings)
 	this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0]);
+    
+    gl.uniform1f(this.shader.u_flat_blending, .9);
  	this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0]);
+    
+    gl.uniform1f(this.shader.u_flat_blending, .7);
 	for (var i in Game.scene.buildingsObj) 
 		this.drawObject(gl, Game.scene.buildingsObj[i], [0.8, 0.8, 0.8, 1.0], [0.2, 0.2, 0.2, 1.0]);
+
+    for(var i = 0; i<12; i++){
+        gl.uniform3fv(this.shader.uLampLocation[i], lamp_position_array[i]);
+    }
+    
+    
 	gl.useProgram(null);
 };
 
@@ -377,7 +490,7 @@ Renderer.setupAndStart = function () {
   Renderer.initializeObjects(Renderer.gl);
 
   /* create the shader */
-  Renderer.uniformShader = new uniformShader(Renderer.gl);
+  Renderer.shader = new shader(Renderer.gl);
 
   /*
   add listeners for the mouse / keyboard events

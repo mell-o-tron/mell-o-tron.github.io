@@ -1,0 +1,157 @@
+<html>
+
+  <head>
+
+    <script type="text/javascript">
+        function getSlider(str){
+          // str = headlight, fog, inner, outer
+           var slider = document.getElementById(str);
+           return slider.value;
+        }
+
+        function log(msg){
+          var textarea = document.getElementById("log");
+          textarea.innerHTML += (msg + "\n");
+        textarea.scrollTop = textarea.scrollHeight;
+        }
+    </script>
+        <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="./../common/libs/glMatrix/dist/gl-matrix.js"></script>
+        <script type="text/javascript" src="./../common/libs/matrix-stack.js"> </script>
+        <script type="text/javascript" src="./../common/shapes/track_maker.js"> </script>
+        <script type="text/javascript" src="./../common/shapes/building_maker.js"> </script>
+        <script type="text/javascript" src="./../common/shapes/quadrilateral.js"> </script>
+        <script type="text/javascript" src="./../common/shapes/triangle_car.js"></script>
+
+        <script type="text/javascript" src="./../common/shapes/cube.js"> </script>
+        <script type="text/javascript" src="./../common/shapes/cylinder.js"> </script>
+        <script type="text/javascript" src="./../common/models/teapot.json"></script>
+
+        <script type="text/javascript" src="./../common/scenes/scene_0.js"> </script>
+        <script type="text/javascript" src="./../common/game.js"></script>
+        <script type="text/javascript" src="./../common/compute_normals.js"></script>
+        <script type="text/javascript" src="./../common/json_gpu_loader.js"></script>
+        <script type="text/javascript" src="./shaders.js"> </script>
+        <script type="text/javascript" src="./Scripts/cameras.js"> </script>
+        <script type="text/javascript" src="./Scripts/input.js"> </script>
+
+        <script type="text/javascript" src="./main.js"> </script>
+        <script type="text/javascript" src="./Scripts/draw_scene_car.js"> </script>
+
+        <script id="shader-fs" type="x-shader/x-fragment" src = "fragmentShader.frag"></script>
+        <script id="shader-vs" type="x-shader/x-vertex" src = "vertexShader.vert"></script>
+    
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="column">
+
+        <div tabindex="1">
+          <canvas  tabindex='1'
+              id     = "OUTPUT-CANVAS"
+              width  = "600px"
+              height = "600px"
+              style  = "border: 1px solid black"
+          ></canvas>
+          </div>
+      <div>
+      </div>
+
+      </div>
+      <div class="column">
+
+      <div>
+        <div>
+          <b>Instructions:</b>
+          <div class="row">
+            <div class="column">
+              <div class="row">
+                <div class="column">
+                  Car controls:
+                </div>
+                <div class="column">
+                  <center><kbd>W</kbd><br><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></center>
+                 </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="row">
+                <div class="column">
+                  Camera controls:
+                </div>
+                <div class="column">
+                  <center><kbd>I</kbd><br><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd></center>
+                </div>
+              </div>
+              <kbd>H</kbd> to hold in <i>Chase</i> mode
+            </div>
+          </div>
+
+        </div>
+        <br>
+        <hr>
+        <br>
+        <b>Camera settings</b><br>
+        <div class="row">
+          <div class="column">
+            <label for="cameras">Choose a camera:</label><br>
+            <select name="cameras" id="cameras" onchange="update_camera(this.value)">
+              <option value="0">FollowFromUp</option>
+              <option value="1">Chase</option>
+              <option value="2">Flying</option>
+            </select>
+          </div>
+          <div class="column">
+            <i>Chase Distance:</i><br>
+            <input type="range" id="camera_distance" min="1" max="100" value="60">
+          </div>
+        </div>
+
+        </div>
+        <br>
+        <b>Car:</b>
+        <div class="row">
+          <div class="column">
+            <i>Headlight intensity:</i><br>
+            <input type="range" id="headlight" min="0" max="100" value="30">
+          </div>
+           <div class="column">
+
+          </div>
+        </div>
+        <br>
+        <b>Street lamp shape:</b>
+        <div class="row">
+          <div class="column">
+            <i>Inner cone:</i><br>
+            <input type="range" id="inner" min="0" max="100" value="10">
+          </div>
+           <div class="column">
+            <i>Outer cone:</i><br>
+            <input type="range" id="outer" min="0" max="100" value="30">
+          </div>
+        </div>
+        <br>
+        <b>Environment:</b>
+         <div class="row">
+          <div class="column">
+            <i>Fog intensity:</i><br>
+            <input type="range" id="fog" min="-40" max="100" value="0">
+          </div>
+           <div class="column">
+            <i>Shadow bias:</i><br>
+            <input type="range" id="bias" min="1" max="100" value="1">
+          </div>
+        </div>
+        <br>
+      <textarea id="log" rows="4" cols="60"></textarea>
+      </div>
+    </div>
+
+
+
+  </body>
+
+</html>
+
