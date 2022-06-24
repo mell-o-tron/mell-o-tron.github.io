@@ -22,6 +22,8 @@ uniform float uInnerConeOffset;
 uniform float uOuterConeOffset;
 uniform float uShadowBias;
 
+uniform float uVeryShiny;
+
 varying vec3 vnormal;
 varying vec3 vpos;
 varying vec2 vTexCoords;
@@ -29,10 +31,9 @@ varying vec2 vTexCoords;
 varying vec4 vprojectedThingR;
 varying vec4 vprojectedThingL;
 
-vec4 vdiffuse;
-vec4 vambient;
-vec4 vspecular;
-vec4 vshininess;
+
+float specular_mul;
+
 
 float darkness_blending = 0.5;
 
@@ -53,7 +54,7 @@ vec3 specular_component(vec3 N, vec3 L, float NdotL, float exp, vec3 lightColor)
 
     float spec = pow(RdotV, exp);
 
-    return (vspecular.xyz * lightColor) * spec;
+    return (specular_mul * lightColor) * spec;
 }
 
 
@@ -90,11 +91,10 @@ vec3 headlightComponent(mat4 hvm, vec2 ptc, vec4 pThing, sampler2D depthSampler,
 
 void main()
 {
-    vdiffuse = vec4(0.1,0.1,0.1,0.0);
-    vambient = vec4(0.3,0.3,0.3,0.0);
-    vspecular = vec4(0.5,0.5,0.5,0.0);
-    vshininess = vec4(1, 0., 0., 0.);
 
+    specular_mul = 1.;
+
+    if(uVeryShiny > 0.) specular_mul = 20.;
 
 
     // position in world space and "headlight space"
@@ -144,7 +144,11 @@ void main()
 
 
     // specular component
-    vec3 specular = specular_component(N, L, NdotL, 4., uLightColor);
+    vec3 specular;
+    if(uVeryShiny > 0.)
+         specular = specular_component(N, L, NdotL, 100., uLightColor);
+    else
+         specular = specular_component(N, L, NdotL, 4., uLightColor);
 
     vec3 final = lambert + (specular * (1.-u_flat_blending));
 
@@ -153,19 +157,15 @@ void main()
 
         vec3 VS_lamp_position = (uViewMatrix * vec4(uLampLocation[i], 1.0)).xyz;
 
-        // calcolo la distanza tra il punto in view space e la lampada
-
-        //float distance = sqrt(dot(uLampLocation[i] - wpos, uLampLocation[i] - wpos));
         float distance = sqrt(dot(VS_lamp_position - vpos, VS_lamp_position - vpos));
 
 
-        //final += vec3(distance /100., distance/100., distance/100.);
 
         vec3 lamp_L = (VS_lamp_position + (uViewMatrix * vec4(0.,3.,0.,0.)).xyz) - vpos;
 
         float lamp_NdotL = max(0., dot(N, lamp_L));
         vec3 lamp_color = vec3(1, .5, .5);
-        vec3 lamp_specular = specular_component(N, lamp_L, NdotL, 1., lamp_color)/100000.;
+        vec3 lamp_specular = specular_component(N, lamp_L, NdotL, 4., lamp_color)/100000.;
         vec3 lamp_contribution = max(0., dot(N, lamp_L) / (distance*distance)) * lamp_color;
         vec3 surface_to_lamp_vs = lamp_L;
 

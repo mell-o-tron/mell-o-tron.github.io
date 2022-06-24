@@ -231,7 +231,7 @@ Renderer.drawObject = function (gl, obj, fillColor, lineColor, useShader) {
   gl.enableVertexAttribArray(useShader.aPositionIndex);
   gl.vertexAttribPointer(useShader.aPositionIndex, 3, gl.FLOAT, false, 0, 0);
 
-  if(obj.normals){
+  if(obj.normals || obj.normalBuffer){
     gl.bindBuffer(gl.ARRAY_BUFFER, obj.normalBuffer);
     gl.enableVertexAttribArray(useShader.aNormalIndex);
     gl.vertexAttribPointer(useShader.aNormalIndex, 3, gl.FLOAT, false, 0, 0);
@@ -246,10 +246,16 @@ Renderer.drawObject = function (gl, obj, fillColor, lineColor, useShader) {
   gl.enable(gl.POLYGON_OFFSET_FILL);
   gl.polygonOffset(1.0, 1.0);
 
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBufferTriangles);
-  gl.uniform3fv(useShader.uColorLocation, [fillColor[0], fillColor[1], fillColor[2]]);
-  gl.drawElements(gl.TRIANGLES, obj.triangleIndices.length, gl.UNSIGNED_SHORT, 0);
-
+  if(obj.indexBufferTriangles){
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBufferTriangles);
+    gl.uniform3fv(useShader.uColorLocation, [fillColor[0], fillColor[1], fillColor[2]]);
+    gl.drawElements(gl.TRIANGLES, obj.triangleIndices.length, gl.UNSIGNED_SHORT, 0);
+  }
+  else {
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBuffer);
+    gl.uniform3fv(useShader.uColorLocation, [fillColor[0], fillColor[1], fillColor[2]]);
+    gl.drawElements(gl.TRIANGLES, obj.triangleIndices.length, gl.UNSIGNED_SHORT, 0);
+  }
   gl.disable(gl.POLYGON_OFFSET_FILL);
   
 
@@ -321,6 +327,8 @@ Renderer.initializeObjects = function (gl) {
     Renderer.createObjectBuffers(gl,Game.scene.buildingsObjTex[i].roof);
   }
 
+
+  this.teapot = loadOnGPU(teapot, gl);
 
   Renderer.initializeTextures(gl);
 };

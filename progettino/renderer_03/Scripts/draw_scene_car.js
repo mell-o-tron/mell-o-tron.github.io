@@ -13,9 +13,13 @@ Renderer.drawCar = function (gl,useShader) {
 
 
   M                 = glMatrix.mat4.create();
+  T                 = glMatrix.mat4.create();
   rotate_transform  = glMatrix.mat4.create();
   translate_matrix  = glMatrix.mat4.create();
   scale_matrix      = glMatrix.mat4.create();
+
+  tpot_scale_matrix = glMatrix.mat4.create();
+  tpot_trans_matrix = glMatrix.mat4.create();
 
   glMatrix.mat4.fromTranslation(translate_matrix,[0,1,1]);
   glMatrix.mat4.fromScaling(scale_matrix,[0.7,0.25,1]);
@@ -25,9 +29,24 @@ Renderer.drawCar = function (gl,useShader) {
   glMatrix.mat4.fromTranslation(translate_matrix,[0,0.1,-1]);
   glMatrix.mat4.mul(M,translate_matrix,M);
 
-  Renderer.stack.push();
-  Renderer.stack.multiply(M);
+  glMatrix.mat4.fromTranslation(tpot_trans_matrix,[0, 3.8,2]);
+  glMatrix.mat4.fromScaling(tpot_scale_matrix,[0.2,0.2,.2]);
+  glMatrix.mat4.mul(T,tpot_scale_matrix,tpot_trans_matrix);
 
+  Renderer.stack.push();
+
+  Renderer.stack.multiply(T);
+
+  gl.uniformMatrix4fv(useShader.uM, false, this.stack.matrix);
+
+  gl.uniform1f(useShader.uVeryShiny, 1.0);
+
+  this.drawObject(gl,this.teapot,[1,1,1,1.0],[.95,.95,.95,1.0], useShader);
+
+  Renderer.stack.pop();
+  Renderer.stack.push();
+  gl.uniform1f(useShader.uVeryShiny, 0.0);
+  Renderer.stack.multiply(M);
 
   gl.uniformMatrix4fv(useShader.uM, false, this.stack.matrix);
 
