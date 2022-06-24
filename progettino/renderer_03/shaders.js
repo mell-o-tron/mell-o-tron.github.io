@@ -105,6 +105,7 @@ lightingShader = function (gl) {
   shaderProgram.uShadowBias = gl.getUniformLocation(shaderProgram, "uShadowBias");
 
   shaderProgram.uVeryShiny = gl.getUniformLocation(shaderProgram, "uVeryShiny");
+  shaderProgram.uEmissiveMaterial = gl.getUniformLocation(shaderProgram, "uEmissiveMaterial");
 
   nLights = 12;
 

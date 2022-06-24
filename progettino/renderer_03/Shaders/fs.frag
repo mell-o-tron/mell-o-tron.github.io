@@ -23,6 +23,7 @@ uniform float uOuterConeOffset;
 uniform float uShadowBias;
 
 uniform float uVeryShiny;
+uniform float uEmissiveMaterial;
 
 varying vec3 vnormal;
 varying vec3 vpos;
@@ -48,7 +49,7 @@ uniform vec3 uLampLocation[12];
 vec3 specular_component(vec3 N, vec3 L, float NdotL, float exp, vec3 lightColor){
     vec3 V=normalize(-vpos);
 
-    vec3 R = (2.0 * NdotL * N) - L;
+    vec3 R = normalize((2.0 * NdotL * N) - L);
 
     float RdotV = max(0.0, dot(R, V));
 
@@ -163,10 +164,16 @@ void main()
 
         vec3 lamp_L = (VS_lamp_position + (uViewMatrix * vec4(0.,3.,0.,0.)).xyz) - vpos;
 
-        float lamp_NdotL = max(0., dot(N, lamp_L));
+        float lamp_NdotL = max(0., dot(N, normalize(lamp_L)));
         vec3 lamp_color = vec3(1, .5, .5);
-        vec3 lamp_specular = specular_component(N, lamp_L, NdotL, 4., lamp_color)/100000.;
-        vec3 lamp_contribution = max(0., dot(N, lamp_L) / (distance*distance)) * lamp_color;
+
+        vec3 lamp_specular;
+        if(uVeryShiny > 0.)
+             lamp_specular = specular_component(N, lamp_L, lamp_NdotL, 80., lamp_color);
+        else
+             lamp_specular = specular_component(N, lamp_L, lamp_NdotL, 4., lamp_color);
+
+        vec3 lamp_contribution = max(0., dot(N, lamp_L) / (distance*distance)) * lamp_color + (lamp_specular * (1.-u_flat_blending));
         vec3 surface_to_lamp_vs = lamp_L;
 
         float uhm = dot(normalize(surface_to_lamp_vs), normalize((uViewMatrix * vec4(0.,1.,0.,0.)).xyz));
@@ -182,6 +189,8 @@ void main()
 
     // FOG (again)
     final += vec3(length(vpos)/2., length(vpos)/2., length(vpos)) * (.004 + uFogMulOffset / 10000.);
+
+    if(uEmissiveMaterial > 0.) final = uColor;
 
     gl_FragColor  = vec4(final, 1.0);
 }

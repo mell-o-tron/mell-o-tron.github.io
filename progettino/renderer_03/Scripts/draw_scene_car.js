@@ -150,7 +150,7 @@ rotation_matrix   = glMatrix.mat4.create();
 
 Renderer.drawScene = function (gl, useShader, right) {
   gl.useProgram(useShader);
-
+  gl.uniform1f(useShader.uEmissiveMaterial, 0.0);
 
   // SLIDERS
   gl.uniform1f(useShader.uFogMulOffset,       getSlider("fog"));
@@ -236,7 +236,7 @@ Renderer.drawScene = function (gl, useShader, right) {
   this.stack.pop();
 
 
-  gl.uniform1f(useShader.u_flat_blending, .7);
+  gl.uniform1f(useShader.u_flat_blending, 1);
   gl.uniformMatrix4fv(useShader.uM, false, this.stack.matrix);
 
 
@@ -251,11 +251,12 @@ Renderer.drawScene = function (gl, useShader, right) {
   gl.uniform1i(useShader.uProjectionSamplerRLocation, 1);
   gl.uniform1i(useShader.uProjectionSamplerLLocation, 3);
 
+  gl.uniform1f(useShader.u_flat_blending, 1);
   this.drawObject(gl, Game.scene.groundObj, [0.3, 0.7, 0.2, 1.0], [0, 0, 0, 1.0], useShader);
 
   /* 2. STREET */
   gl.bindTexture(gl.TEXTURE_2D, Renderer.STREET_TEXTURE);
-  gl.uniform1f(useShader.u_flat_blending, .9);
+  gl.uniform1f(useShader.u_flat_blending, 1);
   this.drawObject(gl, Game.scene.trackObj, [0.9, 0.8, 0.7, 1.0], [0, 0, 0, 1.0], useShader);
 
 
@@ -273,10 +274,24 @@ Renderer.drawScene = function (gl, useShader, right) {
 
   gl.uniform1f(useShader.u_texture_blending, 0);  // TEXTURES OFF
 
-
-
   if(useShader === shaders[0])
     for(var i = 0; i<12; i++){
+      let M         = glMatrix.mat4.create();
+      let M1        = glMatrix.mat4.create();
+      let scale_mat = glMatrix.mat4.create();
+
+      glMatrix.mat4.fromTranslation(M, [lamp_position_array[i][0], lamp_position_array[i][1] + 3, lamp_position_array[i][2]]);
+      glMatrix.mat4.fromScaling(scale_mat, [.3, .3, .3, 0]);
+      glMatrix.mat4.mul(M, M, scale_mat);
+
+      this.stack.multiply(M);
+      gl.uniformMatrix4fv(useShader.uM, false, this.stack.matrix);
+       gl.uniform1f(useShader.uEmissiveMaterial, 1.0);
+      this.drawObject(gl, this.cone, [0, 0, 0, 1.0], [0.2, 0.2, 0.2, 1.0], useShader);
+       gl.uniform1f(useShader.uEmissiveMaterial, 0.0);
+      glMatrix.mat4.invert(M1, M);
+
+      this.stack.multiply(M1);
       gl.uniform3fv(useShader.uLampLocation[i], lamp_position_array[i]);
     }
 

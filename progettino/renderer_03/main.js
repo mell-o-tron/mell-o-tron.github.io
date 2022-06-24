@@ -301,6 +301,10 @@ Renderer.initializeObjects = function (gl) {
   console.log(`>\tComputed normals: ${this.cube.name}`)
   this.createObjectBuffers(gl,this.cube);
   
+  this.cone = new Cone(10);
+  ComputeNormals(this.cone);
+  console.log(`>\tComputed normals: ${this.cone.name}`)
+  this.createObjectBuffers(gl,this.cone);
   
   this.cylinder = new Cylinder(10);
   ComputeNormals(this.cylinder);
