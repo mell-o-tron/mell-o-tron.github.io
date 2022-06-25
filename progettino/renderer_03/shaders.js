@@ -103,9 +103,10 @@ lightingShader = function (gl) {
   shaderProgram.uInnerConeOffset = gl.getUniformLocation(shaderProgram, "uInnerConeOffset");
   shaderProgram.uOuterConeOffset = gl.getUniformLocation(shaderProgram, "uOuterConeOffset");
   shaderProgram.uShadowBias = gl.getUniformLocation(shaderProgram, "uShadowBias");
+  shaderProgram.uLampIntensity = gl.getUniformLocation(shaderProgram, "uLampIntensity");
 
   shaderProgram.uVeryShiny = gl.getUniformLocation(shaderProgram, "uVeryShiny");
-  shaderProgram.uEmissiveMaterial = gl.getUniformLocation(shaderProgram, "uEmissiveMaterial");
+  shaderProgram.uPlainColor = gl.getUniformLocation(shaderProgram, "uPlainColor");
 
   nLights = 12;
 

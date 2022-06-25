@@ -150,7 +150,7 @@ rotation_matrix   = glMatrix.mat4.create();
 
 Renderer.drawScene = function (gl, useShader, right) {
   gl.useProgram(useShader);
-  gl.uniform1f(useShader.uEmissiveMaterial, 0.0);
+  gl.uniform1f(useShader.uPlainColor, 0.0);
 
   // SLIDERS
   gl.uniform1f(useShader.uFogMulOffset,       getSlider("fog"));
@@ -158,6 +158,7 @@ Renderer.drawScene = function (gl, useShader, right) {
   gl.uniform1f(useShader.uInnerConeOffset,    getSlider("inner"));
   gl.uniform1f(useShader.uOuterConeOffset,    getSlider("outer"));
   gl.uniform1f(useShader.uShadowBias,         getSlider("bias"));
+  gl.uniform1f(useShader.uLampIntensity,      getSlider("lamp_int"));
 
   sun.direction = Game.scene.weather.sunLightDirection;
   sun.color = Game.scene.weather.sunLightColor;
@@ -274,6 +275,8 @@ Renderer.drawScene = function (gl, useShader, right) {
 
   gl.uniform1f(useShader.u_texture_blending, 0);  // TEXTURES OFF
 
+
+
   if(useShader === shaders[0])
     for(var i = 0; i<12; i++){
       let M         = glMatrix.mat4.create();
@@ -281,14 +284,20 @@ Renderer.drawScene = function (gl, useShader, right) {
       let scale_mat = glMatrix.mat4.create();
 
       glMatrix.mat4.fromTranslation(M, [lamp_position_array[i][0], lamp_position_array[i][1] + 3, lamp_position_array[i][2]]);
-      glMatrix.mat4.fromScaling(scale_mat, [.3, .3, .3, 0]);
+
+      let max_slider = Math.max(getSlider("inner"), getSlider("outer"))
+
+      let h_scale = (max_slider / 100) * 1.6;
+      let v_scale = (1-(max_slider / 100)) * .4;
+
+      glMatrix.mat4.fromScaling(scale_mat, [h_scale, v_scale, h_scale, 0]);
       glMatrix.mat4.mul(M, M, scale_mat);
 
       this.stack.multiply(M);
       gl.uniformMatrix4fv(useShader.uM, false, this.stack.matrix);
-       gl.uniform1f(useShader.uEmissiveMaterial, 1.0);
-      this.drawObject(gl, this.cone, [0, 0, 0, 1.0], [0.2, 0.2, 0.2, 1.0], useShader);
-       gl.uniform1f(useShader.uEmissiveMaterial, 0.0);
+       gl.uniform1f(useShader.uPlainColor, 1.0);
+      this.drawObject(gl, this.cone, [1., 1., 1., 1.0], [0.2, 0.2, 0.2, 1.0], useShader);
+       gl.uniform1f(useShader.uPlainColor, 0.0);
       glMatrix.mat4.invert(M1, M);
 
       this.stack.multiply(M1);
