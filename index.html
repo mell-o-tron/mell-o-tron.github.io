@@ -16,14 +16,136 @@
 
   <link rel="stylesheet" href="https://latex.now.sh/style.css">
   <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
+  
+  <style>
+    a:link {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #8ad0ff;
+      font-style: italic;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #a8dcff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+</style>
+  
 </head>
 
-<body id="top">
-  <header>
-    <div style = "text-align: center;"><b style="font-size:250%"><span class="latex"><code>mell-o-tron</code></b><br>
-    <b>Lorenzo Pace</b>, Computer Science student at the <i>University of Pisa</i>.
-    </div>
 
+<body id="top" style = "background: #212121;color: white" onload="myFunction()">
+  <header style = "background: #1a1a1a; border-radius: 25px;text-align: center;">
+    <div style = "text-align: center;"><b style="font-size:250%"><span class="latex"><code>mell-o-tron</code></b><br>
+    
+    <canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;">
+    
+    </div>
+<b>Lorenzo Pace</b>, Computer Science student at the <i>University of Pisa</i>.
+        <br><br>
+    
+    <script>
+    function myFunction() {
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      intervalID = setInterval(drawLine, 200, ctx);
+      intervalID = setInterval(clear, 5000, ctx);
+    }
+
+    var posx = null;
+    var posy = null;
+    
+    var prev_directionx = 0;
+    var prev_directiony = 0;
+
+    var rgb = [204, 255, 204]
+    
+    function drawLine(ctx) {
+      ctx.beginPath();
+      ctx.lineWidth = "3";
+      ctx.strokeStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+      ctx.fillStyle =  `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+      rgb[0] += 40 * (Math.random() - .5)
+      rgb[1] += 40 * (Math.random() - .5)
+      rgb[2] += 40 * (Math.random() - .5)
+      
+      if(posx == null){
+        posx = 150;
+        posy = 150;
+      }
+      ctx.moveTo(posx, posy);
+      
+      general_directionx = -(posx - 150)/300;
+      general_directiony = -(posy - 150)/300;
+      
+      directionx = (Math.random() - .5 + general_directionx) * 300;
+      directiony = (Math.random() - .5 + general_directiony) * 300;
+      
+      directionx = (.2 * directionx + .8 * prev_directionx);
+      directiony = (.2 * directiony + .8 * prev_directiony);
+      
+      min = 10;
+      
+      directionx += (directionx / Math.abs(directionx)) * min;
+      directiony += (directiony / Math.abs(directiony)) * min;
+      
+      previousx = posx;
+      previousy = posy;
+      
+      posx = posx + directionx;
+      posy = posy + directiony;
+      
+      multiplier = 2;
+      
+      control_point_1 = [previousx + prev_directionx * Math.random() * multiplier, 
+                        previousy + prev_directiony * Math.random() * multiplier]
+      
+      
+      
+      control_point_2 = [posx - directionx * Math.random() * multiplier,
+                        posy - directiony * Math.random() * multiplier]
+                        
+      
+      
+      ctx.bezierCurveTo(control_point_1[0], 
+                        control_point_1[1], 
+                        control_point_2[0],
+                        control_point_2[1],
+                         posx, posy);
+                         
+      ctx.fillRect(control_point_1[0],control_point_1[1],5,5);
+      ctx.fillRect(control_point_2[0],control_point_2[1],5,5);
+      
+      prev_directionx = directionx;
+      prev_directiony = directiony;
+                        
+      ctx.stroke(); 
+    }
+    
+    function clear (ctx) {
+      ctx.clearRect(0, 0, 300, 300);
+      posx = null;
+      posy = null;
+    }
+</script>
+    
   </header>
 
 
