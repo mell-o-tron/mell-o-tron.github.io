@@ -62,80 +62,138 @@
         <br><br>
     
     <script>
+
+
     function myFunction() {
       var c = document.getElementById("myCanvas");
       var ctx = c.getContext("2d");
-      intervalID = setInterval(drawLine, 200, ctx);
-      intervalID = setInterval(clear, 5000, ctx);
+      intervalID = setInterval(drawOrbit, 5, ctx);
+      intervalID = setInterval(clear, 15000, ctx);
     }
+
+    function vec_sum(a, b){
+      return [a[0] + b[0], a[1] + b[1]];
+    }
+
+    function vec_sub(a, b){
+      return [a[0] - b[0], a[1] - b[1]];
+    }
+
+    function vec_mul (k, a){
+      return [a[0] * k, a[1] * k]
+    }
+
+    function dist(a, b){
+      return Math.sqrt((a[0] - b[0])**2 + (a[1] - b[1])**2);
+    }
+
+    function direction(a, b){
+      let dir = [b[0] - a[0], b[1] - a[1]]
+      let norm = dist (dir, [0,0])
+      return vec_mul(1/norm, dir);
+    }
+
+    function dot (a, b){
+      return a[0] * b[0] + a[1] * b[1];
+    }
+
+    function angle_between_vecs(a, b){
+      return Math.acos(dot(a, b) / (dist(a, [0,0]) * dist(b, [0,0])));
+    }
+
+    function perp (a){
+      return [-a[1], a[0]]
+    }
+
+    function rotate_vec(a, rad){
+      a1 = [0,0]
+      a1[0] = a[0] * Math.cos(rad) - a[1] * Math.sin(rad);
+      a1[1] = a[0] * Math.sin(rad) + a[1] * Math.cos(rad);
+
+      return a1;
+    }
+
+    var prev_posx = null;
+    var prev_posy = null;
 
     var posx = null;
     var posy = null;
-    
-    var prev_directionx = 0;
-    var prev_directiony = 0;
+
+    var velx_dt = null;
+    var vely_dt = null;
 
     var rgb = [204, 255, 204]
     
-    function drawLine(ctx) {
+    var G = 20
+
+    var centers = [];
+
+    var eta = 1
+
+    function drawOrbit(ctx) {
+
       ctx.beginPath();
-      ctx.lineWidth = "3";
+      ctx.lineWidth = "2";
       ctx.strokeStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
       ctx.fillStyle =  `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
-      rgb[0] += 40 * (Math.random() - .5)
-      rgb[1] += 40 * (Math.random() - .5)
-      rgb[2] += 40 * (Math.random() - .5)
+      rgb[0] += 10 * (Math.random() - .5);
+      rgb[1] += 10 * (Math.random() - .5);
+      rgb[2] += 10 * (Math.random() - .5);
       
-      if(posx == null){
-        posx = 150;
-        posy = 150;
+      if(posx == null || dist([posx, posy], [150, 150]) > 300){
+        clear(ctx);
+        posx = (Math.random() * 300);
+        posy = (Math.random() * 300);
+        velx_dt = (Math.random() - .5) * eta;
+        vely_dt = (Math.random() - .5) * eta;
+      }
+      else{
+        posx +=  velx_dt;
+        posy +=  vely_dt;
+
+        var grav_acc = 0;
+        for (p of centers){
+          let p_distance = dist([posx, posy], p);
+
+          if (p_distance <= 10){
+
+            let tangent = perp (direction([posx, posy], p));
+
+            alpha = angle_between_vecs([velx_dt, vely_dt], tangent);
+
+            console.log(alpha);
+
+            new_vel = rotate_vec(tangent, alpha);
+
+            norm_new_vel = dist([0,0], new_vel);
+            norm_old_vel = dist([0,0], [velx_dt, vely_dt]);
+
+            new_vel = vec_mul(norm_old_vel/norm_new_vel, new_vel)
+
+            velx_dt = new_vel[0];
+            vely_dt = new_vel[1];
+          }
+
+          if (p_distance <= 5){
+            clear(ctx);
+          }
+
+          grav_acc += G / (p_distance**2);
+
+          let dir = direction([posx, posy], p);
+
+          acc = vec_mul(grav_acc, dir);
+
+          velx_dt += acc[0];    //compensate for dt with G
+          vely_dt += acc[1];
+        }
       }
       ctx.moveTo(posx, posy);
-      
-      general_directionx = -(posx - 150)/300;
-      general_directiony = -(posy - 150)/300;
-      
-      directionx = (Math.random() - .5 + general_directionx) * 300;
-      directiony = (Math.random() - .5 + general_directiony) * 300;
-      
-      directionx = (.2 * directionx + .8 * prev_directionx);
-      directiony = (.2 * directiony + .8 * prev_directiony);
-      
-      min = 10;
-      
-      directionx += (directionx / Math.abs(directionx)) * min;
-      directiony += (directiony / Math.abs(directiony)) * min;
-      
-      previousx = posx;
-      previousy = posy;
-      
-      posx = posx + directionx;
-      posy = posy + directiony;
-      
-      multiplier = 2;
-      
-      control_point_1 = [previousx + prev_directionx * Math.random() * multiplier, 
-                        previousy + prev_directiony * Math.random() * multiplier]
-      
-      
-      
-      control_point_2 = [posx - directionx * Math.random() * multiplier,
-                        posy - directiony * Math.random() * multiplier]
-                        
-      
-      
-      ctx.bezierCurveTo(control_point_1[0], 
-                        control_point_1[1], 
-                        control_point_2[0],
-                        control_point_2[1],
-                         posx, posy);
+
                          
-      ctx.fillRect(control_point_1[0],control_point_1[1],5,5);
-      ctx.fillRect(control_point_2[0],control_point_2[1],5,5);
-      
-      prev_directionx = directionx;
-      prev_directiony = directiony;
-                        
+      ctx.fillRect(posx,posy,5,5);
+
+
       ctx.stroke(); 
     }
     
@@ -143,6 +201,21 @@
       ctx.clearRect(0, 0, 300, 300);
       posx = null;
       posy = null;
+
+      centers = []
+
+      for (i in [0,1,2])
+        centers.push([Math.random() * 150 + 150/2, Math.random() * 150 + 150/2])
+
+
+      for (p of centers){
+        ctx.beginPath();
+        ctx.strokeStyle = `rgb(200,200,200)`;
+        ctx.lineWidth = "1";
+        ctx.arc(p[0], p[1], 10, 0, 2 * Math.PI);
+        ctx.stroke();
+      }
+
     }
 </script>
     
@@ -160,7 +233,10 @@
         CG project</a> (UNI)</li>
         <li><a title="Minimal, collaboratively written kernel"
         href="https://github.com/mell-o-tron/MellOs">
-        MellOS</a></li>
+        MellOS</a>: A minimal, collaboratively written kernel</li>
+        <li><a title=""
+        href="https://github.com/mell-o-tron/Lambda-Maj7">
+        λ-maj7</a>: A simple functional programming language</li>
         <li>Visualization series:
             <ul>
                 <li><a title=""
