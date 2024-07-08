@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="tm5Y6ZNTf-lBqbwniGjQPv1q02o2TuUQZ9GTYa4SMLg" />
+  <title>The Knights Who Say λ</title>
+
+  <meta name="description"
+    content="" />
+  <meta name="keywords" content="latex.css,css library,class-less css,latex css" />
+  <meta property="og:title" content="he Knights Who Say Lambda" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="https://latex.now.sh/style.css">
+  <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
+
+  <style>
+    a:link {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #8ad0ff;
+      font-style: italic;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #a8dcff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+     .seminar {
+            margin-bottom: 20px;
+        }
+    .section-title {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+</style>
+
+</head>
+
+
+<body id="top" style = "background: #212121;color: white">
+  <header style = "background: #1a1a1a; border-radius: 25px;text-align: center;">
+    <div style = "text-align: center;"><b style="font-size:250%"><span class="latex"><code>The Knights Who Say λ</code></b><br>
+
+    </div>
+
+    <img src="logo.png" width="200" class="center" alt="Logo">
+
+Student Group @ <i>University of Pisa</i>.
+        <br><br>
+  </header>
+
+
+  <main>
+    <article>
+
+    <div id="past-seminars">
+        <h2 class="section-title">Past Seminars</h2>
+        <div id="past-seminar-list"></div>
+    </div>
+    <div id="upcoming-seminars">
+        <h2 class="section-title">Upcoming Seminars</h2>
+        <div id="upcoming-seminar-list"></div>
+    </div>
+    <script src="script.js"></script>
+
+     </article>
+  </main>
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'],],
+      },
+    }
+    const toggle = document.getElementById('typeface-toggle')
+    const typeface = document.getElementById('typeface')
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('libertinus')
+      typeface.textContent = document.body.classList.contains('libertinus') ? 'Libertinus' : 'Latin Modern'
+    })
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+
+  <script async defer data-domain="latex.now.sh" src="https://plausible.io/js/plausible.js"></script>
+</body>
+<br><br>
+<div style="font-size:80%">
+Credit to <b>Vincent Dörig</b> for their brilliant template; I'm not giving this justice, you'll find the full thing here:  <a title=""
+                href="https://github.com/vincentdoerig/latex-css"> <code>https://github.com/vincentdoerig/latex-css</code></a>
+</div>
+</html>
+
+
