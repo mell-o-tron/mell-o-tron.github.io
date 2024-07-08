@@ -1,3 +1,10 @@
-2023-07-01,Balz coq ,A beginner's guide to the bals cow.
-2023-12-15,Banana split,Deep dive into banana balls.
-2025-06-20,Spam spam eggs bacon and spam, Understanding the fundamentals Monty Python.
+date; title; description
+2024-04-15;Effect Handlers - Alessio Duè, Yuri Andriaccio (Room R1);Effect handlers have the potential to influence the design of the next 700 programming languages. We'll be discovering what they are, why they are useful and how to implement them in a simple interpreter
+2024-04-18;Yoneda Lemma - Andrea Simone Costa (CTCC Seminar);
+2024-04-22;Frog Computing - Matteo Simone (Room R1);Agent-based simulation of a complex system of frogs.
+2024-05-06;Coqshop - Lorenzo Pace (Room X7); Introduction to the Coq proof assistant.
+2024-06-20;From the search for the truth to symbolic calculus - Giuliano Gorgone (Room R1); A meta-linguistic investigation between philosophy, theoretical computer science and linguistics.
+2024-07-15;Driftin' In Ghezzano - Lorenzo Pace (Mega Seminar, room X7); Implementation of macroscopic and microscopic traffic models (i.e. vroom vroom).
+2024-07-15;Uta Stansburiana Sillycon Desert - Alessandro Scala, Salvatore Salerno (Mega Seminar, room X7); Rock-Paper-Scissors behaviour in the reproduction of Uta Stansburiana lizards
+2024-07-15;Frog Checking - Matteo Simone (Mega Seminar, room X7); Frogs pt. 2: Introduction to PRISM for the Statistical Model Checking of your favourite frog population
+2024-07-15;Bare Metal Lambda-Calculus - Alessandro Scala, Lorenzo Pace (Mega Seminar, room X7); λ-Calculus compiler to 16 bit x86 assembly, integrated with BIOS. A utopian project set in the 90's of a parallel timeline.

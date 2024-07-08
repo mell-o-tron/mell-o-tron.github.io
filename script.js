@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function processCSV(csv) {
     const lines = csv.split('\n').map(line => line.trim()).filter(line => line.length);
     const seminars = lines.slice(1).map(line => {
-        const [date, name, description] = line.split(',');
+        const [date, name, description] = line.split(';');
         return { date: new Date(date.trim()), name: name.trim(), description: description.trim() };
     });
 
@@ -33,7 +33,8 @@ function displaySeminars(elementId, seminars) {
             seminarElement.innerHTML = `
                 <strong>${seminar.name}</strong><br>
                 <em>${seminar.date.toDateString()}</em><br>
-                <p>${seminar.description}</p>
+                ${seminar.description}
+                <hr>
             `;
             container.appendChild(seminarElement);
         });
