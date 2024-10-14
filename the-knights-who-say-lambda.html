@@ -14,10 +14,17 @@
   <meta property="og:title" content="he Knights Who Say Lambda" />
   <meta property="og:type" content="website" />
 
-  <link rel="stylesheet" href="https://latex.now.sh/style.css">
-  <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
 
   <style>
+    body {
+      background: #212121;
+      color: white;
+      margin-right: 20%;
+      margin-left: 20%;
+      font-family: monospace;
+      font-size: 15px;
+    }
+    
     a:link {
       color: #8ad0ff;
       font-weight: bold;
@@ -46,31 +53,92 @@
       background-color: transparent;
       text-decoration: underline;
     }
+    
+    h3 {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding: 2px;
+    }
+    
     .center {
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 50%;
+/*         width: 50%; */
     }
-     .seminar {
-            margin-bottom: 20px;
-        }
+    .seminar {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 5px rgba(255, 255, 255, .4);
+    }
+    .seminar-title {
+            color: black;
+            background-color: lightgray;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 0px;
+            border-top: 1px solid #000;
+    }
+    
+    .seminar-date {
+            color: black;
+            background-color: white;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 0px;
+            text-align: center;
+    }
+    
     .section-title {
         font-size: 24px;
         margin-top: 20px;
     }
+    
+    .seminar-row {
+      display: flex; /* Add flex to allow side-by-side layout */
+      flex-direction: row; /* Align content horizontally */
+      gap: 20px; /* Add some space between columns */
+    }
+        
+    .seminar-content { 
+      padding: 20px;
+      flex: 2;
+    }
+    
+    .image-container {
+      text-align:center;
+      padding:5px;
+      flex: 1;
+    }
+    
+    @media (max-width: 800px) {
+      .seminar-row {
+      display: inline; /* Add flex to allow side-by-side layout */
+      }
+          
+      
+      body {
+        margin-right: 10%;
+        margin-left: 10%;
+      }
+    }
+    
+
 </style>
 
 </head>
 
 
-<body id="top" style = "background: #212121;color: white">
+<body id="top">
   <header style = "background: #1a1a1a; border-radius: 25px;text-align: center;">
     <div style = "text-align: center;"><b style="font-size:250%"><span class="latex"><code>The Knights Who Say λ</code></b><br>
 
     </div>
 
-    <img src="logo.png" width="200" class="center" alt="Logo">
+    <img src="logo.png" class="center" alt="Logo" height=300px>
 
 Student Group @ <i>University of Pisa</i>.
         <br><br>
@@ -113,10 +181,7 @@ Student Group @ <i>University of Pisa</i>.
   <script async defer data-domain="latex.now.sh" src="https://plausible.io/js/plausible.js"></script>
 </body>
 <br><br>
-<div style="font-size:80%">
-Credit to <b>Vincent Dörig</b> for their brilliant template; I'm not giving this justice, you'll find the full thing here:  <a title=""
-                href="https://github.com/vincentdoerig/latex-css"> <code>https://github.com/vincentdoerig/latex-css</code></a>
-</div>
+
 </html>
 
 

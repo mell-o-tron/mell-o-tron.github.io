@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="tm5Y6ZNTf-lBqbwniGjQPv1q02o2TuUQZ9GTYa4SMLg" />
+  <title>mell-o-tron</title>
+
+  <meta name="description"
+    content="" />
+  <meta name="keywords" content="latex.css,css library,class-less css,latex css" />
+  <meta property="og:title" content="mell-o-tron" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="https://latex.now.sh/style.css">
+  <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
+  
+  <style>
+    a:link {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #8ad0ff;
+      font-style: italic;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #a8dcff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+</style>
+  
+</head>
+
+
+<body id="top" style = "background: #212121;color: white">
+  
+  <header>
+  <h2 id="about">Table Of Content</h2>
+  <ul>
+  <li><a href="./index.html">Home</a></li>
+  <li><a href="./projects.html">Projects</a></li>
+  <li><a href="./about.html">About</a></li>
+</ul>
+  </header>
+  <main>
+    <article>
+        <h2 id="about">Interests</h2>
+        <h3> Two lists of things I like <br></h3>
+        The following is a short, non-exhaustive list of topics I currently find interesing; I update this list quite often, as my interests are currently quite dynamic:
+
+        <ul>
+        <li>Visualization of <i>pretty maths</i>, through:
+            <ul>
+            <li>illustrations (<code>TikZ</code>)</li>
+            <li>animations (I'm learning <i>Manim</i>)</li>
+            <li>interactive visualizations (mostly <code>PyGame</code>)</li>
+            </ul></li>
+        <li>Graph theory</li>
+        <li>Functional programming</li>
+        </ul>
+
+        This second list is another short list, of more informal nature.
+
+        <ul>
+        <li> Music:
+
+            <ul>
+                <li> <a title=""
+                href="https://www.youtube.com/watch?v=Uktj2MYSsaU&ab_channel=Playliszt"> John Field - Nocturnes</a>  </li>
+                <li> <a title=""
+                href="https://www.youtube.com/watch?v=zqZM71MXNfs&ab_channel=flashspacer"> Radiohead - Fog (Again)</a>  </li>
+            </ul></li>
+        <li> What... is <a title=""
+                href="https://www.youtube.com/watch?v=RbTaP0_Galg&ab_channel=nOizyGR"> the airspeed velocity of an unladen swallow</a>? </li>
+        </ul>
+
+        <h3> Stuff I'm learning in my free time</h3>
+        This is a list of things I'm interested in, which I'm reading about all the time. When I'll be done with my BCS I'll have a chance to study these in a more formal setting, but for now I'm on my own!
+        <ul>
+        <li>Category Theory</li>
+        <li>Computer-assisted theorem proving</li>
+        </ul>
+     </article>
+  </main>
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'],],
+      },
+    }
+    const toggle = document.getElementById('typeface-toggle')
+    const typeface = document.getElementById('typeface')
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('libertinus')
+      typeface.textContent = document.body.classList.contains('libertinus') ? 'Libertinus' : 'Latin Modern'
+    })
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+
+  <script async defer data-domain="latex.now.sh" src="https://plausible.io/js/plausible.js"></script>
+</body>
+<br><br>
+<div style="font-size:80%">
+Credit to <b>Vincent Dörig</b> for their brilliant template; I'm not giving this justice, you'll find the full thing here:  <a title=""
+                href="https://github.com/vincentdoerig/latex-css"> <code>https://github.com/vincentdoerig/latex-css</code></a>
+</div>
+</html>
+
