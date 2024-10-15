@@ -13,9 +13,9 @@ function processCSV(csv) {
     });
 
     const now = new Date();
-    const past_seminars = seminars.filter(seminar => seminar.date < now);
+    const past_seminars = seminars.filter(seminar => seminar.date < now).sort( (a, b) => b.date - a.date );
     const upcoming_seminars = seminars.filter(seminar => seminar.date >= now);
-
+    
     displaySeminars('past-seminar-list', past_seminars);
     displaySeminars('upcoming-seminar-list', upcoming_seminars);
 }

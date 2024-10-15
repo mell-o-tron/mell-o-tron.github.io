@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="tm5Y6ZNTf-lBqbwniGjQPv1q02o2TuUQZ9GTYa4SMLg" />
+  <title>The Knights Who Say λ</title>
+
+  <meta name="description"
+    content="" />
+  <meta name="keywords" content="latex.css,css library,class-less css,latex css" />
+  <meta property="og:title" content="he Knights Who Say Lambda" />
+  <meta property="og:type" content="website" />
+
+
+<link rel="stylesheet" href="kwsl.css">
+
+</head>
+<div class="topnav">
+  <a class="active" href="index.html">Home</a>
+  <a href="kwsl_contact.html">Contact</a>
+  <a href="kwsl_about.html">About</a>
+</div>
+
+<body id="top">
+  <header style = "background: #1a1a1a; border-radius: 25px;text-align: center;">
+    <div style = "text-align: center;"><b style="font-size:250%"><span class="latex"><code>The Knights Who Say λ</code></b><br>
+
+    </div>
+
+    <img src="logo.png" class="center" alt="Logo" height=300px>
+
+Student Group @ <i>University of Pisa</i>.
+        <br><br>
+  </header>
+
+
+  <main>
+    <article>
+
+
+    <div id="upcoming-seminars">
+        <h2 class="section-title">Upcoming Seminars</h2>
+        <div id="upcoming-seminar-list"></div>
+    </div>
+    <div id="past-seminars">
+        <h2 class="section-title">Past Seminars</h2>
+        <div id="past-seminar-list"></div>
+    </div>
+    <script src="script.js"></script>
+
+     </article>
+  </main>
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'],],
+      },
+    }
+    const toggle = document.getElementById('typeface-toggle')
+    const typeface = document.getElementById('typeface')
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('libertinus')
+      typeface.textContent = document.body.classList.contains('libertinus') ? 'Libertinus' : 'Latin Modern'
+    })
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+
+  <script async defer data-domain="latex.now.sh" src="https://plausible.io/js/plausible.js"></script>
+</body>
+<br><br>
+
+</html>
+
+
