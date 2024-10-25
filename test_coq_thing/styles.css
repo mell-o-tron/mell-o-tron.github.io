@@ -1,0 +1,188 @@
+:root {
+  --color-bg: #EEEDEB;
+  --color-title: #0E1C4E;
+  
+  --color-summary-1: #efffea;
+  --color-summary-1-highlight: #7fad72;
+  --color-summary-2: #DFF7F9;
+  --color-summary-2-highlight: #73A9AD;
+  --color-summary-3: #f0efcd;
+  --color-summary-3-highlight: #adac72;
+  
+  --font-ibm-plex-sans: 'IBM Plex Sans', sans-serif;
+}
+
+
+
+body, html {
+    margin: 0;
+    height: 100%;
+    background-color: #f9f9f9;
+}
+.my_container {
+    display: flex;
+    padding-top: 50px;
+    height : 100%
+}
+.my_scrollable {
+    flex: 1;
+    overflow-y: auto;
+/*     padding: 20px; */
+    background-color: #fff;
+}
+.my_fixed {
+width: 30%;
+    background-color: #ddd;
+/*     padding: 10px; */
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+
+
+    .accordion-content {
+      display: none;
+      padding: 10px;
+      background-color: #f1f1f1;
+      margin: 0; /* No space between header and content */
+      border-top: none; /* Remove any border between header and content */
+    }
+
+    .accordion-header {
+      color: white;
+      cursor: pointer;
+      padding: 10px;
+      background-color: #333;
+      border: 1px solid #555;
+      margin: 0; /* No space between header and content */
+    }
+
+    .accordion-header:hover {
+      background-color: #222;
+    }
+
+    /* Ensure the border between sections remains */
+    .accordion-header + .accordion-header {
+      border-top: none;
+    }
+
+
+
+.math-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.math-header {
+    padding: 5px;
+    color: #fff;
+    text-align: left;
+}
+
+.hypothesis-header {
+    background-color: #73A9AD; /* Blue */
+}
+
+.theorem-header {
+    background-color: #73A9AD; /* Blue */
+}
+
+.definition-header {
+    background-color: #7fad72; /* Green */
+}
+
+.step-header {
+    background-color: #adac72; /* Yellow */
+}
+
+.math-content {
+    padding: 15px;
+    background-color: #fff;
+}
+
+
+.topbar {
+            height: 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: left;
+            z-index: 100;
+        }
+
+.theorem-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS */
+.button-4 {
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+.button-4:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+.button-4:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+.button-4:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+.button-4:focus {
+  outline: 1px transparent;
+}
+
+.button-4:before {
+  display: none;
+}
+
+.button-4:-webkit-details-marker {
+  display: none;
+}

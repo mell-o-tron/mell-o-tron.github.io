@@ -1,0 +1,10 @@
+Inductive tree := 
+  | nil  : tree
+  | node : (nat * tree * tree) -> tree.
+  
+Definition example_tree : tree :=
+  node (1, node (2, nil, nil), node (3, nil, nil)).
+
+Print example_tree.
+
+ 

@@ -1,0 +1,64 @@
+{
+  "definitions": [
+    {
+      "text": "Let \\(S\\) be the successor function. \\(\\mathbb N\\) is defined as follows: <ul><li>\\(0 \\in \\mathbb N\\)</li><li>\\(\\forall n \\in \\mathbb N . succ(n) \\in \\mathbb N\\).</li></ul>",
+      "coq": "Inductive nat : Type := | zero : nat | succ : nat -> nat.\nNotation \"0\" := (zero).\n"
+    },
+    {
+      "text": "Let \\( ({+}) : \\mathbb N \\times \\mathbb N \\to \\mathbb N \\) be defined as follows:<ul><li>\\(0 + m \\triangleq m\\)</li><li>\\( succ (n) + m \\triangleq succ (n + m) \\).</li></ul>",
+      "coq": "Fixpoint add (n m : nat) : nat := match n with | 0 => m | succ n' => succ (add n' m) end.\nNotation \"A + B\" := (add A B).\n"
+    }
+  ],
+  "theorems": [
+  {
+    "name": "add_dist",
+    "text": "Addition is distributive: \\[ \\forall a, b, c \\in \\mathbb N . (a + b) + c = a + (b + c) \\]",
+    "coq": "Theorem add_dist : forall a b c : nat, add (add a b) c = add a (add b c).\nProof.\nAdmitted.\n"
+  },
+  {
+    "name": "add_zero_left",
+    "text": "0 is the left identity for +:\\[ \\forall a \\in \\mathbb N . 0 + a = a \\]",
+    "coq": "Theorem add_zero_left : forall a : nat, add 0 a = a.\nProof.\nAdmitted.\n"
+  },
+  {
+    "name": "add_zero_right",
+    "text": "0 is the right identity for +:\\[ \\forall a \\in \\mathbb N . a + 0 = a \\]",
+    "coq": "Theorem add_zero_right : forall a : nat, add a 0 = a.\nProof.\nAdmitted.\n"
+  },
+  {
+    "name": "add_succ",
+    "text": "The following holds\\[ \\forall (a\\; b : \\mathbb N) , a + succ(b) = succ(a + b) \\]",
+    "coq": "Theorem add_succ : forall a b : nat, (a + succ b) = succ(a + b).\nProof.\nAdmitted.\n"
+  }
+  ],
+  "tactics" : [
+    {
+      "name": "induction",
+      "n_params" : 1,
+      "text": "Proof by induction. Enter the induction variable:",
+      "coq" : "induction $0.\n"
+    },
+    
+    {
+      "name": "intro",
+      "n_params" : 0,
+      "text": "Introduce a variable:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ becomes }\\texttt{\"}\\text{given $P$ prove $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : A) , P\\texttt{\"} \\text{ becomes } \\texttt{\"}\\text{given $(x : A)$ prove $P$}\\texttt{\"} \\]",
+      "coq" : "intro.\n"
+    },
+    
+    {
+      "name": "reflexivity",
+      "n_params" : 0,
+      "text": "Equality is reflexive.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ becomes } \\texttt{\"true\"}\\]",
+      "coq" : "reflexivity.\n"
+    },
+    
+    {
+      "name": "apply definition",
+      "n_params" : 1,
+      "text": "Apply a definition. Provide the name of the definition. You can specify an occurrence by writing:\\[ \\texttt{def_name at occ} \\]where \\[\\texttt{occ}\\]is an occurrence number starting from 1",
+      "coq" : "simpl $0.\n"
+    }
+  ]
+} 
+ 

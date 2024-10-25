@@ -1,0 +1,12 @@
+{
+    "name": "@ocaml-wasm/4.12--janestreet-base",
+    "version": "0.16.0-0",
+    "description": "Jane Street standard library for OCaml (WASM port, wasi-sdk 12)",
+    "scripts": {
+        "build": "make -f Makefile.wasi",
+        "prepack": "ls -l bin/dllbase_stubs.wasm  # make sure wasm binary was made",
+        "dist": "npm pack"
+    },
+    "files": ["bin"],
+    "repository": "https://github.com/corwin-of-amber/ocaml-wasm--janestreet-base.git"
+}
