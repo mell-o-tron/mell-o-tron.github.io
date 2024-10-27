@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "text": "Let \\(S\\) be the successor function. \\(\\mathbb N\\) is defined as follows: <ul><li>\\(0 \\in \\mathbb N\\)</li><li>\\(\\forall n \\in \\mathbb N . succ(n) \\in \\mathbb N\\).</li></ul>",
+      "text": "Let \\(succ(n)\\) denote the <em>successor</em> of \\(n\\). The set of the natural numbers \\(\\mathbb N\\) is defined as follows: <ul><li>\\(0 \\in \\mathbb N\\)</li><li>\\(\\forall n \\in \\mathbb N . succ(n) \\in \\mathbb N\\).</li></ul>",
       "coq": "Inductive nat : Type := | zero : nat | succ : nat -> nat.\nNotation \"0\" := (zero).\n"
     },
     {
