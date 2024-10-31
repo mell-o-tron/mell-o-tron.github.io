@@ -12,64 +12,88 @@
       <title>Proof Utility</title>
    </head>
    <body>
+
          <div class="topbar">
         <nav>
             <a href="#" style="color: white; margin: 0 15px;">Home</a>
             <a href="#" style="color: white; margin: 0 15px;">Tutorial</a>
+            
+             <div style="float : right;margin: 0 15px;">
+
+            <label for="langs">Language:</label>
+
+            <select name="langs" id="langs">
+            <option value="italiano">Italiano</option>
+            <option value="english">English</option>
+            </select>
+
+            </div>
         </nav>
     </div>
-   
-      <div class="my_container">
-         <div class="my_scrollable" id="scroooool">
-         <div id="latex-proof"> </div>
-         
-            <div class="jscoq-main" style="display: none">
-               <div id="ide-wrapper" class="toggled">
-                  <div id="code-wrapper">
-                     <div id="document">
-                        <textarea id="coq-code" >
-                            (* Coq code *)
-                        </textarea>
-                        
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            
-         </div>
-         
-         
-         <div class="my_fixed">
-            
-            <div class="accordion">
-               <div class="accordion-header">Proof Tactics</div>
-               <div class="accordion-content">
-                  <div id="available_tactics"></div>
-               </div>
 
-               <div class="accordion-header">Apply Theorems</div>
-               <div class="accordion-content">
-                  <div id="available_theorems"></div>
-               </div>
+   <div class="home_page">
 
-               <div class="accordion-header">Manipulate Hypothesis</div>
-               <div class="accordion-content">
-                  <div id="hypman"></div>
-               </div>
-            </div>
-         
-         </div>
-      </div>
-      </div>
-      <script type="module" src="proof_template.js"></script>
+   <h1> Liste </h1>
+   <div class="list-group theorem-l">
+  <a href="./proof_env.html?theorem_name=banana&theorem_topic=test&language=italiano" class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema test</h5>
+    </div>
+    <p class="mb-1">Il test e lorem ipsum.</p>
+  </a>
+  <a href="./proof_env.html?theorem_name=banana&theorem_topic=test&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 2</h5>
+    </div>
+    <p class="mb-1">Append di una lista e la lista vuota equivale alla prima lista.
+                    $$ \forall l_1 . l_1 \in L_A \Rightarrow app(l_1,[]) = l_1$$</p>
+  </a>
+  <a href="./proof_env.html?theorem_name=banana&theorem_topic=test&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 3</h5>
+    </div>
+    <p class="mb-1">Append e' associativa'.
+                    $$ \forall l_1,l_2,l_3 . \space l_1,l_2,l_3 \in L_A  \Rightarrow app(app(l_1,l_2),l_3) = app(l_1,app(l_2,l_3))$$</p>
+  </a>
+</div>
+
+   <h1> Alberi </h1>
+   <ul>
+   <li>
+   Teorema 1
+   </li>
+   <li>
+   Teorema 2
+   </li>
+   </ul>
+   </div>
       <script>
-         const headers = document.querySelectorAll(".accordion-header");
-
-         headers.forEach(header => {
-            header.addEventListener("click", () => {
-            const content = header.nextElementSibling;
-            content.style.display = content.style.display === "block" ? "none" : "block";
-            });
+         const queryString = window.location.search;
+         const urlParams = new URLSearchParams(queryString);
+         const language = urlParams.get('language') ? urlParams.get('language') : "italiano";
+      
+         const theo_links = document.querySelectorAll(".theorem-link");
+         
+         const selectDropdown = document.getElementById('langs');
+         selectDropdown.value = language;
+         
+         theo_links .forEach(link => {
+         
+            let url = new URL(link.href);
+            url.searchParams.set("language", `${selectDropdown.value}`);
+            
+            link.href = url.toString();
          });
+         
+         
+         selectDropdown.addEventListener('change', function (e) {
+              let url = new URL(window.location.href);
+               url.searchParams.set("language", `${selectDropdown.value}`);
+                  
+               window.location.href = url.toString();
+         });
+         
       </script>
+      
    </body>
+</html>

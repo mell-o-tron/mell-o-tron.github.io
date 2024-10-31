@@ -19,6 +19,14 @@ body, html {
     height: 100%;
     background-color: #f9f9f9;
 }
+
+.home_page {
+    padding-top: 50px;
+    height : 100%;
+    margin-left : 20%;
+    margin-right : 20%;
+}
+
 .my_container {
     display: flex;
     padding-top: 50px;
@@ -101,9 +109,19 @@ width: 30%;
     background-color: #adac72; /* Yellow */
 }
 
+.step-footer {
+/*     background-color : #bbb; */
+    border-top: 1px solid #ddd;
+    padding : 5px;
+}
+
 .math-content {
     padding: 15px;
     background-color: #fff;
+}
+
+.math-content-container {
+  display : none;
 }
 
 
@@ -185,4 +203,26 @@ width: 30%;
 
 .button-4:-webkit-details-marker {
   display: none;
+}
+
+.theorem-l {
+    margin-left: 1.5em;
+    width: 60%;
+    margin-bottom: 1em;
+}
+
+.theorem-name {
+    color: black;
+    font-style: normal;
+}
+
+.tbox-container {
+    text-align : center;
+    padding : 10px;
+}
+
+.scroll-equation {
+  width: 100%;
+  overflow-x: auto;
+  white-space:nowrap;
 }

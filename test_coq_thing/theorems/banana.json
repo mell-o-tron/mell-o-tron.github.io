@@ -3,7 +3,11 @@
     
   ],
   "theorem": {
-    "text": "Theorem: Addition is commutative, i.e. \\[ \\forall n, m \\in \\mathbb N . n + m = m + n \\]",
+    "text":
+      {
+        "english" : "Theorem: Addition is commutative, i.e. \\[ \\forall n, m \\in \\mathbb N . n + m = m + n \\]",
+        "italiano" : "Teorema: La somma è commutativa, i.e. \\[ \\forall n, m \\in \\mathbb N . n + m = m + n \\]"
+      },
     "coq": "Theorem add_comm : forall n m : nat, add n m = add m n."
   }
 } 

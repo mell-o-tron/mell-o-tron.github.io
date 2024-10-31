@@ -1,0 +1,12 @@
+Inductive list := 
+  | nil  : list
+  | node : (nat * list) -> list.
+  
+Notation "h :: l" := (node(h, l)).
+  
+Definition example_list : list :=
+  node (1, node(2, node(3, nil))).
+
+Print example_list.
+
+ 

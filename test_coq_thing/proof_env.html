@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <link rel = "stylesheet" href="./node_modules/jscoq/dist/frontend/index.css">
+       
+      <link rel = "stylesheet" href="./styles.css">
+       
+      <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+      
+      <title>Proof Utility</title>
+   </head>
+   <body>
+   
+         <div class="topbar">
+        <nav>
+            <a href="./index.html" style="color: white; margin: 0 15px;">Home</a>
+            <a href="#" style="color: white; margin: 0 15px;">Tutorial</a>
+            <div style="float : right;margin: 0 15px;">
+
+            <label for="langs">Language:</label>
+
+            <select name="langs" id="langs">
+            <option value="italiano">Italiano</option>
+            <option value="english">English</option>
+            </select>
+
+            </div>
+        </nav>
+    </div>
+   
+      <div class="my_container">
+         <div class="my_scrollable" id="scroooool">
+         <div id="loading" style="text-align : center;padding : 30px;"> <h1>Loading...</h1> </div>
+         
+         <div id="latex-proof"> </div>
+         
+            <div class="jscoq-main" style="display: none">
+               <div id="ide-wrapper" class="toggled">
+                  <div id="code-wrapper">
+                     <div id="document">
+                        <textarea id="coq-code" >
+                            (* Coq code *)
+                        </textarea>
+                        
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            
+         </div>
+         
+         
+         <div class="my_fixed">
+            
+            <div class="accordion">
+               <div class="accordion-header">Proof Tactics</div>
+               <div class="accordion-content">
+                  <div id="available_tactics"></div>
+               </div>
+
+               <div class="accordion-header">Apply Theorems</div>
+               <div class="accordion-content">
+                  <div id="available_theorems"></div>
+               </div>
+
+               <div class="accordion-header">Manipulate Hypothesis</div>
+               <div class="accordion-content">
+                  <div id="hypman"></div>
+               </div>
+            </div>
+         
+         </div>
+      </div>
+      </div>
+      <script type="module" src="proof_template.js"></script>
+      <script>
+         const headers = document.querySelectorAll(".accordion-header");
+
+         headers.forEach(header => {
+            header.addEventListener("click", () => {
+            const content = header.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+            });
+         });
+      </script>
+   </body>
+</html>

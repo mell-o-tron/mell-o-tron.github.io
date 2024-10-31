@@ -20,6 +20,15 @@ class TeXifier {
         res = res.replace(/([a-zA-Z]) ([a-zA-Z])/g, "$1\\;$2")
         return this.centered_math(res);
     }
+    
+    texify_inline(text) {
+        let res = text;
+        for (let r of this.replacements) {
+            res = res.replaceAll(r[0], r[1]);
+        }
+        res = res.replace(/([a-zA-Z]) ([a-zA-Z])/g, "$1\\;$2")
+        return this.inline_math(res);
+    }
 
     inline_math(t) {
         return `\\(${t}\\)`;

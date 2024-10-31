@@ -1,0 +1,28 @@
+{
+  "language_name" : "english",
+
+  "ASSUMING" : "Assuming the following hypotheses:",
+  "BYINDUCTION" : "We proceed by induction on ",
+  "INTRO" : "We introduce a new hypothesis",
+  "INTROS" : "We introduce new hypotheses",
+  "REFL" : "The two sides of the equality are the same: we proceed by reflexivity",
+  "RIGHTTOLEFT" : "from right to left",
+  "LEFTTORIGHT" : "from left to right",
+  "CONCLUDED" : "proof concluded",
+  "PROOFSTEP" : "Proof Step",
+  "APPLYHYPOTHESIS" : "Apply Hypothesis",
+  "PROVE" : "Prove",
+  "APPLY" : "Apply",
+  "APPLYHYP" : "Apply hypothesis",
+  "CHOOSEHYP" : "Choose a hypothesis",
+  
+  "MUSTPROVEFOLLOWINGCLAUSES" : "We must now prove the following clauses",
+  "BASECLAUSE" : "Base Clause",
+  "INDUCTIVECLAUSE" : "Inductive Clause",
+  "BEGINFIRSTBASECLAUSE" : "We begin with the first base clause",
+  
+  "theorem" : "Theorem",
+  "definition" : "Definition"
+
+} 
+ 

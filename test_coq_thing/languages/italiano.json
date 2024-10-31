@@ -1,0 +1,28 @@
+{
+  "language_name" : "italiano",
+
+  "ASSUMING" : "Assumendo le seguenti ipotesi:",
+  "BYINDUCTION" : "Procediamo per induzione",
+  "INTRO" : "Introduciamo una nuova ipotesi",
+  "INTROS" : "Introduciamo delle nuove ipotesi",
+  "REFL" : "I due lati dell'uguaglianza sono identci: procediamo per riflessività",
+  "RIGHTTOLEFT" : "da destra a sinistra",
+  "LEFTTORIGHT" : "da sinistra a destra",
+  "CONCLUDED" : "dimostrazione conclusa",
+  "PROOFSTEP" : "Passo di dimostrazione",
+  "APPLYHYPOTHESIS" : "Applica Ipotesi",
+  "PROVE" : "Si dimostri",
+  "APPLY" : "Applica",
+  "APPLYHYP" : "Applica Ipotesi",
+  "CHOOSEHYP" : "Scegli un'ipotesi",
+
+  "MUSTPROVEFOLLOWINGCLAUSES" : "Dobbiamo dimostrare le seguenti clausole",
+  "BASECLAUSE" : "Clausola Base",
+  "INDUCTIVECLAUSE" : "Clausola Induttiva",
+  "BEGINFIRSTBASECLAUSE" : "Cominciamo dalla prima clausola base",
+  
+  "theorem" : "Teorema",
+  "definition" : "Definizione"
+
+} 
+ 

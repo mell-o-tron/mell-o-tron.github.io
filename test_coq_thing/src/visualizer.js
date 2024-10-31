@@ -1,12 +1,15 @@
-import { GoalParser } from "./goal_parser.js";
 import { TeXifier } from "./texifier.js";
 import { TacticCommentator } from "./tactic_commentator.js";
+import {LanguageSelector} from "./multilang.js"
 
 class Visualizer {
-    constructor(observer) {
+    constructor(observer, language_selector) {
         this.observer = observer;
-        this.tacticCommentator = new TacticCommentator();
+        this.tacticCommentator = new TacticCommentator(language_selector, observer);
         this.texifier = new TeXifier()
+        this.language_selector = language_selector;
+
+        this.step_list = [];
 
         // List of tactics and terminators
         this.tactics = [
@@ -24,18 +27,19 @@ class Visualizer {
     }
 
     // Method to visualize the statement
-    visualize(stmt) {
+    visualize(stmt, controller) {
         if (this.is_tactic(stmt)) {
-            let comment = this.tacticCommentator.tactic_comment(stmt.text.trim().replace(/ .*/, '').replace(".", ""), stmt.text);
-            this.visualize_goal(comment);
+            this.visualize_goal(stmt, controller);
         }
         MathJax.typeset();
     }
 
     // Method to visualize a goal
-    visualize_goal(comment) {
+    visualize_goal(stmt, controller) {
         
         let vis_fun = () => {
+            
+            let comment = this.tacticCommentator.tactic_comment(stmt.text.trim().replace(/ .*/, '').replace(".", ""), stmt.text);
             
             if(!this.observer.has_goals){
                 let box = document.createElement("div");
@@ -43,7 +47,7 @@ class Visualizer {
                 
                 let header = document.createElement('div');
                 header.className = `math-header theorem-header`;
-                header.textContent = "Proof Concluded";
+                header.textContent = this.language_selector.current_language.CONCLUDED;
                 
                 let content = document.createElement('div');
                 content.className = 'math-content';
@@ -63,13 +67,13 @@ class Visualizer {
             
             let text = ""
             if (this.observer.current_goal.hypotheses.length > 0) {
-                text += "Assuming the following hypotheses:";
+                text += this.language_selector.current_language.ASSUMING; //"Assuming the following hypotheses:";
                 for (let h of this.observer.current_goal.hypotheses){
                     text += this.texifier.texify (`\\textit{${h.name}}` + " : " + h.body)
                 }
             }
             
-            text += "Prove:" + this.texifier.texify(this.observer.current_goal.goal);
+            text += `${this.language_selector.current_language.PROVE}:` + this.texifier.texify(this.observer.current_goal.goal);
 
             if (text === undefined) return;
 
@@ -82,17 +86,44 @@ class Visualizer {
             
             let header = document.createElement('div');
             header.className = `math-header step-header`;
-            header.textContent = "Proof Step";
+            header.textContent = this.language_selector.current_language.PROOFSTEP;
             
             let content = document.createElement('div');
             content.className = 'math-content';
             content.innerHTML = text;
-            
+
+            let bottom_bar = document.createElement('div');
+            bottom_bar.className = 'step-footer';
+            bottom_bar.innerHTML = "";
+
+            let undo = document.createElement("button");
+            undo.className = "button-4";
+            undo.textContent = "UNDO";
+            undo.onclick = () => {
+                controller.del_line();
+                controller.observer.undo_goal_history();
+                this.step_list.pop();
+
+                if(this.step_list.length > 0)
+                    this.step_list[this.step_list.length - 1].bottom_bar.style.display = "block";
+
+                box.remove();
+            };
+
+            if (this.step_list.length > 0)
+                this.step_list[this.step_list.length - 1].bottom_bar.style.display = "none";
+
+            bottom_bar.appendChild(undo);
+
             box.appendChild(header);
             box.appendChild(content);
+            box.appendChild(bottom_bar);
 
             document.getElementById("latex-proof").appendChild(box);
-            
+
+            this.step_list.push({content : content, bottom_bar : bottom_bar});
+
+
             MathJax.typeset();
         }
         
@@ -108,13 +139,15 @@ class Visualizer {
     }
     
     visualize_math(d, type){
-        let text = (d.text);
+        let local_langsel = new LanguageSelector();
+
+        let text = (d.text[`${local_langsel.current_language.language_name}`]);
         let box = document.createElement("div");
         box.className = 'math-box';
         
         let header = document.createElement('div');
         header.className = `math-header ${type}-header`;
-        header.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+        header.textContent = local_langsel.current_language[`${type}`]
         
         let content = document.createElement('div');
         content.className = 'math-content';
@@ -128,102 +161,158 @@ class Visualizer {
     }
 
     add_theo_card(at, controller) {
+        let local_langsel = new LanguageSelector();
+
         let theobox = document.createElement("div");
         theobox.className = 'theorem-card';
+        
+        let theodesc_container = document.createElement("div");
+        theodesc_container.className = 'math-content-container';
+        
         let theodesc = document.createElement("div");
         theodesc.className = 'math-content';
-        theodesc.textContent = at.text;
+
+        theodesc.textContent = at.text[`${local_langsel.current_language.language_name}`];
         document.getElementById("available_theorems").appendChild(theobox);
 
         let header = document.createElement('div');
         header.className = "math-header theorem-header";
         header.textContent = at.name;
+        
+        header.addEventListener("click", () => {
+            const content = header.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+            });
 
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
-        rw_lr.textContent = "Apply (🡒)";
+        rw_lr.textContent = `${local_langsel.current_language.APPLY} (🡒)`;
         rw_lr.onclick = () => {controller.rewrite_theorem(at.name, true)};
 
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
         rw_rl.onclick = () => {controller.rewrite_theorem(at.name, false)};
-        rw_rl.textContent = "Apply (🡐)";
+        rw_rl.textContent = `${local_langsel.current_language.APPLY} (🡐)`;
         
         theobox.appendChild(header);
-        theobox.appendChild(theodesc);
-        theobox.appendChild(rw_lr);
-        theobox.appendChild(rw_rl);
+        theodesc_container.appendChild(theodesc);
+        theodesc_container.appendChild(rw_lr);
+        theodesc_container.appendChild(rw_rl);
+        theobox.appendChild(theodesc_container);
         MathJax.typeset();
     }
 
     add_tactic_card(at, controller) {
+        let local_langsel = new LanguageSelector();
+
         let theobox = document.createElement("div");
         theobox.className = 'theorem-card';
+        
+        let theodesc_container = document.createElement("div");
+        theodesc_container.className = 'math-content-container';
+        
         let theodesc = document.createElement("div");
         theodesc.className = 'math-content';
-        theodesc.textContent = at.text;
+
+        theodesc.textContent = at.text[`${local_langsel.current_language.language_name}`];
         document.getElementById("available_tactics").appendChild(theobox);
 
         let header = document.createElement('div');
         header.className = "math-header theorem-header";
         header.textContent = at.name;
-
+        
+        header.addEventListener("click", () => {
+            const content = header.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+            });
+        
         let tboxes = []
 
         for (let i = 0; i < at.n_params; i++){
-            let tbox = document.createElement("INPUT");
-            tbox.setAttribute("type", "text");
-            tboxes.push(tbox);
+            
+            switch (at.param_types[i]){
+                case "definitions": {
+                    let tbox = document.createElement("select");
+                    
+                    for (let def of controller.definitions) {
+                        let defop = document.createElement("option");
+                        defop.value = def.name;
+                        defop.textContent = def.display_name;
+                        tbox.appendChild(defop);
+                    }
+                    
+                    tboxes.push(tbox);
+                    break;
+                }
+                default: {
+                    let tbox = document.createElement("INPUT");
+                    tbox.setAttribute("type", "text");
+                    tboxes.push(tbox);
+                    break;
+                }
+            }
+            
+            
         }
 
         let apply_button = document.createElement("button");
         apply_button.className = "button-4";
-        apply_button.textContent = "Apply";
+        apply_button.textContent = local_langsel.current_language.APPLY;
         apply_button.onclick = () => {
-            
             let args = tboxes.map(x => {return x.value});
             controller.apply_tactic(at.coq, args)
         };
 
 
         theobox.appendChild(header);
-        theobox.appendChild(theodesc);
+        theodesc_container.appendChild(theodesc);
         for (let tbox of tboxes) {
-            theobox.appendChild(tbox);
+            let tbox_container = document.createElement("div");
+            tbox_container.className = "tbox-container";
+            theodesc_container.appendChild(tbox_container);
+            tbox_container.appendChild(tbox);
         }
-        theobox.appendChild(apply_button);
+        theodesc_container.appendChild(apply_button);
+        theobox.appendChild(theodesc_container);
         MathJax.typeset();
     }
     
     add_hp_application_card (controller) {
+
+        let local_langsel = new LanguageSelector();
+
         let hypbox = document.createElement("div");
         hypbox.className = 'theorem-card';
         let theodesc = document.createElement("div");
         theodesc.className = 'math-content';
-        theodesc.textContent = "Provide the name of the hypothesis to apply:";
+        theodesc.textContent = `${local_langsel.current_language.CHOOSEHYP}:`;
         document.getElementById("hypman").appendChild(hypbox);
 
         let header = document.createElement('div');
         header.className = "math-header hypothesis-header";
-        header.textContent = "Apply Hypothesis";
+        header.textContent = local_langsel.current_language.APPLYHYP;
         
-        let tbox = document.createElement("INPUT");
-        tbox.setAttribute("type", "text");
+        let tbox_container = document.createElement("div");
+        tbox_container.className = "tbox-container";
+        
+        let tbox = document.createElement("select");
+        tbox.className = "hyp-dropdown"
         
         
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
-        rw_lr.textContent = "Apply (🡒)";
+        rw_lr.textContent = `${local_langsel.current_language.APPLY} (🡒)`;
         rw_lr.onclick = () => {controller.rewrite_theorem(tbox.value, true)};
 
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
         rw_rl.onclick = () => {controller.rewrite_theorem(tbox.value, false)};
-        rw_rl.textContent = "Apply (🡐)";
+        rw_rl.textContent = `${local_langsel.current_language.APPLY} (🡐)`;
         
         hypbox.appendChild(header);
         hypbox.appendChild(theodesc);
-        hypbox.appendChild(tbox);
+        tbox_container.appendChild(tbox);
+        hypbox.appendChild(tbox_container);
         hypbox.appendChild(rw_lr);
         hypbox.appendChild(rw_rl);
         MathJax.typeset();
@@ -232,7 +321,6 @@ class Visualizer {
         
     
     add_hp_handlers(controller) {
-        // TODO Rewrite Hypothesis
         this.add_hp_application_card(controller)
         
         
