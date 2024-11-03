@@ -2,7 +2,7 @@
   "language_name" : "italiano",
 
   "ASSUMING" : "Assumendo le seguenti ipotesi:",
-  "BYINDUCTION" : "Procediamo per induzione",
+  "BYINDUCTION" : "Procediamo per induzione su ",
   "INTRO" : "Introduciamo una nuova ipotesi",
   "INTROS" : "Introduciamo delle nuove ipotesi",
   "REFL" : "I due lati dell'uguaglianza sono identci: procediamo per riflessività",
@@ -21,6 +21,8 @@
   "INDUCTIVECLAUSE" : "Clausola Induttiva",
   "BEGINFIRSTBASECLAUSE" : "Cominciamo dalla prima clausola base",
   
+  "CHOOSEARBITRARY" : "scegli un qualsiasi",
+  "APPLYREFLEXIVITY" : "Applica riflessività di =",
   "theorem" : "Teorema",
   "definition" : "Definizione"
 

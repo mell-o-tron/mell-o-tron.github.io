@@ -1,6 +1,7 @@
 import { TeXifier } from "./texifier.js";
 import { TacticCommentator } from "./tactic_commentator.js";
 import {LanguageSelector} from "./multilang.js"
+import {Hinter} from "./hinter.js"
 
 class Visualizer {
     constructor(observer, language_selector) {
@@ -8,7 +9,7 @@ class Visualizer {
         this.tacticCommentator = new TacticCommentator(language_selector, observer);
         this.texifier = new TeXifier()
         this.language_selector = language_selector;
-
+        
         this.step_list = [];
 
         // List of tactics and terminators
@@ -24,6 +25,7 @@ class Visualizer {
         this.terminators = [
             "assumption", "eassumption", "by", "contradiction", "discriminate", "easy", "exact", "now", "lia", "omega", "reflexivity", "tauto"
         ];
+        
     }
 
     // Method to visualize the statement
@@ -96,6 +98,18 @@ class Visualizer {
             bottom_bar.className = 'step-footer';
             bottom_bar.innerHTML = "";
 
+            
+            let undobox = document.createElement("div");
+            undobox.className = "undo-box";
+            
+            let hintbox = document.createElement("div");
+            hintbox.className = "hint-box";
+            
+            bottom_bar.appendChild(hintbox);
+            bottom_bar.appendChild(undobox);
+            
+            /* UNDO BUTTON */
+            
             let undo = document.createElement("button");
             undo.className = "button-4";
             undo.textContent = "UNDO";
@@ -113,8 +127,23 @@ class Visualizer {
             if (this.step_list.length > 0)
                 this.step_list[this.step_list.length - 1].bottom_bar.style.display = "none";
 
-            bottom_bar.appendChild(undo);
+            undobox.appendChild(undo);
 
+            /* HINTS */
+            
+            
+            let hinter = new Hinter(controller);
+            let hints = hinter.give_hints();
+            
+            for (let h of hints) {
+                let hint_button = document.createElement("button");
+                hint_button.className = "button-4";
+                hint_button.textContent = h.name;
+                hint_button.onclick = h.func;
+                
+                hintbox.appendChild(hint_button);
+            }
+            
             box.appendChild(header);
             box.appendChild(content);
             box.appendChild(bottom_bar);
@@ -186,13 +215,13 @@ class Visualizer {
 
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
-        rw_lr.textContent = `${local_langsel.current_language.APPLY} (🡒)`;
+        rw_lr.textContent = `${local_langsel.current_language.APPLY} (→)`;
         rw_lr.onclick = () => {controller.rewrite_theorem(at.name, true)};
 
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
         rw_rl.onclick = () => {controller.rewrite_theorem(at.name, false)};
-        rw_rl.textContent = `${local_langsel.current_language.APPLY} (🡐)`;
+        rw_rl.textContent = `${local_langsel.current_language.APPLY} (←)`;
         
         theobox.appendChild(header);
         theodesc_container.appendChild(theodesc);
@@ -301,13 +330,13 @@ class Visualizer {
         
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
-        rw_lr.textContent = `${local_langsel.current_language.APPLY} (🡒)`;
+        rw_lr.textContent = `${local_langsel.current_language.APPLY} (→)`;
         rw_lr.onclick = () => {controller.rewrite_theorem(tbox.value, true)};
 
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
         rw_rl.onclick = () => {controller.rewrite_theorem(tbox.value, false)};
-        rw_rl.textContent = `${local_langsel.current_language.APPLY} (🡐)`;
+        rw_rl.textContent = `${local_langsel.current_language.APPLY} (←)`;
         
         hypbox.appendChild(header);
         hypbox.appendChild(theodesc);

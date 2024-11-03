@@ -63,6 +63,9 @@ class Observer {
   
   coqReady() {  this._ready(); }
   coqGoalInfo(sid, goals) {
+    
+    console.log("TROTA SUMMONATA")
+    
     // Save goals in history and reset all_goals
     this.old_goals = this.all_goals;
     this.goal_history.push(this.old_goals);
@@ -133,6 +136,10 @@ class Observer {
      this.has_goals = false; 
     }
     this.vis_fun();
+    
+    // scrolls down
+    let div = document.getElementById("scroooool");
+    div.scrollTop = div.scrollHeight; 
     
   }
 } 

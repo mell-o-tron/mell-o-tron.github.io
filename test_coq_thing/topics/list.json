@@ -1,0 +1,82 @@
+{
+  "definitions": [
+    {
+      "name": "list",
+      "display_name": "lists",
+      "text":
+        {
+          "english" : "Let \\(succ(n)\\) denote the <em>successor</em> of \\(n\\). The set of the natural numbers \\(\\mathbb N\\) is defined as follows: <ul><li>\\(0 \\in \\mathbb N\\)</li><li>\\(\\forall n \\in \\mathbb N . succ(n) \\in \\mathbb N\\).</li></ul>",
+          "italiano": "L'insieme delle liste di un qualsiasi tipo \\$A\\$ \\(L_A) è definito come segue: <ul><li>\\([] \\in L_A\\)</li><li>\\(\\forall a \\in A . \\forall l \\in L_A . a :: [] \\in L_A \\).</li></ul>"
+        },
+      "coq": "Variable A : Type.\nInductive list : Type := | nil : list | cons : A -> list -> list.\nInfix \"::\" := cons (at level 60, right associativity).\nNotation \"[ ]\" := nil (format \"[ ]\").\nNotation \"[ x ]\" := (cons x nil).\nNotation \"[ x ; y ; .. ; z ]\" := (cons x (cons y .. (cons z nil) ..)).\n"
+    },
+    {
+      "name": "app",
+      "display_name": "app",
+      "text":
+      {
+        "english" : "Let \\( ({+}) : \\mathbb N \\times \\mathbb N \\to \\mathbb N \\) be defined as follows:<ul><li>\\(0 + m \\triangleq m\\)</li><li>\\( succ (n) + m \\triangleq succ (n + m) \\).</li></ul>",
+        "italiano" : "Sia \\( ({+}) : \\mathbb N \\times \\mathbb N \\to \\mathbb N \\) definito come segue:<ul><li>\\(0 + m \\triangleq m\\)</li><li>\\( succ (n) + m \\triangleq succ (n + m) \\).</li></ul>"
+      },
+      "coq": "Fixpoint app (l1 l2 : list) : list := match l1 with | [] => l2 | a :: l1' => a :: app l1' l2 end.\n"
+    }
+  ],
+  "theorems": [
+  {
+    "name": "add_dist",
+    "text":
+      {
+        "english" : "Addition is distributive: \\[ \\forall a, b, c \\in \\mathbb N . (a + b) + c = a + (b + c) \\]",
+        "italiano" : "L'addizione è distributiva: \\[ \\forall a, b, c \\in \\mathbb N . (a + b) + c = a + (b + c) \\]"
+      },
+    "coq": ""
+  }
+  ],
+  "tactics" : [
+    {
+      "name": "induction",
+      "n_params" : 1,
+      "param_types" : ["text"],
+      "text":
+        {
+          "english" : "Proof by induction. Enter the induction variable:",
+          "italiano" : "Dimostrazione per induzione. Inserisci la variabile d'induzione:"
+        },
+      "coq" : "induction $0.\n"
+    },
+
+    {
+      "name": "intro",
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Introduce a variable:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ becomes }\\texttt{\"}\\text{given $P$ prove $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : A) , P\\texttt{\"} \\text{ becomes } \\texttt{\"}\\text{given $(x : A)$ prove $P$}\\texttt{\"} \\]",
+          "italiano" : "Introduce una variabile:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ diventa }\\texttt{\"}\\text{dato $P$ dimostra $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : A) , P\\texttt{\"} \\text{ diventa } \\texttt{\"}\\text{dato $(x : A)$ dimostra $P$}\\texttt{\"} \\]"
+        },
+      "coq" : "intro.\n"
+    },
+
+    {
+      "name": "reflexivity",
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Equality is reflexive.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ becomes } \\texttt{\"true\"}\\]",
+          "italiano" : "L'uguaglianza è riflessiva.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ diventa } \\texttt{\"vero\"}\\]"
+        },
+      "coq" : "reflexivity.\n"
+    },
+
+    {
+      "name": "apply definition",
+      "n_params" : 2,
+      "param_types" : ["definitions", "text"],
+      "text":
+        {
+          "english" : "Apply a definition. Choose the definition from the menu. Optional: use the input box to specify an occurrence writing:\\[ \\texttt{at occ} \\]where \\[\\texttt{occ}\\]is a number starting from 1",
+          "italiano" : "Applica una definizione. Scegli una definizione dal menu. Puoi specificare un'occorrenza tramite l'area di testo scrivendo:\\[ \\texttt{at occ} \\]dove \\[\\texttt{occ}\\]è un numero a partire da 1"
+        },
+      "coq" : "simpl $0 $1.\n"
+    }
+  ]
+}

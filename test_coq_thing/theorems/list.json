@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Theorem: Addition is commutative, i.e. \\[ \\forall n, m \\in \\mathbb N . n + m = m + n \\]",
+        "italiano" : "Teorema: app e' associativa, i.e. \\[ \\forall l1,l2,l3 \\in L_A . app (app (l1,l2), l3) = app (l1, app (l2, l3)) \\]"
+      },
+    "coq": "Theorem app_assoc : forall l1 : list, forall l2 : list, forall l3 : list, app (app l1 l2) l3 = app l1 (app l2 l3)."
+  }
+} 

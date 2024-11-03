@@ -32,20 +32,7 @@ const urlParams = new URLSearchParams(queryString);
 const name = urlParams.get('theorem_name');
 const topic = urlParams.get('theorem_topic');
 const language = urlParams.get('language');
-
-
-const selectDropdown = document.getElementById('langs');
-
-selectDropdown.value = language;
-selectDropdown.addEventListener('change', function (e) {
-  console.log(selectDropdown.value) 
-  
-  let url = new URL(window.location.href);
-  url.searchParams.set("language", `${selectDropdown.value}`);
-    
-  window.location.href = url.toString();
-});
-
+let history = urlParams.get('history');
 
 
 // set up jscoq
@@ -60,6 +47,20 @@ all_pkgs:  ['coq']
 
 
 let language_selector = new LanguageSelector();
+
+
+// Language Selection
+const selectDropdown = document.getElementById('langs');
+
+selectDropdown.value = language;
+selectDropdown.addEventListener('change', function (e) {
+  console.log(selectDropdown.value) 
+                
+  let url = new URL(window.location.href);
+  url.searchParams.set("language", `${selectDropdown.value}`);
+
+window.location.href = url.toString();
+});
 
 
 language_selector.select_language(language.trim()).then(() => {
@@ -93,6 +94,19 @@ language_selector.select_language(language.trim()).then(() => {
             console.log(language_selector);
 
             let controller = new Controller(manager, snippet, coq_observer, language_selector);
+            
+            // add history to selectDropdown
+            selectDropdown.addEventListener('change', function (e) {
+              console.log(selectDropdown.value) 
+              
+              let url = new URL(window.location.href);
+              url.searchParams.set("language", `${selectDropdown.value}`);
+//               url.searchParams.set("history", `${controller.coq_history.join("")}`);
+                
+              window.location.href = url.toString();
+            });
+
+            
             
             controller.set_definitions(topic_obj.definitions);
             
@@ -142,11 +156,26 @@ language_selector.select_language(language.trim()).then(() => {
 
             document.getElementById("loading").style.display = "none";
 
-            controller.go_next_n(str.split("\n").length, false, () => {}, () => {
+            controller.go_next_n(str.split("\n").length, false, () => {
+              
+              // TODO IMPLEMENT REPLAY OF HISTORY WHEN CHANGE LANGUAGE
+              
+//               if (history) {
+//                 history = history.trim();
+//                 controller.coq_history = history.split("\n").map(x => x + "\n");
+//                 controller.add_line(history);
+//                 controller.go_next_n(history.split("\n").length - 2, false, () => {
+//                    controller.go_next_n(1, true, () => {}, () => {
+//                     console.log("There is a mistake in the history.")
+//                 });
+//                 }, () => {
+//                   console.log("There is a mistake in the history.")
+//                 });
+//               }
+              
+            }, () => {
               console.log("There is a mistake in the definitions or theorem statement.")
             });
-
-
 
           });
         });

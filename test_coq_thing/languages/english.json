@@ -21,6 +21,8 @@
   "INDUCTIVECLAUSE" : "Inductive Clause",
   "BEGINFIRSTBASECLAUSE" : "We begin with the first base clause",
   
+  "CHOOSEARBITRARY" : "choose arbitrary",
+  "APPLYREFLEXIVITY" : "Apply reflexivity of =",
   "theorem" : "Theorem",
   "definition" : "Definition"
 

@@ -9,6 +9,7 @@ class Controller {
     this.available_theorems = [];
     this.available_tactics = [];
     this.definitions = [];
+    this.coq_history = [];
   }
 
   set_definitions(defs){
@@ -64,6 +65,7 @@ class Controller {
       on_err()
     }
   }
+  
 
   /* evaluates n lines of coq */
   go_next_n(n, should_vis, cont, err){
@@ -71,22 +73,22 @@ class Controller {
       cont()
     }
     else{
-      
       const cursor = this.snippet.editor.getCursor();
       const vis_stmt = { text : this.snippet.editor.getLine(cursor.line-1)};    // not sure why -1 is needed, but it appears to be needed.
 
       if (should_vis) this.visualizer.visualize(vis_stmt, this);    // OPTIMISTIC VISUALIZATION - the visualizer sends a visualization function to the observer, to be executed if/when the goal changes.
+      
       this.manager.goNext(true)
-
-      // CANNOT USE THIS FOR VISUALIZATION: MUST BE RETRIEVED BEFORE - USED TO USE THIS, BUT CORRECTNESS DEPENDED ON TIMING.
+      
       let stmt = this.manager.doc.sentences.slice(-1)[0];
-
 
       this.wait_for_processed(stmt, () => {
         this.go_next_n(n-1, should_vis, cont, err);
       }, err)
+      
     }
   }
+  
 
   /* un-evaluates n lines of coq */
   go_prev_n(n){
@@ -100,12 +102,11 @@ class Controller {
   }
   
   rewrite_theorem(theo_name, direction){
-    this.add_line(`rewrite ${direction?"->":"<-"} ${theo_name}.`, this.snippet);
+    let text = `rewrite ${direction?"->":"<-"} ${theo_name}.`
+    this.add_line(text, this.snippet);
     this.go_next_n(1, true, () => {
-      let div = document.getElementById("scroooool");
-      console.log("that div is: " + div);
-//       div.scrollTop = div.scrollHeight;  //TODO fix this
-      
+      this.coq_history.push(text);
+      console.log(this.coq_history)
     }, () => {/*this.go_prev_n(1);*/ alert("Cannot apply tactic or theorem"); this.rm_line()});
   
   }
@@ -117,10 +118,7 @@ class Controller {
     }
     this.add_line(`${tactic_text}`, this.snippet);
     this.go_next_n(1, true, () => {
-      let div = document.getElementById("scroooool");
-      console.log("that div is: " + div);
-//       div.scrollTop = div.scrollHeight;  //TODO fix this
-
+      this.coq_history.push(tactic_text);
     }, () => {/*this.go_prev_n(1);*/ alert("Cannot apply tactic"); this.rm_line()});
   }
 }

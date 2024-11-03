@@ -112,7 +112,20 @@ width: 30%;
 .step-footer {
 /*     background-color : #bbb; */
     border-top: 1px solid #ddd;
-    padding : 5px;
+}
+
+.hint-box {
+  float: left;
+  width: 80%;
+  padding : 10px;
+}
+
+.undo-box {
+  float: right;
+  text-align:right;
+  width: fit-content;
+  padding : 10px;
+  border-left: 1px solid #ddd;
 }
 
 .math-content {
@@ -226,3 +239,4 @@ width: 30%;
   overflow-x: auto;
   white-space:nowrap;
 }
+
