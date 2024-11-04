@@ -12,7 +12,7 @@ class Hinter {
         let cur_goal = this.observer.current_goal.goal;
         
         {/* HINT FORALL */
-            let m = cur_goal.match(/^forall (\w)/);
+            let m = cur_goal.match(/^forall ([a-zA-Z0-9]+)/);
             console.log("HINT".repeat(10))
             console.log(m)
             if (m) {
@@ -32,7 +32,7 @@ class Hinter {
                     res.push ({
                     name : `${this.langsel.current_language.APPLYREFLEXIVITY}`,
                     func : () => {
-                        this.controller.apply_tactic("reflexivity.\n");
+                        this.controller.apply_tactic("reflexivity.");
                     }
                 });
                 }

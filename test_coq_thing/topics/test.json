@@ -21,44 +21,55 @@
       "coq": "Fixpoint add (n m : nat) : nat := match n with | 0 => m | succ n' => succ (add n' m) end.\nNotation \"A + B\" := (add A B).\n"
     }
   ],
-  "theorems": [
-  {
-    "name": "add_dist",
-    "text":
-      {
-        "english" : "Addition is distributive: \\[ \\forall a, b, c \\in \\mathbb N . (a + b) + c = a + (b + c) \\]",
-        "italiano" : "L'addizione è distributiva: \\[ \\forall a, b, c \\in \\mathbb N . (a + b) + c = a + (b + c) \\]"
+   "theorems": [
+    {
+      "name": "add_dist",
+      "display_name": {
+        "english": "Theorem: addition is distributive",
+        "italiano": "Teorema: l'addizione è distributiva"
       },
-    "coq": "Theorem add_dist : forall a b c : nat, add (add a b) c = add a (add b c).\nProof.\nAdmitted.\n"
-  },
-  {
-    "name": "add_zero_left",
-    "text":
-      {
-        "english" : "0 is the left identity for +:\\[ \\forall a \\in \\mathbb N . 0 + a = a \\]",
-        "italiano" : "0 è l'identità sinistra per +:\\[ \\forall a \\in \\mathbb N . 0 + a = a \\]"
+      "text": {
+        "english": "Addition is distributive: \\[ \\forall a, b, c \\in \\mathbb N . (a + b) + c = a + (b + c) \\]",
+        "italiano": "L'addizione è distributiva: \\[ \\forall a, b, c \\in \\mathbb N . (a + b) + c = a + (b + c) \\]"
       },
-    "coq": "Theorem add_zero_left : forall a : nat, add 0 a = a.\nProof.\nAdmitted.\n"
-  },
-  {
-    "name": "add_zero_right",
-    "text":
-      {
-        "english" : "0 is the right identity for +:\\[ \\forall a \\in \\mathbb N . a + 0 = a \\]",
-        "italiano" : "0 è l'identità destra per +:\\[ \\forall a \\in \\mathbb N . a + 0 = a \\]"
+      "coq": "Theorem add_dist : forall a b c : nat, add (add a b) c = add a (add b c).\nProof.\nAdmitted.\n"
+    },
+    {
+      "name": "add_zero_left",
+      "display_name": {
+        "english": "Theorem: 0 is left id of +",
+        "italiano": "Teorema: 0 è id sinistra di +"
       },
-
-    "coq": "Theorem add_zero_right : forall a : nat, add a 0 = a.\nProof.\nAdmitted.\n"
-  },
-  {
-    "name": "add_succ",
-    "text":
-      {
-        "english" : "The following holds\\[ \\forall (a\\; b : \\mathbb N) , a + succ(b) = succ(a + b) \\]",
-        "italiano" : "Vale il seguente\\[ \\forall (a\\; b : \\mathbb N) , a + succ(b) = succ(a + b) \\]"
+      "text": {
+        "english": "Theorem: 0 is the left identity for +:\\[ \\forall a \\in \\mathbb N . 0 + a = a \\]",
+        "italiano": "Teorema: 0 è l'identità sinistra per +:\\[ \\forall a \\in \\mathbb N . 0 + a = a \\]"
       },
-    "coq": "Theorem add_succ : forall a b : nat, (a + succ b) = succ(a + b).\nProof.\nAdmitted.\n"
-  }
+      "coq": "Theorem add_zero_left : forall a : nat, add 0 a = a.\nProof.\nAdmitted.\n"
+    },
+    {
+      "name": "add_zero_right",
+      "display_name": {
+        "english": "Theorem: 0 is right id of +",
+        "italiano": "Teorema: 0 è id destra di +"
+      },
+      "text": {
+        "english": "0 is the right identity for +:\\[ \\forall a \\in \\mathbb N . a + 0 = a \\]",
+        "italiano": "0 è l'identità destra per +:\\[ \\forall a \\in \\mathbb N . a + 0 = a \\]"
+      },
+      "coq": "Theorem add_zero_right : forall a : nat, add a 0 = a.\nProof.\nAdmitted.\n"
+    },
+    {
+      "name": "add_succ",
+      "display_name": {
+        "english": "Theorem: a + succ(b) = succ(a+b)",
+        "italiano": "Teorema: a + succ(b) = succ(a+b)"
+      },
+      "text": {
+        "english": "The following holds\\[ \\forall (a\\; b : \\mathbb N) , a + succ(b) = succ(a + b) \\]",
+        "italiano": "Vale il seguente\\[ \\forall (a\\; b : \\mathbb N) , a + succ(b) = succ(a + b) \\]"
+      },
+      "coq": "Theorem add_succ : forall a b : nat, (a + succ b) = succ(a + b).\nProof.\nAdmitted.\n"
+    }
   ],
   "tactics" : [
     {

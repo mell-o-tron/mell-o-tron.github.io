@@ -2,6 +2,8 @@ import { TeXifier } from "./texifier.js";
 import { TacticCommentator } from "./tactic_commentator.js";
 import {LanguageSelector} from "./multilang.js"
 import {Hinter} from "./hinter.js"
+import {Uncurrifier} from "./uncurrifier.js"
+
 
 class Visualizer {
     constructor(observer, language_selector) {
@@ -40,8 +42,9 @@ class Visualizer {
     visualize_goal(stmt, controller) {
         
         let vis_fun = () => {
+            let uncurrifier = new Uncurrifier(controller);
             
-            let comment = this.tacticCommentator.tactic_comment(stmt.text.trim().replace(/ .*/, '').replace(".", ""), stmt.text);
+            let comment = this.tacticCommentator.tactic_comment(stmt.text.trim().replace(/ .*/, '').replace(".", ""), stmt.text, uncurrifier);
             
             if(!this.observer.has_goals){
                 let box = document.createElement("div");
@@ -60,10 +63,29 @@ class Visualizer {
                 QED.src = "./imgs/QED.png";
                 content.appendChild(QED);
                 
+                let bottom_bar = document.createElement('div');
+                bottom_bar.className = 'step-footer';
+                bottom_bar.innerHTML = "";
+                
+                let print_button = document.createElement("button");
+                print_button.className = "button-4";
+                print_button.textContent = "PRINT RESULT";
+                print_button.onclick = () => {
+                    let url = new URL("/proof_print.html", window.location.href);
+                    localStorage.setItem("goal_history", JSON.stringify(this.observer.goal_history));
+                    localStorage.setItem("tactic_history", JSON.stringify(controller.coq_history));
+                    
+
+                    open(url.toString());
+                }
+                bottom_bar.appendChild(print_button);
+                
                 box.appendChild(header);
                 box.appendChild(content);
+                box.appendChild(bottom_bar);
 
                 document.getElementById("latex-proof").appendChild(box);
+                this.step_list[this.step_list.length - 1].bottom_bar.style.display = "none";
                 return;
             }
             
@@ -71,11 +93,11 @@ class Visualizer {
             if (this.observer.current_goal.hypotheses.length > 0) {
                 text += this.language_selector.current_language.ASSUMING; //"Assuming the following hypotheses:";
                 for (let h of this.observer.current_goal.hypotheses){
-                    text += this.texifier.texify (`\\textit{${h.name}}` + " : " + h.body)
+                    text += this.texifier.texify (`{${h.name}}` + " : " + uncurrifier.uncurrify(h.body))
                 }
             }
             
-            text += `${this.language_selector.current_language.PROVE}:` + this.texifier.texify(this.observer.current_goal.goal);
+            text += `${this.language_selector.current_language.PROVE}:` + this.texifier.texify(uncurrifier.uncurrify(this.observer.current_goal.goal));
 
             if (text === undefined) return;
 
@@ -117,6 +139,7 @@ class Visualizer {
                 controller.del_line();
                 controller.observer.undo_goal_history();
                 this.step_list.pop();
+                controller.coq_history.pop();
 
                 if(this.step_list.length > 0)
                     this.step_list[this.step_list.length - 1].bottom_bar.style.display = "block";
@@ -206,7 +229,8 @@ class Visualizer {
 
         let header = document.createElement('div');
         header.className = "math-header theorem-header";
-        header.textContent = at.name;
+        console.log("AOAOAOAOAOAOAOAOAO", at)
+        header.textContent = at.display_name[`${local_langsel.current_language.language_name}`];
         
         header.addEventListener("click", () => {
             const content = header.nextElementSibling;

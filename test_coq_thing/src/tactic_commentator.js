@@ -8,7 +8,7 @@ class TacticCommentator {
     }
 
     // Method to generate a comment based on the tactic
-    tactic_comment(tactic, text) {
+    tactic_comment(tactic, text, uncurrifier) {
         switch (tactic) {
             case "induction":
                 let s = `${this.language_selector.current_language.BYINDUCTION} ${this.texifier.inline_math(text.replace("induction", "").replace(".", ""))}. `;
@@ -18,11 +18,11 @@ class TacticCommentator {
                 console.log("new goals are:", new_goals, new_goals.length)
                 
                 if(new_goals.length == 2){
-                    let ng0 = this.texifier.texify(new_goals[0].goal);
+                    let ng0 = this.texifier.texify(uncurrifier.uncurrify(new_goals[0].goal));
                     
-                    let hps1 = new_goals[1].hypotheses.map(x => `${x.name} : ${x.body}`).join(") \\wedge (")
+                    let hps1 = new_goals[1].hypotheses.map(x => `${x.name} : ${uncurrifier.uncurrify(x.body)}`).join(") \\wedge (")
                     
-                    let ng1 = this.texifier.texify(` (${hps1}) \\implies ${new_goals[1].goal}`);
+                    let ng1 = this.texifier.texify(` (${hps1}) \\implies ${uncurrifier.uncurrify(new_goals[1].goal)}`);
                     
                     let base_clause_text = this.language_selector.current_language.BASECLAUSE;
                     let inductive_clause_text = this.language_selector.current_language.INDUCTIVECLAUSE;
@@ -34,8 +34,8 @@ class TacticCommentator {
                     
                     s += `<ul style="margin : 20px>`;
                     for (let i in new_goals){
-                        let hpsi = new_goals[i].hypotheses.map(x => `${x.name} : ${x.body}`).join(") \\wedge (")
-                        let ngi = this.texifier.texify(hpsi + "\implies" + new_goals[i].goal);
+                        let hpsi = new_goals[i].hypotheses.map(x => `${x.name} : ${uncurrifier.uncurrify(x.body)}`).join(") \\wedge (")
+                        let ngi = this.texifier.texify(hpsi + "\implies" + uncurrifier.uncurrify(new_goals[i].goal));
                         s += `<li><div class="scroll-equation">(${(ng0)})</div></li>`;
                     }
                     s += "</ul>";

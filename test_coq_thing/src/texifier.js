@@ -8,9 +8,10 @@ class TeXifier {
             [",", " ."],
             ["→", "\\to"],
             ["ℕ", "\\mathbb{N}"],
-            ["list", "L_A"],
-            [" ", "\\;"],
+            ["list", "L_"],
+//             [" ", "\\;"],
             ["∀", "\\forall"],
+            ["§", ","]
         ];
     }
 
@@ -19,7 +20,8 @@ class TeXifier {
         for (let r of this.replacements) {
             res = res.replaceAll(r[0], r[1]);
         }
-        res = res.replace(/([a-zA-Z]) ([a-zA-Z])/g, "$1\\;$2")
+        res = res.replace(/([a-zA-Z0-9]) ([a-zA-Z0-9])/g, "$1\\;$2")
+        res = res.replace(/([a-zA-Z])([0-9]+)/g, "$1_{$2}")
         return this.centered_math(res);
     }
     
@@ -28,7 +30,8 @@ class TeXifier {
         for (let r of this.replacements) {
             res = res.replaceAll(r[0], r[1]);
         }
-        res = res.replace(/([a-zA-Z]) ([a-zA-Z])/g, "$1\\;$2")
+        res = res.replace(/([a-zA-Z0-9]) ([a-zA-Z0-9])/g, "$1\\;$2")
+        res = res.replace(/([a-zA-Z])([0-9]+)/g, "$1_{$2}")
         return this.inline_math(res);
     }
 

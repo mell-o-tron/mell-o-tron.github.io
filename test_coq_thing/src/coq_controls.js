@@ -106,7 +106,6 @@ class Controller {
     this.add_line(text, this.snippet);
     this.go_next_n(1, true, () => {
       this.coq_history.push(text);
-      console.log(this.coq_history)
     }, () => {/*this.go_prev_n(1);*/ alert("Cannot apply tactic or theorem"); this.rm_line()});
   
   }

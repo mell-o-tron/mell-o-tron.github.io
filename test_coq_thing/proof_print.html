@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <link rel = "stylesheet" href="./node_modules/jscoq/dist/frontend/index.css">
+       
+      <link rel = "stylesheet" href="./styles.css">
+       
+      <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+      <style>
+         body {
+            margin-left: 10%;
+            margin-right: 10%;
+            font-family: monospace;
+         }
+         .goal-container {
+            border: 1px solid #555;
+            margin: 10px;
+            padding: 10px;
+         }
+         
+         .tactic-container {
+            border: 1px solid #555;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+         }
+         
+         .hp-box {
+            margin: 10px;
+            padding: 10px;
+         }
+         
+         h3 {
+            font-size: 20px;
+         }
+      </style>
+      
+      <title>Proof Utility</title>
+   </head>
+   <body>
+      <h1> Proof Recap </h1>
+      <br>
+      <div id="proof_print">  </div>
+      
+      <script>
+      const goals = JSON.parse(localStorage.getItem("goal_history"))
+      const tactics = JSON.parse(localStorage.getItem("tactic_history"))
+      
+      console.log(goals)
+      console.log(tactics)
+      
+      
+      const proof_print_div = document.getElementById("proof_print")
+      
+      let tactic_index = 0;
+      
+      for (let g of goals) {
+         if (!g[0]) continue;
+         
+         const container = document.createElement('div');
+         
+         container.className = "goal-container"
+         
+         let hp = document.createElement('div');
+         
+         hp.innerHTML = "<h3>Hypotheses:</h3><ul>"
+         hp.className = "hp-box";
+         for (let h of g[0].hypotheses) {
+            hp.innerHTML += `<li>${h.name} : ${h.body}<br></li>`;
+         }
+         
+         hp.innerHTML += "</ul>"
+         
+         let g_goal = document.createElement('div');
+         g_goal.className = "hp-box";
+         g_goal.innerHTML = "<h3>Goal:</h3>" + g[0].goal;
+         
+         
+         container.appendChild(hp);
+         container.appendChild(g_goal);
+         
+         const tactic_applied = document.createElement('div');
+         tactic_applied.className = "tactic-container"
+         tactic_applied.innerHTML = "Apply Tactic: " + tactics[tactic_index];
+         tactic_index ++;
+         
+         proof_print_div.appendChild(container)
+         proof_print_div.appendChild(tactic_applied)
+      }
+      
+      print()
+      
+      </script>
+   </body>
+</html>

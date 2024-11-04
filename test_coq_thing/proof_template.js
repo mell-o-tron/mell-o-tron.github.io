@@ -115,13 +115,11 @@ language_selector.select_language(language.trim()).then(() => {
 
             for (let d of topic_obj.definitions) {
               str += d.coq + "\n";
-              controller.visualizer.visualize_math(d, "definition");
             }
 
             // adds theorems to the controller's available theorem list
             for (let d of topic_obj.theorems) {
               str += d.coq + "\n";
-              controller.available_theorems.push(d);
             }
 
             // adds tactics to the controller's available tactics list
@@ -129,19 +127,36 @@ language_selector.select_language(language.trim()).then(() => {
               controller.available_tactics.push(t);
             }
 
-            // the definitions are visualized TODO maybe add a flag in the json to decide whether to visualize a definition
             for (let d of proof_obj.definitions) {
               str += d.coq + "\n";
-              controller.visualizer.visualize_math(d, "definition");
             }
 
             str += proof_obj.theorem.coq + "\nProof.\n";
 
             console.log(proof_obj.theorem);
 
-            controller.visualizer.visualize_math(proof_obj.theorem, "theorem");
+
             controller.add_line(str);
 
+
+            controller.go_next_n(str.split("\n").length, false, () => {
+              
+              
+            for (let d of topic_obj.definitions) {
+              controller.visualizer.visualize_math(d, "definition");
+            }
+
+            for (let d of topic_obj.theorems) {
+              controller.available_theorems.push(d);
+            }
+
+            for (let d of proof_obj.definitions) {
+              controller.visualizer.visualize_math(d, "definition");
+            }
+              
+            controller.visualizer.visualize_math(proof_obj.theorem, "theorem");
+            
+            
             // Add the available theorems to the menu on the right
             for (let at of controller.available_theorems){
               controller.visualizer.add_theo_card(at, controller);
@@ -155,9 +170,6 @@ language_selector.select_language(language.trim()).then(() => {
             controller.visualizer.add_hp_handlers(controller)
 
             document.getElementById("loading").style.display = "none";
-
-            controller.go_next_n(str.split("\n").length, false, () => {
-              
               // TODO IMPLEMENT REPLAY OF HISTORY WHEN CHANGE LANGUAGE
               
 //               if (history) {
