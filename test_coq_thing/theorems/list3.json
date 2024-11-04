@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{rev}\\) of \\(\\texttt{app}\\) equals \\(\\texttt{app}\\) of \\(\\texttt{rev}\\), i.e. \\[ \\forall l_1\\;l_2 \\in L_A . \\; \\texttt{rev}(\\texttt{app}(l_1\\; l_2)) = \\texttt{app}(\\texttt{rev}(l_2), \\texttt{rev}(l_1\\;) \\]",
+        "italiano" : "Teorema: \\(\\texttt{rev}\\) di \\(\\texttt{app}\\) equivale a \\(\\texttt{app}\\) di \\(\\texttt{rev}\\), i.e. \\[ \\forall l_1\\;l_2 \\in L_A . \\; \\texttt{rev}(\\texttt{app}(l_1\\; l_2)) = app(\\texttt{rev}(l_2), \\texttt{rev}(l_1\\;) \\]"
+      },
+    "coq": "Theorem rev_app : forall l1 l2 : list , rev(app l1 l2) = app (rev l2) (rev l1)."
+  }
+} 

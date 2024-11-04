@@ -35,23 +35,52 @@
 
    <h1> Liste </h1>
    <div class="list-group theorem-l">
-  <a href="./proof_env.html?theorem_name=list&theorem_topic=list&language=italiano" class="list-group-item list-group-item-action" aria-current="true">
+  <a href="./proof_env.html?theorem_name=list1&theorem_topic=list1&language=italiano" class="list-group-item list-group-item-action" aria-current="true">
     <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1 theorem-name">Teorema append</h5>
+      <h5 class="mb-1 theorem-name">Teorema 1</h5>
     </div>
-    <p class="mb-1">Associatività di append:
-                    $$ \forall l_1,l_2,l_3 . \space l_1,l_2,l_3 \in L_A  \Rightarrow app(app(l_1,l_2),l_3) = app(l_1,app(l_2,l_3))$$</p>
+    <p class="mb-1">app di una lista e la lista vuota equivale alla prima list.
+                    $$ \forall l1 \in L_A .\; \texttt{app}(l1,[]) = l1 $$</p>
   </a>
-  <a href="./proof_env.html?theorem_name=banana&theorem_topic=test&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list2&theorem_topic=list2&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 2</h5>
     </div>
-    <p class="mb-1">Teorema di test (commutatività addizione).</p>
+    <p class="mb-1">app e' associativa'.
+                    $$ \forall l1,l2,l3 \in L_A .\; \texttt{app}(\texttt{app}(l1,l2),l3) = \texttt{app}(l1,\texttt{app}(l2,l3))$$</p>
   </a>
-
+  <a href="./proof_env.html?theorem_name=list3&theorem_topic=list3&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 3</h5>
+    </div>
+    <p class="mb-1">rev di app equivale a app di rev.
+                    $$ \forall l1,l2 \in L_A . \; \texttt{rev}(\texttt{app}(l1,l2)) = \texttt{app}(\texttt{rev}(l2),\texttt{rev}(l1)) $$</p>
+  </a>
+  <a href="./proof_env.html?theorem_name=list4&theorem_topic=list4&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 4</h5>
+    </div>
+    <p class="mb-1">La lunghezza della lista ottenuta concatenando due liste e' equivalente alla somma delle lunghezze delle due liste.
+                    $$ \forall l1,l2 \in L_A . \; \texttt{len}(\texttt{app}(l1,l2)) = \texttt{len}(l1) + \texttt{len}(l2) $$</p>
+  </a>
+  <a href="./proof_env.html?theorem_name=list5&theorem_topic=list5&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 5</h5>
+    </div>
+    <p class="mb-1">Rovescirare una lista non cambia la sua lungezza.
+                    $$ \forall l \in L_A . \; \texttt{len}(\texttt{rev}(l)) = \texttt{len}(l) $$</p>
+  </a>
 </div>
 
-
+   <h1> Alberi </h1>
+   <ul>
+   <li>
+   Teorema 1
+   </li>
+   <li>
+   Teorema 2
+   </li>
+   </ul>
    </div>
       <script>
          const queryString = window.location.search;

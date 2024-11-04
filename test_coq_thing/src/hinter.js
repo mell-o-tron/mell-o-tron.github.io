@@ -19,7 +19,7 @@ class Hinter {
                 res.push ({
                     name : `${this.langsel.current_language.CHOOSEARBITRARY} ${m[1]}`,
                     func : () => {
-                        this.controller.apply_tactic("intro.\n");
+                        this.controller.apply_tactic("intro.");
                     }
                 });
             }

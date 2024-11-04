@@ -1,0 +1,100 @@
+{
+  "definitions": [
+    {
+      "name": "list",
+      "is_function" : "false",
+      "display_name": "lists",
+      "text":
+        {
+          "english" : "Let \\(A\\) be a set. The set \\(L_A\\) of lists of elements of \\( A \\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\([] \\in L_A\\)</li><li>Inductive Clause: \\(\\forall a \\in A . \\forall l \\in L_A . a :: [] \\in L_A \\).</li></ul>The notation \\( a::b::c::[] \\) is equivalent to \\([a, b, c]\\).",
+          "italiano": "Sia \\(A\\) un insieme. L'insieme \\(L_A\\) delle liste di elementi di \\( A \\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\([] \\in L_A\\)</li><li> Clausola Induttiva: \\(\\forall (a \\in A), (l \\in L_A) . a :: [] \\in L_A \\).</li></ul>La notazione \\( a::b::c::[] \\) è equivalente alla notazione \\([a, b, c]\\)."
+        },
+      "coq": "Variable A : Type.\nInductive list : Type := | nil : list | cons : A -> list -> list.\nInfix \"::\" := cons (at level 60, right associativity).\nNotation \"[ ]\" := nil (format \"[ ]\").\nNotation \"[ x ]\" := (cons x nil).\nNotation \"[ x ; y ; .. ; z ]\" := (cons x (cons y .. (cons z nil) ..)).\n"
+    },
+    {
+      "name": "app",
+      "is_function" : "true",
+      "arity" : 2,
+      "display_name": "app",
+      "text":
+      {
+        "english" : "Let \\( \\texttt {app} : L_A \\times L_A \\to L_A \\) be defined as follows:<ul style=\"padding : 15px;\"><li>Base Clause: \\( \\texttt{app}([], l_2) = l_2 \\)</li><li>Inductive Clause: \\( \\texttt{app}(a :: l_1, l_2) =  \\texttt{app} a :: (l_1, l_2) \\).</li></ul>",
+        "italiano" : "Sia \\( \\texttt {app} : L_A \\times L_A \\to L_A \\) definita come segue:<ul style=\"padding : 15px;\"><li>Clausola Base: \\( \\texttt{app}([], l_2) = l_2 \\)</li><li>Clausola Induttiva: \\( \\texttt{app}(a :: l_1, l_2) =  a :: \\texttt{app} (l_1, l_2) \\).</li></ul>"
+      },
+      "coq": "Fixpoint app (x y : list) : list := match x with | [] => y | x::xs => x :: app xs y end.\n"
+    }
+  ],
+    "theorems": [
+    {
+      "name": "app_base_clause",
+      "display_name": {
+        "english": "app (base clause)",
+        "italiano": "app (clausola base)"
+      },
+      "text": {
+        "english": "Base clause of definition of \\(\\texttt{app}\\):\n\n\\[ \\forall l_2 : L_A . \\texttt{app}([], l_2) = l_2 \\]",
+        "italiano": "Clausola base della definizione di \\(\\texttt{app}\\):\n\n\n\\[ \\forall l_2 : L_A . \\texttt{app}([], l_2) = l_2 \\]"
+      },
+      "coq": "Theorem app_base_clause : forall (l2 : list), app [] l2 = l2.\nProof.\nAdmitted."
+    },
+    {
+      "name": "app_inductive_clause",
+      "display_name": {
+        "english": "app (inductive clause)",
+        "italiano": "app (clausola induttiva)"
+      },
+      "text": {
+        "english": "Inductive clause of the definition of \\(\\texttt{app}\\):\n\n\\[ \\forall l_1\\;l_2 : L_A .\\; \\forall a : A .\\; \\texttt{app}(a :: l_1, l_2) = \\texttt{app} (l_1, l_2) \\]",
+        "italiano": "Clausola induttiva della definizione di \\(\\texttt{app}\\):\n\n\\[ \\forall l_1\\;l_2 : L_A .\\; \\forall a : A .\\; . \\texttt{app}(a :: l_1, l_2) = \\texttt{app} (l_1, l_2) \\]"
+      },
+      "coq": "Theorem app_inductive_clause : forall (l1 : list) (l2 : list) (a : A) , app (a :: l1) l2 = a :: app l1 l2.\nProof.\nAdmitted."
+    }
+  ],
+  "tactics" : [
+    {
+      "name": "induction",
+      "n_params" : 1,
+      "param_types" : ["text"],
+      "text":
+        {
+          "english" : "Proof by induction. Enter the induction variable:",
+          "italiano" : "Dimostrazione per induzione. Inserisci la variabile d'induzione:"
+        },
+      "coq" : "induction $0."
+    },
+
+    {
+      "name": "intro",
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Introduce a variable:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ becomes }\\texttt{\"}\\text{given $P$ prove $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : A) , P\\texttt{\"} \\text{ becomes } \\texttt{\"}\\text{given $(x : A)$ prove $P$}\\texttt{\"} \\]",
+          "italiano" : "Introduce una variabile:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ diventa }\\texttt{\"}\\text{dato $P$ dimostra $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : A) , P\\texttt{\"} \\text{ diventa } \\texttt{\"}\\text{dato $(x : A)$ dimostra $P$}\\texttt{\"} \\]"
+        },
+      "coq" : "intro."
+    },
+
+    {
+      "name": "reflexivity",
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Equality is reflexive.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ becomes } \\texttt{\"true\"}\\]",
+          "italiano" : "L'uguaglianza è riflessiva.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ diventa } \\texttt{\"vero\"}\\]"
+        },
+      "coq" : "reflexivity."
+    },
+
+    {
+      "name": "apply definition",
+      "n_params" : 2,
+      "param_types" : ["definitions", "text"],
+      "text":
+        {
+          "english" : "Apply a definition. Choose the definition from the menu. Optional: use the input box to specify an occurrence writing:\\[ \\texttt{at occ} \\]where \\[\\texttt{occ}\\]is a number starting from 1",
+          "italiano" : "Applica una definizione. Scegli una definizione dal menu. Puoi specificare un'occorrenza tramite l'area di testo scrivendo:\\[ \\texttt{at occ} \\]dove \\[\\texttt{occ}\\]è un numero a partire da 1"
+        },
+      "coq" : "simpl $0 $1."
+    }
+  ]
+}

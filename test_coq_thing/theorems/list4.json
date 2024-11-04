@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: The length of the list obtained by appending two lists is equal to the sum of the length of the two lists, i.e. \\[ \\forall l_1\\;l_2 \\in L_A . \\; \\texttt{len}(\\texttt{app}(l_1,\\;l_2)) = \\texttt{len}(l_1) + \\texttt{len}\\;l_2) \\]",
+        "italiano" : "Teorema: La lunghezza della lista ottenuta concatenando due liste e' equivalente alla somma delle lunghezze delle due liste, i.e. \\[ \\forall l_1\\;l_2 \\in L_A . \\; \\texttt{len}(\\texttt{app}(l_1,\\;l_2)) = \\texttt{len}(l_1) + \\texttt{len}\\;l_2) \\]"
+      },
+    "coq": "Theorem len_app : forall l1 l2 : list , len (app l1 l2) = len l1 + len l2."
+  }
+} 

@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Theorem: \\(\\texttt{app}\\) of a list \\(l_1\\) and the empty list \\([]\\) is equal to \\(l_1\\), i.e. \\[ \\l_1 in L_A .\\; \\texttt{app}(l_1,[]) = l_1 \\]",
+        "italiano" : "Teorema: \\(\\texttt{app}\\) di una lista \\(l_1\\) e la lista vuota \\([]\\) e' equivalente a \\(l_1\\), i.e. \\[ \\forall l_1 \\in L_A .\\; \\texttt{app}(l_1, []) = l_1 \\]"
+      },
+    "coq": "Theorem app_empty : forall l1 : list, app l1 [] = l1."
+  }
+} 
