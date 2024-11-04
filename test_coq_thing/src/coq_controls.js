@@ -74,7 +74,7 @@ class Controller {
     }
     else{
       const cursor = this.snippet.editor.getCursor();
-      const vis_stmt = { text : this.snippet.editor.getLine(cursor.line-1)};    // not sure why -1 is needed, but it appears to be needed.
+      const vis_stmt = { text : this.snippet.editor.getLine(cursor.line)};
 
       if (should_vis) this.visualizer.visualize(vis_stmt, this);    // OPTIMISTIC VISUALIZATION - the visualizer sends a visualization function to the observer, to be executed if/when the goal changes.
       

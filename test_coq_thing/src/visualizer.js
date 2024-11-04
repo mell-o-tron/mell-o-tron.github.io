@@ -136,7 +136,7 @@ class Visualizer {
             undo.className = "button-4";
             undo.textContent = "UNDO";
             undo.onclick = () => {
-                controller.del_line();
+                controller.rm_line();
                 controller.observer.undo_goal_history();
                 this.step_list.pop();
                 controller.coq_history.pop();
