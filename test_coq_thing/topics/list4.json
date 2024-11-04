@@ -131,10 +131,10 @@
       "name": "app_empty",
       "text":
           {
-            "english": "\\texttt{app} of a list and the empty list is equal to the original list: \\[ \\forall l_1 \\in L_A.\\; \\texttt{app}(l_1,[]) = l_1 \\]",
-            "italiano": "\\texttt{app} di una lista e la lista vuota equivale alla lista originale: \\[ \\forall l_1 \\in L_A.\\; \\texttt{app}(l_1,[]) = l_1 \\]"
+            "english": "\\(\\texttt{app}\\) of a list and the empty list is equal to the original list: \\[ \\forall l_1 \\in L_A.\\; \\texttt{app}(l_1,[]) = l_1 \\]",
+            "italiano": "\\(\\texttt{app}\\) di una lista e la lista vuota equivale alla lista originale: \\[ \\forall l_1 \\in L_A.\\; \\texttt{app}(l_1,[]) = l_1 \\]"
           },
-        "coq": "Theorem app_empty : forall a : A , forall l1 : list , app l1 [] = l1.\nProof.\nAdmitted.\n"
+        "coq": "Theorem app_empty : forall l1 : list , app l1 [] = l1.\nProof.\nAdmitted.\n"
     },
     {
       "display_name": {
@@ -144,8 +144,8 @@
       "name": "app_assoc",
       "text":
           {
-            "english": "\\texttt{app} is associative: \\[ \\forall l_1\\;l_2\\;l_3 \\in L_A.\\; \\texttt{app}(\\texttt{app}(l_1,l_2),l_3) = \\texttt{app}(l_1,\\texttt{app}(l_2,l_3)) \\]",
-            "italiano": "\\texttt{app} e' associativa: \\[ \\forall l_1\\;l_2\\;l_3 \\in L_A.\\; \\texttt{app}(\\texttt{app}(l_1,l_2),l_3) = \\texttt{app}(l_1,\\texttt{app}(l_2,l_3)) \\]"
+            "english": "\\(\\texttt{app}\\) is associative: \\[ \\forall l_1\\;l_2\\;l_3 \\in L_A.\\; \\texttt{app}(\\texttt{app}(l_1,l_2),l_3) = \\texttt{app}(l_1,\\texttt{app}(l_2,l_3)) \\]",
+            "italiano": "\\(\\texttt{app}\\) e' associativa: \\[ \\forall l_1\\;l_2\\;l_3 \\in L_A.\\; \\texttt{app}(\\texttt{app}(l_1,l_2),l_3) = \\texttt{app}(l_1,\\texttt{app}(l_2,l_3)) \\]"
           },
       "coq": "Theorem app_assoc: forall l1 l2 l3 : list , app (app l1 l2) l3 = app l1 (app l2 l3).\nProof.\nAdmitted.\n"
     }
