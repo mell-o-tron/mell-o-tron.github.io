@@ -61,6 +61,23 @@ class Observer {
     this.current_goal = this.all_goals[0];
   }
   
+  populate_hyps(){
+      /* populate hypothesis dropdowns */
+      const dropdowns = document.querySelectorAll(".hyp-dropdown");
+      
+      dropdowns.forEach(dropdown => {
+        dropdown.innerHTML = "";
+        
+        for (let h of this.current_goal.hypotheses){
+          let hopt = document.createElement('option');
+          hopt.value = h.name;
+          hopt.textContent = h.name;
+          dropdown.appendChild(hopt);
+        }
+        
+      }); 
+  }
+  
   coqReady() {  this._ready(); }
   coqGoalInfo(sid, goals) {
     
@@ -117,20 +134,7 @@ class Observer {
       
       console.log("all goals", this.all_goals);
       
-      /* populate hypothesis dropdowns */
-      const dropdowns = document.querySelectorAll(".hyp-dropdown");
-      
-      dropdowns.forEach(dropdown => {
-        dropdown.innerHTML = "";
-        
-        for (let h of this.current_goal.hypotheses){
-          let hopt = document.createElement('option');
-          hopt.value = h.name;
-          hopt.textContent = h.name;
-          dropdown.appendChild(hopt);
-        }
-        
-      });
+      this.populate_hyps();
         
     } else {
      this.has_goals = false; 

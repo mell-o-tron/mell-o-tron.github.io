@@ -20,8 +20,10 @@
   "BASECLAUSE" : "Clausola Base",
   "INDUCTIVECLAUSE" : "Clausola Induttiva",
   "BEGINFIRSTBASECLAUSE" : "Cominciamo dalla prima clausola base",
+  "END_OF_BASE_CASE" : "Fine del caso base. Si passa al caso induttivo.",
   
-  "CHOOSEARBITRARY" : "scegli un qualsiasi",
+  "HINT" : "Suggerimento",  
+  "CHOOSEARBITRARY" : "Prendi un generico",
   "APPLYREFLEXIVITY" : "Applica riflessività di =",
   "theorem" : "Teorema",
   "definition" : "Definizione"

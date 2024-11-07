@@ -101,8 +101,16 @@ class Controller {
     }
   }
   
-  rewrite_theorem(theo_name, direction){
-    let text = `rewrite ${direction?"->":"<-"} ${theo_name}.`
+  rewrite_theorem(theo_name, direction, occ, var_values, var_names){
+    
+    let var_value_string = ""
+    for (let i in var_names) {
+      if (var_values[i].trim() != "") {
+        var_value_string += (`(${var_names[i]} := ${var_values[i]})`)
+      }
+    }
+    
+    let text = `rewrite ${direction?"->":"<-"} ${theo_name} ${var_value_string == "" ? "" : "with " + var_value_string} at ${occ}.`
     this.add_line(text, this.snippet);
     this.go_next_n(1, true, () => {
       this.coq_history.push(text);

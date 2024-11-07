@@ -119,18 +119,6 @@
           "italiano" : "L'uguaglianza è riflessiva.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ diventa } \\texttt{\"vero\"}\\]"
         },
       "coq" : "reflexivity.\n"
-    },
-
-    {
-      "name": "apply definition",
-      "n_params" : 2,
-      "param_types" : ["definitions", "text"],
-      "text":
-        {
-          "english" : "Apply a definition. Choose the definition from the menu. Optional: use the input box to specify an occurrence writing:\\[ \\texttt{at occ} \\]where \\[\\texttt{occ}\\]is a number starting from 1",
-          "italiano" : "Applica una definizione. Scegli una definizione dal menu. Puoi specificare un'occorrenza tramite l'area di testo scrivendo:\\[ \\texttt{at occ} \\]dove \\[\\texttt{occ}\\]è un numero a partire da 1"
-        },
-      "coq" : "simpl $0 $1.\n"
     }
   ]
 }

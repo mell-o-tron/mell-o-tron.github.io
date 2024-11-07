@@ -3,6 +3,7 @@ import { TacticCommentator } from "./tactic_commentator.js";
 import {LanguageSelector} from "./multilang.js"
 import {Hinter} from "./hinter.js"
 import {Uncurrifier} from "./uncurrifier.js"
+import {TheoremParser} from "./theorem_parser.js"
 
 
 class Visualizer {
@@ -105,8 +106,15 @@ class Visualizer {
                 text = comment + " " + text;
             }
 
+            let bigBox = document.createElement("div");
+            bigBox.className = 'goal-bigBox';
+            let enumeration = document.createElement("p");
+            enumeration.className = 'goal-enum';
+            enumeration.innerHTML = `${(this.step_list.length +1)}.`;
+
+            bigBox.appendChild(enumeration);
             let box = document.createElement("div");
-            box.className = 'math-box';
+            box.className = 'goal-box';
             
             let header = document.createElement('div');
             header.className = `math-header step-header`;
@@ -133,18 +141,20 @@ class Visualizer {
             /* UNDO BUTTON */
             
             let undo = document.createElement("button");
-            undo.className = "button-4";
+//            undo.className = "button-4";
+            undo.className = "btn btn-danger";
             undo.textContent = "UNDO";
             undo.onclick = () => {
                 controller.rm_line();
                 controller.observer.undo_goal_history();
+                controller.observer.populate_hyps();
                 this.step_list.pop();
                 controller.coq_history.pop();
 
                 if(this.step_list.length > 0)
                     this.step_list[this.step_list.length - 1].bottom_bar.style.display = "block";
 
-                box.remove();
+                bigBox.remove();
             };
 
             if (this.step_list.length > 0)
@@ -160,7 +170,8 @@ class Visualizer {
             
             for (let h of hints) {
                 let hint_button = document.createElement("button");
-                hint_button.className = "button-4";
+//                hint_button.className = "button-4";
+                hint_button.className = "btn btn-primary";
                 hint_button.textContent = h.name;
                 hint_button.onclick = h.func;
                 
@@ -170,8 +181,8 @@ class Visualizer {
             box.appendChild(header);
             box.appendChild(content);
             box.appendChild(bottom_bar);
-
-            document.getElementById("latex-proof").appendChild(box);
+            bigBox.appendChild(box);
+            document.getElementById("latex-proof").appendChild(bigBox);
 
             this.step_list.push({content : content, bottom_bar : bottom_bar});
 
@@ -190,7 +201,7 @@ class Visualizer {
         return this.tactics.includes(stripped) || this.terminators.includes(stripped);
     }
     
-    visualize_math(d, type){
+    visualize_math(d, type, controller){
         let local_langsel = new LanguageSelector();
 
         let text = (d.text[`${local_langsel.current_language.language_name}`]);
@@ -205,16 +216,48 @@ class Visualizer {
         content.className = 'math-content';
         content.innerHTML = text;
         
+        let bottom_bar = document.createElement('div');
+        bottom_bar.className = 'step-footer';
+        bottom_bar.innerHTML = "";
+        
+        let hint_button = document.createElement("button");
+        
+        let hintbox = document.createElement("div");
+        hintbox.className = "hint-box";
+            
+        bottom_bar.appendChild(hintbox)
+        
+        if(type == "theorem" && d.initial_hint) {
+                hint_button.className = "btn btn-primary";
+                hint_button.textContent = d.initial_hint.text[`${local_langsel.current_language.language_name}`];
+                hint_button.onclick = (() => {
+                    controller.apply_tactic(d.initial_hint.coq);
+                }).bind(controller);
+                
+                hintbox.appendChild(hint_button);
+        }
+        
         box.appendChild(header);
         box.appendChild(content);
+        
+        if(type == "theorem" && d.initial_hint){
+            box.appendChild(bottom_bar);
+        }
 
         document.getElementById("latex-proof").appendChild(box);
         MathJax.typeset();
     }
 
-    add_theo_card(at, controller) {
+    add_theo_card(at, controller, type_id = "available_theorems") {
         let local_langsel = new LanguageSelector();
-
+        let theorem_parser = new TheoremParser();
+        
+        let theorem_variables = theorem_parser.get_variables(at.coq);
+        
+        if (!theorem_variables) {           // TODO ugly hack, fix properly
+            theorem_variables = [];
+        }
+        
         let theobox = document.createElement("div");
         theobox.className = 'theorem-card';
         
@@ -225,11 +268,9 @@ class Visualizer {
         theodesc.className = 'math-content';
 
         theodesc.textContent = at.text[`${local_langsel.current_language.language_name}`];
-        document.getElementById("available_theorems").appendChild(theobox);
 
         let header = document.createElement('div');
         header.className = "math-header theorem-header";
-        console.log("AOAOAOAOAOAOAOAOAO", at)
         header.textContent = at.display_name[`${local_langsel.current_language.language_name}`];
         
         header.addEventListener("click", () => {
@@ -237,18 +278,66 @@ class Visualizer {
             content.style.display = content.style.display === "block" ? "none" : "block";
             });
 
+        
+        let occ_container = document.createElement('div');
+        occ_container.className = "tbox-container";
+        occ_container.textContent = "occurrence: "          // TODO language
+        let occ = document.createElement("INPUT");
+        occ.setAttribute("type", "number");
+        occ.value = 1;
+        occ_container.appendChild(occ);
+        
+        let var_containers = [];
+        let var_inputs = [];
+        
+        for (let v of theorem_variables) {
+            let var_container = document.createElement('div');
+            var_container.className = "tbox-container";
+            var_container.textContent = `value of ${v}: `        // TODO language
+            let var_input = document.createElement("INPUT");
+            var_input.setAttribute("type", "text");
+            var_container.appendChild(var_input);
+            
+            var_containers.push(var_container);
+            var_inputs.push(var_input);
+        }
+        
+        
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
         rw_lr.textContent = `${local_langsel.current_language.APPLY} (→)`;
-        rw_lr.onclick = () => {controller.rewrite_theorem(at.name, true)};
+        rw_lr.onclick = () => {controller.rewrite_theorem(at.name, true, occ.value, var_inputs.map(x => x.value), theorem_variables)};
 
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
-        rw_rl.onclick = () => {controller.rewrite_theorem(at.name, false)};
+        
+        
+        rw_rl.onclick = () => {controller.rewrite_theorem(at.name, false, occ.value, var_inputs.map(x => x.value), theorem_variables)};
         rw_rl.textContent = `${local_langsel.current_language.APPLY} (←)`;
         
+        
+        let hidden_section = document.createElement('div');
+        hidden_section.style.display = "none";
+        for (let c of var_containers) {
+            hidden_section.appendChild(c);
+        }
+        
+        
+        hidden_section.appendChild(occ_container);
+        
+        let show_controls = document.createElement("button");
+        show_controls.className = "button-4";
+        show_controls.onclick = () => {hidden_section.style.display == "block" ? hidden_section.style.display = "none" : hidden_section.style.display = "block"};
+        show_controls.textContent = `More controls`;            // TODO language
+        
+        let show_controls_container = document.createElement('div');
+        show_controls_container.appendChild(show_controls);
+        
+        document.getElementById(type_id).appendChild(theobox);
         theobox.appendChild(header);
         theodesc_container.appendChild(theodesc);
+        theodesc_container.appendChild(show_controls_container);
+        theodesc_container.appendChild(hidden_section);
         theodesc_container.appendChild(rw_lr);
         theodesc_container.appendChild(rw_rl);
         theobox.appendChild(theodesc_container);
@@ -351,21 +440,29 @@ class Visualizer {
         let tbox = document.createElement("select");
         tbox.className = "hyp-dropdown"
         
+        let occ_container = document.createElement('div');
+        occ_container.className = "tbox-container";
+        occ_container.textContent = "occurrence: "
+        let occ = document.createElement("INPUT");
+        occ.setAttribute("type", "number");
+        occ_container.appendChild(occ);
+        occ.value = 1;
         
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
         rw_lr.textContent = `${local_langsel.current_language.APPLY} (→)`;
-        rw_lr.onclick = () => {controller.rewrite_theorem(tbox.value, true)};
+        rw_lr.onclick = () => {controller.rewrite_theorem(tbox.value, true, occ.value, [], [])};
 
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
-        rw_rl.onclick = () => {controller.rewrite_theorem(tbox.value, false)};
+        rw_rl.onclick = () => {controller.rewrite_theorem(tbox.value, false, occ.value, [], [])};
         rw_rl.textContent = `${local_langsel.current_language.APPLY} (←)`;
         
         hypbox.appendChild(header);
         hypbox.appendChild(theodesc);
         tbox_container.appendChild(tbox);
         hypbox.appendChild(tbox_container);
+        hypbox.appendChild(occ_container);
         hypbox.appendChild(rw_lr);
         hypbox.appendChild(rw_rl);
         MathJax.typeset();

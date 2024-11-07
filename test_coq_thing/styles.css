@@ -85,6 +85,29 @@ width: 30%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-left: 20%;
     margin-right: 20%;
+    width: 60%;
+}
+
+.goal-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 20%;
+    width: 60%;
+}
+
+.goal-bigBox {
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+}
+
+.goal-enum {
+  margin-right: 0.35em;
+  margin-top: 0.4em;
 }
 
 .math-header {
@@ -185,6 +208,7 @@ width: 30%;
   vertical-align: middle;
   white-space: nowrap;
   word-wrap: break-word;
+  margin: 0.3em;
 }
 
 .button-4:hover {

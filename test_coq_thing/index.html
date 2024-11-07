@@ -39,29 +39,29 @@
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 1</h5>
     </div>
-    <p class="mb-1">app di una lista e la lista vuota equivale alla prima list.
+    <p class="mb-1">\(\texttt{app}\) di una lista e la lista vuota equivale alla prima list.
                     $$ \forall l1 \in L_A .\; \texttt{app}(l1,[]) = l1 $$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list2&theorem_topic=list2&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 2</h5>
     </div>
-    <p class="mb-1">app e' associativa'.
+    <p class="mb-1">\(\texttt{app}\) è associativa.
                     $$ \forall l1,l2,l3 \in L_A .\; \texttt{app}(\texttt{app}(l1,l2),l3) = \texttt{app}(l1,\texttt{app}(l2,l3))$$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list3&theorem_topic=list3&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 3</h5>
     </div>
-    <p class="mb-1">rev di app equivale a app di rev.
-                    $$ \forall l1,l2 \in L_A . \; \texttt{rev}(\texttt{app}(l1,l2)) = \texttt{app}(\texttt{rev}(l2),\texttt{rev}(l1)) $$</p>
+    <p class="mb-1">Interazione fra \(\texttt{rev}\) di \(\texttt{app}\) (distributività di \(\texttt{rev}\) su \(\texttt{app}\)).
+                    $$ \forall l1,l2 \in L_A .\; \texttt{rev}(\texttt{app}(l1,l2)) = \texttt{app}(\texttt{rev}(l2),\texttt{rev}(l1)) $$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list4&theorem_topic=list4&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 4</h5>
     </div>
-    <p class="mb-1">La lunghezza della lista ottenuta concatenando due liste e' equivalente alla somma delle lunghezze delle due liste.
-                    $$ \forall l1,l2 \in L_A . \; \texttt{len}(\texttt{app}(l1,l2)) = \texttt{len}(l1) + \texttt{len}(l2) $$</p>
+    <p class="mb-1">La lunghezza della lista ottenuta concatenando due liste è equivalente alla somma delle lunghezze delle due liste.
+                    $$ \forall l1,l2 \in L_A .\; \texttt{len}(\texttt{app}(l1,l2)) = \texttt{len}(l1) + \texttt{len}(l2) $$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list5&theorem_topic=list5&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
@@ -69,6 +69,13 @@
     </div>
     <p class="mb-1">Rovescirare una lista non cambia la sua lungezza.
                     $$ \forall l \in L_A . \; \texttt{len}(\texttt{rev}(l)) = \texttt{len}(l) $$</p>
+  </a>
+  <a href="./proof_env.html?theorem_name=list6&theorem_topic=list6&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 6</h5>
+    </div>
+    <p class="mb-1">Interazione fra \(\texttt{belList}\) e \(\texttt{app}\).
+                    $$ \forall l_1,l_2 \in L_A .\; \forall b \in A .\; \texttt{belList}(\texttt{app}(l_1,l_2),b) = \texttt{belList}(l_1,b) \vee \texttt{belList}(l_2,b) $$</p>
   </a>
 </div>
 

@@ -6,7 +6,7 @@
     "text":
       {
         "english" : "Theorem: \\(\\texttt{app}\\) is associative, i.e. \\[ \\forall l_1,l_2,l_3 \\in L_A . \\texttt{app}(\\texttt{app}(l_1,l_2), l_3) = \\texttt{app}(l_1, \\texttt{app}(l_2, l_3)) \\]",
-        "italiano" : "Teorema: \\(\\texttt{app}\\) e' associativa, i.e. \\[ \\forall l_1,l_2,l_3 \\in L_A . \\texttt{app}(\\texttt{app}(l_1,l_2), l_3) = \\texttt{app}(l_1, \\texttt{app}(l_2, l_3)) \\]"
+        "italiano" : "Teorema: \\(\\texttt{app}\\) è associativa, i.e. \\[ \\forall l_1,l_2,l_3 \\in L_A . \\texttt{app}(\\texttt{app}(l_1,l_2), l_3) = \\texttt{app}(l_1, \\texttt{app}(l_2, l_3)) \\]"
       },
     "coq": "Theorem app_assoc: forall (l1 l2 l3 : list) , app ( app l1 l2) l3 = app l1 (app l2 l3)."
   }

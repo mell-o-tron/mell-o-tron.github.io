@@ -143,7 +143,7 @@ language_selector.select_language(language.trim()).then(() => {
               
               
             for (let d of topic_obj.definitions) {
-              controller.visualizer.visualize_math(d, "definition");
+              controller.visualizer.visualize_math(d, "definition", controller);
             }
 
             for (let d of topic_obj.theorems) {
@@ -151,15 +151,19 @@ language_selector.select_language(language.trim()).then(() => {
             }
 
             for (let d of proof_obj.definitions) {
-              controller.visualizer.visualize_math(d, "definition");
+              controller.visualizer.visualize_math(d, "definition", controller);
             }
               
-            controller.visualizer.visualize_math(proof_obj.theorem, "theorem");
+            controller.visualizer.visualize_math(proof_obj.theorem, "theorem", controller);
             
             
             // Add the available theorems to the menu on the right
             for (let at of controller.available_theorems){
-              controller.visualizer.add_theo_card(at, controller);
+              if (at.name.endsWith("base_clause") || at.name.endsWith("inductive_clause")){
+                controller.visualizer.add_theo_card(at, controller, "available_definitions");
+              } else {
+                controller.visualizer.add_theo_card(at, controller);
+              }
             }
 
             // Add the available tactics to the menu on the right
