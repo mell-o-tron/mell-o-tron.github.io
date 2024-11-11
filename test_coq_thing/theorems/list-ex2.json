@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: Interaction between \\(\\texttt{sumList}\\) and \\(\\texttt{app}\\), i.e. \\[ \\forall l_1,l_2 \\in L_\\mathbb{N} . \\; \\texttt{sumList}(\\texttt{app}(l_1,l_2)) = \\texttt{sumList}(l_1) + \\texttt{sumList}(l_2) \\]",
+        "italiano" : "Teorema: Interazione fra \\(\\texttt{sumList}\\) e \\(\\texttt{app}\\), i.e. \\[ \\forall l_1,l_2 \\in L_\\mathbb{N} . \\; \\texttt{sumList}(\\texttt{app}(l_1,l_2)) = \\texttt{sumList}(l_1) + \\texttt{sumList}(l_2) \\]"
+      },
+    "coq": "Theorem sumList_app: forall l1 l2 : listn , sumList (app l1 l2)  = sumList l1 + sumList l2."
+  }
+} 

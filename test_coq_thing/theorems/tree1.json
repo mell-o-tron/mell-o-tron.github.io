@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{belList}\\) of the pre-visit (\\(\\texttt{visit2}\\)) of a tree is equal to \\(\\texttt{belBT}\\) of the tree, i.e. \\[ \\forall t \\in BT_A . \\; \\forall b \\in A. \\; \\texttt{belList}(\\texttt{visist2}(t),b) = \\texttt{belBT}(t,b) \\]",
+        "italiano" : "Teorema: \\(\\texttt{belList}\\) della visita anticipa (\\(\\texttt{visit2}\\)) di un albero è equivalente a \\(\\texttt{belBT}\\) dell'albero, i.e. \\[ \\forall t \\in BT_A . \\; \\forall b \\in A. \\; \\texttt{belList}(\\texttt{visist2}(t),b) = \\texttt{belBT}(t,b) \\]"
+      },
+    "coq": "Theorem belBT_belList: forall t : bte , forall b : A , belList (visit2 t) b = belBT t b."
+  }
+} 

@@ -5,6 +5,7 @@ class Controller {
     this.manager = manager;
     this.snippet = snippet;
     this.observer = observer;
+    this.observer.controller = this;
     this.visualizer = new Visualizer(observer, language_selector);
     this.available_theorems = [];
     this.available_tactics = [];
@@ -103,6 +104,8 @@ class Controller {
   
   rewrite_theorem(theo_name, direction, occ, var_values, var_names){
     
+    this.visualizer.apply_buttons.forEach(x => {x.disabled = true});
+    
     let var_value_string = ""
     for (let i in var_names) {
       if (var_values[i].trim() != "") {
@@ -114,11 +117,16 @@ class Controller {
     this.add_line(text, this.snippet);
     this.go_next_n(1, true, () => {
       this.coq_history.push(text);
-    }, () => {/*this.go_prev_n(1);*/ alert("Cannot apply tactic or theorem"); this.rm_line()});
+    }, () => {/*this.go_prev_n(1);*/ alert("Cannot apply hypothesis or theorem"); this.rm_line(); 
+      this.visualizer.apply_buttons.forEach(x => {x.disabled = false});
+    });
   
   }
 
   apply_tactic(tac_coq, args){
+    
+    this.visualizer.apply_buttons.forEach(x => {x.disabled = true});
+    
     let tactic_text = tac_coq;
     for (let i in args){
       tactic_text = tactic_text.replace(`$${i}`, args[i]);
@@ -126,7 +134,9 @@ class Controller {
     this.add_line(`${tactic_text}`, this.snippet);
     this.go_next_n(1, true, () => {
       this.coq_history.push(tactic_text);
-    }, () => {/*this.go_prev_n(1);*/ alert("Cannot apply tactic"); this.rm_line()});
+    }, () => {/*this.go_prev_n(1);*/ alert("Cannot apply tactic"); this.rm_line();
+      this.visualizer.apply_buttons.forEach(x => {x.disabled = false});
+    });
   }
 }
 

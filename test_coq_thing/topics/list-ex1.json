@@ -24,6 +24,18 @@
       "coq": "Fixpoint app (x y : list) : list := match x with | [] => y | x::xs => x :: app xs y end.\n"
     },
     {
+      "name": "rev",
+      "is_function": "true",
+      "arity": 1,
+      "display_name": "rev",
+      "text":
+      {
+        "english" : "Let \\( \\texttt{rev} : L_A \\to L_A \\) be defined as follows:<ul style=\"padding : 15px\"><li>Base Clause: \\( \\texttt{rev}([]) = [] \\)</li><li>Inductive Clause: \\( \\texttt{rev}(a :: l') = \\texttt{app}(\\texttt{rev}(l'), [a]) \\).</li></ul>",
+        "italiano" : "Sia \\( \\texttt{rev} : L_A \\to L_A \\) definito come segue:<ul style=\"padding : 15px\"><li>Clausola Base: \\( \\texttt{rev}([]) = [] \\)</li><li>Clausola Induttiva: \\( \\texttt{rev}(a :: l') = \\texttt{app}(\\texttt{rev}(l'), [a]) \\).</li></ul>"
+      },
+      "coq": "Fixpoint rev (l : list) : list := match l with | [] => [] | a :: l' => app (rev l') [a] end.\n"
+    },
+    {
       "name": "belList",
       "is_function" : "true",
       "arity" : 2,
@@ -62,6 +74,32 @@
       },
       "coq": "Theorem app_inductive_clause : forall (l1 : list) (l2 : list) (a : A) , app (a :: l1) l2 = a :: app l1 l2.\nProof.\nAdmitted."
     },
+    {
+      "display_name": {
+        "english": "rev (base clause)",
+        "italiano": "rev (clausola base)"
+      },
+      "name": "rev_base_clause",
+      "text":
+        {
+          "english": "Base clause of the definition of \\(\\texttt{rev}\\): \\[ \\texttt{rev}([]) = [] \\]",
+          "italiano": "Clausola base della definizione di \\(\\texttt{rev}\\): \\[ \\texttt{rev}([]) = [] \\]"
+        },
+        "coq": "Theorem rev_base_clause : rev [] = [].\nProof.\nAdmitted.\n"
+    },
+    {
+      "display_name": {
+        "english": "rev (inductive clause)",
+        "italiano": "rev (clausola induttiva)"
+      },
+      "name": "rev_inductive_clause",
+      "text":
+        {
+          "english": "Inductive clause of the definition of \\(\\texttt{rev}\\): \\[ \\forall l \\in L_A . \\forall a \\in A . \\; \\texttt{rev}(a :: l) = \\texttt{app}(\\texttt{rev}(l), [a]) \\]",
+          "italiano": "Clausola induttiva della definizione di \\(\\texttt{rev}\\): \\[ \\forall l \\in L_A . \\; \\forall a \\in A . \\; \\texttt{rev}(a :: l) = \\texttt{app}(\\texttt{rev}(l), [a]) \\]"
+        },
+      "coq": "Theorem rev_inductive_clause: forall l : list , forall a : A , rev (a :: l) = app (rev l) [a].\nProof.\nAdmitted.\n"
+        },
     {
       "name": "belList_base_clause",
       "display_name": {
@@ -114,6 +152,19 @@
     },
     {
       "display_name": {
+          "english": "\\(\\vee\\) commutativity",
+          "italiano": "Commutatività \\(\\vee\\)"
+        },
+      "name": "or_comm",
+      "text":
+          {
+            "english": "\\(\\vee\\) is commutative:: \\[ \\forall a,b \\in Bool.\\; a \\vee b = b \\vee a \\]",
+            "italiano": "\\(\\vee\\) è commutativa: \\[ \\forall a,b \\in Bool.\\; a \\vee b = b \\vee a \\]"
+          },
+        "coq": "Theorem or_comm : forall a b : Bool , a || b = b || a.\nProof.\nAdmitted.\n"
+    },
+    {
+      "display_name": {
           "english": "app of empty list",
           "italiano": "app di lista vuota"
         },
@@ -137,6 +188,19 @@
             "italiano": "\\(\\texttt{app}\\) è associativa: \\[ \\forall l_1,l_2,l_3 \\in L_A.\\; \\texttt{app}(\\texttt{app}(l_1,l_2),l_3) = \\texttt{app}(l_1,\\texttt{app}(l_2,l_3)) \\]"
           },
       "coq": "Theorem app_assoc: forall l1 l2 l3 : list , app (app l1 l2) l3 = app l1 (app l2 l3).\nProof.\nAdmitted.\n"
+    },
+    {
+      "display_name": {
+          "english": "belList app interaction",
+          "italiano": "interazione belList app"
+        },
+      "name": "belList_app",
+      "text":
+          {
+            "english": "Interaction between \\(\\texttt{belList}\\) and \\(\\texttt{app}\\), i.e. \\begin{multline} \\forall l_1,l_2 \\in L_A . \\; \\forall b \\in A. \\\\ \\texttt{belList}(\\texttt{app}(l_1,l_2),b) = \\texttt{belList}(l_1,b) \\vee \\texttt{belList}(l_2,b) \\end{multline}\\(\\texttt{false}\\) is the identity element of \\(\\vee\\): \\[ \\forall b \\in Bool.\\; \\texttt{false} \\vee b = b \\]",
+        "italiano" : "Interazione fra \\(\\texttt{belList}\\) e \\(\\texttt{app}\\), i.e. \\begin{gather*} \\forall l_1,l_2 \\in L_A . \\; \\forall b \\in A. \\\\ \\texttt{belList}(\\texttt{app}(l_1,l_2),b) =\\\\ \\texttt{belList}(l_1,b) \\vee \\texttt{belList}(l_2,b) \\end{gather*}"
+          },
+    "coq": "Theorem belList_app: forall l1 l2 : list , forall b : A , belList (app l1 l2) b = belList l1 b || belList l2 b.\nProof.\nAdmitted.\n"
     }
   ],
   "tactics" : [

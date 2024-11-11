@@ -40,34 +40,34 @@
       <h5 class="mb-1 theorem-name">Teorema 1</h5>
     </div>
     <p class="mb-1">\(\texttt{app}\) di una lista e la lista vuota equivale alla prima list.
-                    $$ \forall l1 \in L_A .\; \texttt{app}(l1,[]) = l1 $$</p>
+                    $$ \forall l_1 \in L_A .\; \texttt{app}(l_1,[]) = l_1 $$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list2&theorem_topic=list2&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 2</h5>
     </div>
     <p class="mb-1">\(\texttt{app}\) è associativa.
-                    $$ \forall l1,l2,l3 \in L_A .\; \texttt{app}(\texttt{app}(l1,l2),l3) = \texttt{app}(l1,\texttt{app}(l2,l3))$$</p>
+                    $$ \forall l_1,l_2,l_3 \in L_A .\; \texttt{app}(\texttt{app}(l_1,l_2),l_3) = \texttt{app}(l_1,\texttt{app}(l_2,l_3))$$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list3&theorem_topic=list3&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 3</h5>
     </div>
     <p class="mb-1">Interazione fra \(\texttt{rev}\) di \(\texttt{app}\) (distributività di \(\texttt{rev}\) su \(\texttt{app}\)).
-                    $$ \forall l1,l2 \in L_A .\; \texttt{rev}(\texttt{app}(l1,l2)) = \texttt{app}(\texttt{rev}(l2),\texttt{rev}(l1)) $$</p>
+                    $$ \forall l_1,l_2 \in L_A .\; \texttt{rev}(\texttt{app}(l_1,l_2)) = \texttt{app}(\texttt{rev}(l_2),\texttt{rev}(l_1)) $$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list4&theorem_topic=list4&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 4</h5>
     </div>
     <p class="mb-1">La lunghezza della lista ottenuta concatenando due liste è equivalente alla somma delle lunghezze delle due liste.
-                    $$ \forall l1,l2 \in L_A .\; \texttt{len}(\texttt{app}(l1,l2)) = \texttt{len}(l1) + \texttt{len}(l2) $$</p>
+                    $$ \forall l_1,l_2 \in L_A .\; \texttt{len}(\texttt{app}(l_1,l_2)) = \texttt{len}(l_1) + \texttt{len}(l_2) $$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list5&theorem_topic=list5&language=italiano" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 5</h5>
     </div>
-    <p class="mb-1">Rovescirare una lista non cambia la sua lungezza.
+    <p class="mb-1">Rovesciare una lista non cambia la sua lungezza.
                     $$ \forall l \in L_A . \; \texttt{len}(\texttt{rev}(l)) = \texttt{len}(l) $$</p>
   </a>
   <a href="./proof_env.html?theorem_name=list6&theorem_topic=list6&language=italiano" class="list-group-item list-group-item-action">
@@ -77,17 +77,41 @@
     <p class="mb-1">Interazione fra \(\texttt{belList}\) e \(\texttt{app}\).
                     $$ \forall l_1,l_2 \in L_A .\; \forall b \in A .\; \texttt{belList}(\texttt{app}(l_1,l_2),b) = \texttt{belList}(l_1,b) \vee \texttt{belList}(l_2,b) $$</p>
   </a>
+  <h3> Teoremi extra </h3>
+  <a href="./proof_env.html?theorem_name=list-ex1&theorem_topic=list-ex1&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 1</h5>
+    </div>
+    <p class="mb-1">Interazione fra \(\texttt{belList}\) e \(\texttt{rev}\).
+    $$ \forall l \in L_A . \; \forall b \in A. \; \texttt{belList}(\texttt{rev}(l),b) = \texttt{belList}(l,b) $$ </p>
+  </a>
+  <a href="./proof_env.html?theorem_name=list-ex2&theorem_topic=list-ex2&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 2</h5>
+    </div>
+    <p class="mb-1">Interazione fra \(\texttt{sumList}\) e \(\texttt{app}\).
+    $$ \forall l_1,l_2 \in L_\mathbb{N} . \; \texttt{sumList}(\texttt{app}(l_1,l_2)) = \texttt{sumList}(l_1) + \texttt{sumList}(l_2) $$ </p>
+  </a>
 </div>
 
    <h1> Alberi </h1>
-   <ul>
-   <li>
-   Teorema 1
-   </li>
-   <li>
-   Teorema 2
-   </li>
-   </ul>
+   <div class="list-group theorem-l">
+  <a href="./proof_env.html?theorem_name=tree1&theorem_topic=tree1&language=italiano" class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 1</h5>
+    </div>
+    <p class="mb-1"> \(\texttt{belList}\) della visita anticipa (\(\texttt{visit2}\)) di un albero è equivalente a \(\texttt{belBT}\) dell'albero.
+$$ \forall t \in BT_A . \; \forall b \in A. \; \texttt{belList}(\texttt{visist2}(t),b) = \texttt{belBT}(t,b) $$
+    </p>
+  </a>
+  <a href="./proof_env.html?theorem_name=tree2&theorem_topic=tree2&language=italiano" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 2</h5>
+    </div>
+    <p class="mb-1"> \(\texttt{sumList}\) della visita anticipa (\(\texttt{visit2}\)) di un albero è equivalente a \(\texttt{sumBT}\) dell'albero.
+$$ \forall t \in BT_\mathbb{N} . \; \texttt{sumList}(\texttt{visit2}(t)) = \texttt{sumBT}(t) $$
+    </p>
+  </a>
    </div>
       <script>
          const queryString = window.location.search;

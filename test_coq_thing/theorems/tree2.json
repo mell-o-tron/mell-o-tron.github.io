@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{sumList}\\) of the pre-visit of a tree (\\(\\texttt{visit2}\\)) is equal to \\(\\texttt{sumBT}\\) of the tree, i.e. \\[ \\forall t \\in BT_\\mathbb{N} . \\; \\texttt{sumList}(\\texttt{visit2}(t)) = \\texttt{sumBT}(t) \\]",
+        "italiano" : "Teorema: \\(\\texttt{sumList}\\) della visita anticipa (\\(\\texttt{visit2}\\)) di un albero è equivalente a \\(\\texttt{sumBT}\\) dell'albero, i.e. \\[ \\forall t \\in BT_\\mathbb{N} . \\; \\texttt{sumList}(\\texttt{visit2}(t)) = \\texttt{sumBT}(t) \\]"
+      },
+    "coq": "Theorem sumList_sumBT: forall t : btn , sumList (visit2 t) = sumBT t."
+  }
+} 

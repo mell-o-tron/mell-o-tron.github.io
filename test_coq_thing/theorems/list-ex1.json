@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: Interaction between \\(\\texttt{belList}\\) and \\(\\texttt{app}\\), i.e. \\[ \\forall l_1,l_2 \\in L_A . \\; \\forall b \\in A. \\; \\texttt{belList}(\\texttt{app}(l_1,l_2),b) = \\texttt{belList}(l_1,b) \\vee \\texttt{belList}(l_2,b) \\]",
+        "italiano" : "Teorema: Interazione fra \\(\\texttt{belList}\\) e \\(\\texttt{rev}\\), i.e. \\[ \\forall l \\in L_A . \\; \\forall b \\in A. \\; \\texttt{belList}(\\texttt{rev}(l),b) = \\texttt{belList}(l,b) \\]"
+      },
+    "coq": "Theorem belList_rev: forall l : list , forall b : A , belList (rev l) b = belList l b."
+  }
+} 

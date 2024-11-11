@@ -53,6 +53,7 @@ class Observer {
     this.new_goals = [];
     this.vis_fun = (() => {});
     this.has_goals = false;   // used to check if proof is finished.
+    this.controller = null;
   }
   
   undo_goal_history() {
@@ -140,6 +141,8 @@ class Observer {
      this.has_goals = false; 
     }
     this.vis_fun();
+    
+    if (this.controller) this.controller.visualizer.apply_buttons.forEach(x => {x.disabled = false});
     
     // scrolls down
     let div = document.getElementById("scroooool");

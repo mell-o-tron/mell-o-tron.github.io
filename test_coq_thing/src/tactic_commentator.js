@@ -28,15 +28,22 @@ function same_goal (g1, g2){
 
 class TacticCommentator {
     constructor(language_selector, observer) {
-        this.texifier = new TeXifier(); // Create an instance of PlainTextifier for inline_math
+        this.texifier = new TeXifier();
         this.language_selector = language_selector;
         this.observer = observer;
         
-        this.inductive_goal = {};
+        this.inductive_goal_stack = []; // for nested induction
+        this.inductive_goal_history = [];     // stack of stacks, for undo
     }
 
+    undo_stack() {
+        this.inductive_goal_stack = this.inductive_goal_history.pop();
+    }
+    
     // Method to generate a comment based on the tactic
     tactic_comment(tactic, text, uncurrifier) {
+        this.inductive_goal_history.push(structuredClone(this.inductive_goal_stack));
+        console.log("INDUCTION HISTORY: ", this.inductive_goal_history)
         switch (tactic) {
             case "induction":
                 let s = `${this.language_selector.current_language.BYINDUCTION} ${this.texifier.inline_math(text.replace("induction", "").replace(".", ""))}. `;
@@ -46,19 +53,19 @@ class TacticCommentator {
                 console.log("new goals are:", new_goals, new_goals.length)
                 
                 if(new_goals.length == 2){
-                    this.inductive_goal = new_goals[1]; // save inductive case goal
-                    
+                    this.inductive_goal_stack.push(new_goals[1]); // save inductive case goal
+                                      
                     let ng0 = this.texifier.texify(uncurrifier.uncurrify(new_goals[0].goal));
                     
-                    let hps1 = new_goals[1].hypotheses.map(x => `${x.name} : ${uncurrifier.uncurrify(x.body)}`).join(" \\\\")
+                    let hps1 = new_goals[1].hypotheses.map(x => `${x.name} : ${uncurrifier.uncurrify(x.body)}`).join(" \\\\\n")
                     
                     let ng1 = this.texifier.texify(`\\begin{gather*}${hps1} \\\\ \\Downarrow \\\\ ${uncurrifier.uncurrify(new_goals[1].goal)}\\end{gather*}`);
                     
                     let base_clause_text = this.language_selector.current_language.BASECLAUSE;
                     let inductive_clause_text = this.language_selector.current_language.INDUCTIVECLAUSE;
                     
-                    s += `<ul style="margin : 20px;"><li>${base_clause_text}: <div class="scroll-equation">${(ng0)}</div></li>`;
-                    s += `<li>${inductive_clause_text}: <div class="scroll-equation">${(ng1)}</div></li></ul>`;
+                    s += `<ul style="margin : 20px;"><li>${base_clause_text}:${(ng0)}</li>`;
+                    s += `<li>${inductive_clause_text}: ${(ng1)}</li></ul>`;
                 } else{
                     // WARNING NOT TESTED
                     
@@ -66,7 +73,7 @@ class TacticCommentator {
                     for (let i in new_goals){
                         let hpsi = new_goals[i].hypotheses.map(x => `${x.name} : ${uncurrifier.uncurrify(x.body)}`).join(" \\\\ \\wedge \\;\\; &")
                         let ngi = this.texifier.texify(`\\begin{aligned}&${hpsi} \\\\ \\implies &${uncurrifier.uncurrify(new_goals[i].goal)}\\end{aligned}`);
-                        s += `<li><div class="scroll-equation">(${(ng0)})</div></li>`;
+                        s += `<li>(${(ng0)})</li>`;
                     }
                     s += "</ul>";
                 }
@@ -83,13 +90,22 @@ class TacticCommentator {
             case "reflexivity":
                 let res = "";
                 
-                console.log("INDUCTIVE", this.inductive_goal)
+                let cur_inductive_goal = this.inductive_goal_stack[this.inductive_goal_stack.length - 1];
+                
+                console.log("INDUCTIVE", cur_inductive_goal)
                 console.log("CURRENT", this.observer.current_goal)
+                console.log("STACK", this.inductive_goal_stack)
+                
                 res += `${this.language_selector.current_language.REFL}.`;
                 
-                if(this.inductive_goal && same_goal(this.inductive_goal, this.observer.current_goal)){
-                    res += `<br><div style="text-align: center;"><b>` + this.language_selector.current_language.END_OF_BASE_CASE + "</b></div><br>"
-                    this.inductive_goal = {};
+                if(cur_inductive_goal && same_goal(cur_inductive_goal, this.observer.current_goal)){                 
+                    this.inductive_goal_stack.pop();
+
+                    // Create finish base case box
+                    let fin = document.createElement('div');
+                    fin.className = "end-case";
+                    fin.innerHTML = "<b>" + this.language_selector.current_language.END_OF_BASE_CASE + "</b>";
+                    document.getElementById("latex-proof").appendChild(fin);
                     
                 }
                 return res;

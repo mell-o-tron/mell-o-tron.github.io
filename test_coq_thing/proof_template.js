@@ -24,7 +24,14 @@ async function readJsonFile(url) {
     }
 }
 
-
+function loading_set_number_daemon (manager) {
+  console.log("DAEMON")
+  let loading = document.getElementById("loading");
+  if(loading.style.display != "none") {
+    loading.innerHTML = `<h1>Loading...</h1>(${manager.doc.sentences.length} lines loaded)`
+    setTimeout(loading_set_number_daemon, 100, manager);
+  }
+}
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -79,10 +86,12 @@ language_selector.select_language(language.trim()).then(() => {
 
         manager_promise.then(function(manager) {
 
+          loading_set_number_daemon(manager);
+          
           // waits for coq to be ready
           manager.when_ready.then(function (result){
 
-            let coq_observer = new Observer;
+            let coq_observer = new Observer();
             manager.coq.observers.push(coq_observer);
 
             console.log("COQ READY")

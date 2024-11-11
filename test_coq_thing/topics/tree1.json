@@ -12,6 +12,23 @@
       "coq": "Notation Bool := bool.\nVariable A : Type.\nVariable eqA : A -> A -> Bool.\nInfix \"==\" := eqA (at level 60). \nNotation \"x || y\" := (orb x y).\nInductive list : Type := | nil : list | cons : A -> list -> list.\nInfix \"::\" := cons (at level 60, right associativity).\nNotation \"[ ]\" := nil (format \"[ ]\").\nNotation \"[ x ]\" := (cons x nil).\nNotation \"[ x ; y ; .. ; z ]\" := (cons x (cons y .. (cons z nil) ..)).\n"
     },
     {
+      "name": "bte",
+      "is_function" : "false",
+      "display_name": "bte",
+      "constructors": [
+        {
+          "name": "N",
+          "arity": 3
+        }
+      ],
+      "text":
+        {
+          "english" : "Let \\(A\\) be a set. The set \\(L_A\\) of lists of elements of \\( A \\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\([] \\in L_A\\)</li><li>Inductive Clause: \\(\\forall a \\in A .\\; \\forall l \\in L_A .\\; a :: [] \\in L_A \\).</li></ul>The notation \\( a::b::c::[] \\) is equivalent to \\([a, b, c]\\).",
+          "italiano": "Sia \\(A\\) un insieme. L'insieme \\({BT}_A\\) degli alberi binari etichettati con elementi di \\( A \\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\(\\lambda \\in BT_A\\)</li><li> Clausola Induttiva: \\(\\forall a \\in A .\\; t_1,t_2 \\in BT_A .\\; N(t_1,a,t_2) \\in BT_A \\).</li></ul>La notazione \\( a::b::c::[] \\) è equivalente alla notazione \\([a, b, c]\\)."
+        },
+      "coq": "Inductive bte : Type := | lmd : bte | N : bte -> A -> bte -> bte.\n"
+    },
+    {
       "name": "app",
       "is_function" : "true",
       "arity" : 2,
@@ -34,6 +51,30 @@
         "italiano" : "Sia \\( \\texttt {belList} : L_A \\times A \\to Bool \\) definita come segue:<ul style=\"padding : 15px;\"><li>Clausola Base: \\( \\texttt{belList}([], b) = \\texttt{false} \\)</li><li>Clausola Induttiva: \\( \\texttt{belList}(a :: l, b) = \\begin{cases} \\texttt{true} & \\text{if}\\; a == b\\\\ \\texttt{belList}(l, b) & \\text{otherwise}\\end{cases}\\)</li></ul>"
       },
       "coq": "Fixpoint belList (l : list) (b : A) : Bool := match l with | [] => false | a::l' => if a == b then true else belList l' b end.\n"
+    },
+    {
+      "name": "belBT",
+      "is_function" : "true",
+      "arity" : 2,
+      "display_name": "belBT",
+      "text":
+      {
+        "english" : "Let \\( \\texttt {belList} : BT_A \\times A \\to Bool \\) be defined as follows:<ul style=\"padding : 15px;\"><li>Base Clause: \\( \\texttt{belBT}(\\lambda, b) = \\texttt{false} \\)</li><li>Inductive Clause: \\( \\texttt{belBT}(N(t_1,a,t_2), b) = \\begin{cases} \\texttt{true} & \\text{if}\\; a == b\\\\ \\texttt{belBT}(t_1, b) \\vee belBT(t_2, b) & \\text{otherwise}\\end{cases}\\)</li></ul>",
+        "italiano" : "Sia \\( \\texttt {belList} : BT_A \\times A \\to Bool \\) definita come segue:<ul style=\"padding : 15px;\"><li>Clausola Base: \\( \\texttt{belBT}(\\lambda, b) = \\texttt{false} \\)</li><li>Clausola Induttiva: \\( \\texttt{belBT}(N(t_1,a,t_2), b) = \\begin{cases} \\texttt{true} & \\text{if}\\; a == b\\\\ \\texttt{belBT}(t_1, b) \\vee belBT(t_2, b) & \\text{otherwise}\\end{cases}\\)</li></ul>"
+      },
+      "coq": "Fixpoint belBT (t : bte) (b : A) : Bool := match t with | lmd => false | N t1 a t2 => if a == b then true else belBT t1 b || belBT t2 b end.\n"
+    },
+    {
+      "name": "visit2",
+      "is_function" : "true",
+      "arity" : 1,
+      "display_name": "visit2",
+      "text":
+      {
+        "english" : "Let \\( \\texttt {visit2} : BT_A \\to L_A \\) be defined as follows:<ul style=\"padding : 15px;\"><li>Base Clause: \\( \\texttt{visit2}(\\lambda) = [] \\)</li><li>Inductive Clause: \\( \\texttt{visit2}(N(t_1,a,t_2) = a :: \\texttt{app}(\\texttt{visit2}(t_1),\\texttt{visit2}(t_2))\\)</li></ul>",
+        "italiano" : "Sia \\( \\texttt {visit2} : BT_A \\to L_A \\) definita come segue:<ul style=\"padding : 15px;\"><li>Clausola Base: \\( \\texttt{visit2}(\\lambda) = [] \\)</li><li>Clausola Induttiva: \\( \\texttt{visit2}(N(t_1,a,t_2) = a :: \\texttt{app}(\\texttt{visit2}(t_1),\\texttt{visit2}(t_2))\\)</li></ul>"
+      },
+      "coq": "Fixpoint visit2 (t : bte) : list := match t with | lmd => [] | N t1 a t2 => a :: app (visit2 t1) (visit2 t2) end.\n"
     }
 
       ],
@@ -87,6 +128,54 @@
       "coq": "Theorem belList_inductive_clause : forall (l : list) , forall (a b : A) , belList (a :: l) b = if a == b then true else belList l b.\nProof.\nAdmitted."
     },
     {
+      "name": "belBT_base_clause",
+      "display_name": {
+        "english": "belBT (base clause)",
+        "italiano": "belBT (clausola base)"
+      },
+      "text": {
+        "english": "Base clause of definition of \\(\\texttt{belBT}\\):\\[ \\forall b \\in A .\\; \\texttt{belBT}(\\lambda, b) = \\texttt{false} \\]",
+        "italiano": "Clausola base della definizione di \\(\\texttt{belBT}\\):\\[ \\forall b \\in A .\\; \\texttt{belBT}(\\lambda, b) = \\texttt{false} \\]"
+      },
+      "coq": "Theorem belBT_base_clause : forall (b : A), belBT lmd b = false.\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "name": "belBT_inductive_clause",
+      "display_name": {
+        "english": "belBT (inductive clause)",
+        "italiano": "belBT (clausola induttiva)"
+      },
+      "text": {
+        "english": "Inductive clause of the definition of \\(\\texttt{belBT}\\): \\begin{multline} \\forall t_1,t_2 \\in BT_A.\\; \\forall a,b \\in A .\\\\ \\texttt{belBT}(N(t_1, a, t_2),  b) = \\begin{cases} \\texttt{true} & \\text{if}\\; a == b\\\\ \\texttt{belBT}(t1, b) \\vee \\texttt{belBT}(t2, b) & \\text{otherwise}\\end{cases} \\end{multline}",
+        "italiano": "Clausola induttiva della definizione di \\(\\texttt{belBT}\\): \\begin{multline} \\forall t_1,t_2 \\in BT_A.\\; \\forall a,b \\in A .\\\\ \\texttt{belBT}(N(t_1, a, t_2), b) = \\begin{cases} \\texttt{true} & \\text{if}\\; a == b\\\\ \\texttt{belBT}(t1, b) \\vee \\texttt{belBT}(t2, b) & \\text{otherwise}\\end{cases} \\end{multline}"
+      },
+      "coq": "Theorem belBT_inductive_clause : forall (t1 t2 : bte) , forall (a b : A) , belBT (N t1 a t2) b = if a == b then true else belBT t1 b || belBT t2 b.\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "name": "visit2_base_clause",
+      "display_name": {
+        "english": "visit2 (base clause)",
+        "italiano": "visit2 (clausola base)"
+      },
+      "text": {
+        "english": "Base clause of definition of \\(\\texttt{visit2}\\):\n\n\\[ \\texttt{visit2}(\\lambda) = [] \\]",
+        "italiano": "Clausola base della definizione di \\(\\texttt{visit2}\\):\n\n\\[ \\texttt{visit2}(\\lambda) = [] \\]"
+      },
+      "coq": "Theorem visit2_base_clause : visit2 lmd = [].\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "name": "visit2_inductive_clause",
+      "display_name": {
+        "english": "visit2 (inductive clause)",
+        "italiano": "visit2 (clausola induttiva)"
+      },
+      "text": {
+        "english": "Inductive clause of the definition of \\(\\texttt{visit2}\\):\n\n\\begin{gather*} \\forall t_1,t_2 \\in L_A .\\; \\forall a \\in A .\\\\ \\texttt{visit2}(N(t_1, a, t_2)) =\\\\ a :: \\texttt{app}(\\texttt{visit2}(t_1), \\texttt{visit2}(t_2)) \\end{gather*}",
+        "italiano": "Clausola induttiva della definizione di \\(\\texttt{visit2}\\):\n\n\\begin{gather*} \\forall t_1,t_2 \\in L_A .\\; \\forall a \\in A .\\\\ \\texttt{visit2}(N(t_1, a, t_2)) =\\\\ a :: \\texttt{app}(\\texttt{visit2}(t_1), \\texttt{visit2}(t_2)) \\end{gather*}"
+      },
+      "coq": "Theorem visit2_inductive_clause : forall (t1 t2 : bte) (a : A) , visit2 (N t1 a t2) = a :: app (visit2 t1) (visit2 t2).\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
       "display_name": {
           "english": "\\(\\vee\\) absorbtion",
           "italiano": "Assorbimento \\(\\vee\\)"
@@ -137,6 +226,19 @@
             "italiano": "\\(\\texttt{app}\\) è associativa: \\[ \\forall l_1,l_2,l_3 \\in L_A.\\; \\texttt{app}(\\texttt{app}(l_1,l_2),l_3) = \\texttt{app}(l_1,\\texttt{app}(l_2,l_3)) \\]"
           },
       "coq": "Theorem app_assoc: forall l1 l2 l3 : list , app (app l1 l2) l3 = app l1 (app l2 l3).\nProof.\nAdmitted.\n"
+    },
+    {
+      "display_name": {
+          "english": "\\(\\vee\\) identity",
+          "italiano": "belList app"
+        },
+      "name": "belList_app",
+      "text":
+          {
+            "english": "\\(\\texttt{false}\\) is the identity element of \\(\\vee\\): \\[ \\forall b \\in Bool.\\; \\texttt{false} \\vee b = b \\]",
+        "italiano" : "Interazione fra \\(\\texttt{belList}\\) e \\(\\texttt{app}\\), i.e. \\begin{gather*} \\forall l_1,l_2 \\in L_A . \\; \\forall b \\in A. \\\\ \\texttt{belList}(\\texttt{app}(l_1,l_2),b) = \\\\ \\texttt{belList}(l_1,b) \\vee \\texttt{belList}(l_2,b) \\end{gather*}"
+          },
+    "coq": "Theorem belList_app: forall l1 l2 : list , forall b : A , belList (app l1 l2) b = belList l1 b || belList l2 b.\nProof.\nAdmitted.\n"
     }
   ],
   "tactics" : [

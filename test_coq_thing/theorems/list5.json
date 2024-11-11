@@ -6,7 +6,7 @@
     "text":
       {
         "english" : "Teorema: Reversing a list doesn't change it's length, i.e. \\[ \\forall l \\in L_A . \\; \\texttt{len}(\\texttt{rev}(l)) = \\texttt{len}(l) \\]",
-        "italiano" : "Teorema: Rovescirare una lista non cambia la sua lungezza, i.e. \\[ \\forall l \\in L_A . \\; \\texttt{len}(\\texttt{rev}(l)) = \\texttt{len}(l) \\]"
+        "italiano" : "Teorema: Rovesciare una lista non cambia la sua lungezza, i.e. \\[ \\forall l \\in L_A . \\; \\texttt{len}(\\texttt{rev}(l)) = \\texttt{len}(l) \\]"
       },
     "coq": "Theorem len_rev: forall l : list , len (rev l) = len l."
   }

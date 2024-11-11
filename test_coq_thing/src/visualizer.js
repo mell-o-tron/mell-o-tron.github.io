@@ -3,6 +3,7 @@ import { TacticCommentator } from "./tactic_commentator.js";
 import {LanguageSelector} from "./multilang.js"
 import {Hinter} from "./hinter.js"
 import {Uncurrifier} from "./uncurrifier.js"
+import {Currifier} from "./currifier.js"
 import {TheoremParser} from "./theorem_parser.js"
 
 
@@ -14,6 +15,8 @@ class Visualizer {
         this.language_selector = language_selector;
         
         this.step_list = [];
+        
+        this.apply_buttons = []
 
         // List of tactics and terminators
         this.tactics = [
@@ -93,9 +96,13 @@ class Visualizer {
             let text = ""
             if (this.observer.current_goal.hypotheses.length > 0) {
                 text += this.language_selector.current_language.ASSUMING; //"Assuming the following hypotheses:";
+                // Put all hypothesis in a centered LaTeX environment, so their vertical spacing is correct.
+                let hps = "\\begin{gather*}\n";
                 for (let h of this.observer.current_goal.hypotheses){
-                    text += this.texifier.texify (`{${h.name}}` + " : " + uncurrifier.uncurrify(h.body))
+                    hps += `{${h.name}}` + " : " + uncurrifier.uncurrify(h.body) + "\\\\";
                 }
+                hps += "\n\\end{gather*}";
+                text += this.texifier.texify(hps);
             }
             
             text += `${this.language_selector.current_language.PROVE}:` + this.texifier.texify(uncurrifier.uncurrify(this.observer.current_goal.goal));
@@ -150,9 +157,16 @@ class Visualizer {
                 controller.observer.populate_hyps();
                 this.step_list.pop();
                 controller.coq_history.pop();
+                controller.visualizer.tacticCommentator.undo_stack();
 
                 if(this.step_list.length > 0)
                     this.step_list[this.step_list.length - 1].bottom_bar.style.display = "block";
+
+                // If this node closed a case then we remove the closed case text box (if the node before this one is the closed case text box, then it must mean that this step was the one that closed the case, so the case uncloses when we undo it)
+                let siblings = bigBox.parentNode.children;
+                if (siblings[siblings.length-2] && siblings[siblings.length-2].className == "end-case") {
+                    siblings[siblings.length-2].remove();
+                }
 
                 bigBox.remove();
             };
@@ -234,6 +248,8 @@ class Visualizer {
                     controller.apply_tactic(d.initial_hint.coq);
                 }).bind(controller);
                 
+                controller.visualizer.apply_buttons.push(hint_button);
+                
                 hintbox.appendChild(hint_button);
         }
         
@@ -302,19 +318,23 @@ class Visualizer {
             var_inputs.push(var_input);
         }
         
+        let currifier = new Currifier(controller);
         
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
         rw_lr.textContent = `${local_langsel.current_language.APPLY} (→)`;
-        rw_lr.onclick = () => {controller.rewrite_theorem(at.name, true, occ.value, var_inputs.map(x => x.value), theorem_variables)};
-
+        rw_lr.onclick = () => {controller.rewrite_theorem(at.name, true, occ.value, var_inputs.map(x => currifier.currify(x.value)), theorem_variables)};
+        
+        controller.visualizer.apply_buttons.push(rw_lr);
+        
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
         
         
-        rw_rl.onclick = () => {controller.rewrite_theorem(at.name, false, occ.value, var_inputs.map(x => x.value), theorem_variables)};
+        rw_rl.onclick = () => {controller.rewrite_theorem(at.name, false, occ.value, var_inputs.map(x => currifier.currify(x.value)), theorem_variables)};
         rw_rl.textContent = `${local_langsel.current_language.APPLY} (←)`;
         
+        controller.visualizer.apply_buttons.push(rw_rl);
         
         let hidden_section = document.createElement('div');
         hidden_section.style.display = "none";
@@ -404,6 +424,8 @@ class Visualizer {
             let args = tboxes.map(x => {return x.value});
             controller.apply_tactic(at.coq, args)
         };
+        
+        controller.visualizer.apply_buttons.push(apply_button);
 
 
         theobox.appendChild(header);
@@ -453,10 +475,14 @@ class Visualizer {
         rw_lr.textContent = `${local_langsel.current_language.APPLY} (→)`;
         rw_lr.onclick = () => {controller.rewrite_theorem(tbox.value, true, occ.value, [], [])};
 
+        controller.visualizer.apply_buttons.push(rw_lr);
+        
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
         rw_rl.onclick = () => {controller.rewrite_theorem(tbox.value, false, occ.value, [], [])};
         rw_rl.textContent = `${local_langsel.current_language.APPLY} (←)`;
+        
+        controller.visualizer.apply_buttons.push(rw_rl);
         
         hypbox.appendChild(header);
         hypbox.appendChild(theodesc);

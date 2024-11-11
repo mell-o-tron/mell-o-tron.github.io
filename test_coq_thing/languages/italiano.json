@@ -5,7 +5,7 @@
   "BYINDUCTION" : "Procediamo per induzione su ",
   "INTRO" : "Introduciamo una nuova ipotesi",
   "INTROS" : "Introduciamo delle nuove ipotesi",
-  "REFL" : "I due lati dell'uguaglianza sono identci: procediamo per riflessività",
+  "REFL" : "I due lati dell'uguaglianza sono identici: procediamo per riflessività",
   "RIGHTTOLEFT" : "da destra a sinistra",
   "LEFTTORIGHT" : "da sinistra a destra",
   "CONCLUDED" : "dimostrazione conclusa",
