@@ -38,7 +38,8 @@ class TeXifier {
             ["forall", "\\forall"],
             ["exists", "\\exists"],
             ["->", "\\to"],
-            ["nat", "\\mathbb{N}"],
+            [" nat", "\\mathbb{N}"],
+//            ["N", "\\mathbb{N}"],
             [",", " ."],
             ["→", "\\to"],
             ["ℕ", "\\mathbb{N}"],
@@ -46,6 +47,7 @@ class TeXifier {
             ["list", "L_A"],
             ["btn", "BT_\\mathbb{N}"],
             ["bte", "BT_A"],
+            ["nterm", "\\mathcal{N}Term"],
             ["false", "\\texttt{false}"],
             ["true", "\\texttt{true}"],
             ["||", "\\vee"],
@@ -88,10 +90,22 @@ class TeXifier {
     texify_common(text){
         let res = this.replace_ifs(text);
         
+        for (let x of res.matchAll(/\^/g)) {
+            if (res.substring(x.index+1).trim().startsWith("(")) {
+                let ind = end_or_first_unmatched_rpar(res,x.index)
+                res = res.substring(0, x.index+1) + res.substring(x.index+1, ind).replace("(","{") + "}" + res.substring(ind+1)
+            }
+            else {
+                let after = res.substring(x.index+1).trim().match(/(?:^(.+?)\s+(.*)|^.+)/s)
+                res = res.substring(0,x.index+1) + "{" + (after[1] ? after[1] : after[0]) + "}" + (after[2] ? after[2] : "")
+            }
+        }
+        
         for (let r of this.replacements) {
             res = res.replaceAll(r[0], r[1]);
         }
-        res = res.replaceAll(/([a-zA-Z0-9]) ([a-zA-Z0-9])/g, "$1\\;$2")
+
+        res = res.replaceAll(/^(?<=\\)([a-zA-Z0-9]) ([a-zA-Z0-9])/g, "$1\\;$2")
         res = res.replaceAll(/([\s\(;][a-zA-Z])([0-9]+)/g, "$1_{$2}")
         
         

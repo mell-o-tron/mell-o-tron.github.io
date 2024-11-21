@@ -22,9 +22,10 @@ body, html {
 
 .home_page {
     padding-top: 50px;
+    margin-top: 20px;
     height : 100%;
-    margin-left : 15%;
-    margin-right : 15%;
+    margin-left : 10%;
+    margin-right : 10%;
 }
 
 .my_container {
@@ -262,7 +263,8 @@ width: 30%;
 .theorem-l {
     margin-left: 1.5em;
     width: 80%;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
+
 }
 
 .theorem-name {

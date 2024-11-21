@@ -73,7 +73,7 @@
   ],
   "tactics" : [
     {
-      "name": "induction","display_name": {"english":"induction", "italiano" : "induzione"},
+      "name": "induction",
       "n_params" : 1,
       "param_types" : ["text"],
       "text":
@@ -85,7 +85,7 @@
     },
 
     {
-      "name": "intro", "display_name": {"english":"variable introduction", "italiano" : "introduzione di variabile"},
+      "name": "intro",
       "n_params" : 0,
       "text":
         {
@@ -96,7 +96,7 @@
     },
 
     {
-      "name": "reflexivity", "display_name": {"english":"reflexivity", "italiano" : "riflessività"},
+      "name": "reflexivity",
       "n_params" : 0,
       "text":
         {

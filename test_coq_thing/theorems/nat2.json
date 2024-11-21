@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{mul}\\) is correct (\\(\\texttt{mul}\\) of two \\(\\mathcal{N}Term\\) is equivalent to the product of the corresponding corrispondent numerical values of the two \\(\\mathcal{N}Term\\)), i.e. \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{mul}(n,m)) = \\texttt{val}(n) * \\texttt{val}(m) \\]",
+        "italiano" : "Teorema: \\(\\texttt{mul}\\) è corretta (\\(\\texttt{mul}\\) di due \\(\\mathcal{N}Term\\) equivale al prodotto dei corrispondenti valori numerici dei due \\(\\mathcal{N}Term\\)), i.e. \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{mul}(n,m)) = \\texttt{val}(n) * \\texttt{val}(m) \\]"
+      },
+    "coq": "Theorem val_mul: forall n m : nterm , val (mul n m) = val n * val m."
+  }
+} 

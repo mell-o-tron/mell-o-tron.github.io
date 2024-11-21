@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{add}\\) of an \\(\\mathcal{N}Term\\) and the succesor of another \\(\\mathcal{N}Term\\) equals the successor of the sum of the two \\(\\mathcal{N}Term), i.e. \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, S(m)) = S(add(n,m)) \\]",
+        "italiano" : "Teorema: \\(\\texttt{add}\\) di un qualsiasi \\(\\mathcal{N}Term\\) e il succesore di un'altro \\(\\mathcal{N}Term\\) equivale al succesore della somma dei due \\(\\mathcal{N}Term), i.e. \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, S(m)) = S(add(n,m)) \\]"
+      },
+    "coq": "Theorem add_succ: forall n m : nterm , add n (S m) = S (add n m)."
+  }
+} 

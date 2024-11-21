@@ -26,7 +26,7 @@ class Visualizer {
             "exists", "field", "firstorder", "fold", "fourier", "generalize", "have", "hnf", "induction", "injection", "instantiate", "intro",
             "intros", "inversion", "left", "move", "pattern", "pose", "refine", "remember", "rename", "repeat", "replace", "revert", "rewrite",
             "right", "ring", "set", "simpl", "specialize", "split", "subst", "suff", "symmetry", "transitivity", "trivial", "try", "unfold",
-            "unlock", "using", "vm_compute", "where", "wlog"
+            "unlock", "using", "vm_compute", "where", "wlog", "ring_simplify", "destruct_with_eqn"
         ];
         this.terminators = [
             "assumption", "eassumption", "by", "contradiction", "discriminate", "easy", "exact", "now", "lia", "omega", "reflexivity", "tauto"
@@ -64,7 +64,19 @@ class Visualizer {
                 content.innerHTML = "";
                 
                 const QED = new Image(300);
-                QED.src = "./imgs/QED.png";
+
+                let memes = ["./imgs/exactly.gif",
+                             "./imgs/obiwan.png",
+                             "./imgs/Q.jpg",
+                             "./imgs/conte.png",
+                             "./imgs/pippo.png",
+                             "./imgs/gervasi.png",
+                            ];
+
+                const random = Math.floor(Math.random() * memes.length);
+
+
+                QED.src = memes[random];
                 content.appendChild(QED);
                 
                 let bottom_bar = document.createElement('div');
@@ -99,7 +111,7 @@ class Visualizer {
                 // Put all hypothesis in a centered LaTeX environment, so their vertical spacing is correct.
                 let hps = "\\begin{gather*}\n";
                 for (let h of this.observer.current_goal.hypotheses){
-                    hps += `{${h.name}}` + " : " + uncurrifier.uncurrify(h.body) + "\\\\";
+                    hps += `{${h.name}}` + " : " + uncurrifier.uncurrify(h.body) + " \\\\\n";
                 }
                 hps += "\n\\end{gather*}";
                 text += this.texifier.texify(hps);
@@ -117,7 +129,7 @@ class Visualizer {
             bigBox.className = 'goal-bigBox';
             let enumeration = document.createElement("p");
             enumeration.className = 'goal-enum';
-            enumeration.innerHTML = `${(this.step_list.length +1)}.`;
+            enumeration.innerHTML = `${(this.step_list.length /*+1*/)}.`;
 
             bigBox.appendChild(enumeration);
             let box = document.createElement("div");
@@ -188,6 +200,7 @@ class Visualizer {
                 hint_button.className = "btn btn-primary";
                 hint_button.textContent = h.name;
                 hint_button.onclick = h.func;
+                controller.visualizer.apply_buttons.push(hint_button);
                 
                 hintbox.appendChild(hint_button);
             }
@@ -227,7 +240,7 @@ class Visualizer {
         header.textContent = local_langsel.current_language[`${type}`]
         
         let content = document.createElement('div');
-        content.className = 'math-content';
+        content.className = 'math-content scroll-equation';
         content.innerHTML = text;
         
         let bottom_bar = document.createElement('div');
@@ -260,8 +273,13 @@ class Visualizer {
             box.appendChild(bottom_bar);
         }
 
+        if(type == "theorem") {
+            this.step_list.push({content : "", bottom_bar : bottom_bar});
+        }
+
         document.getElementById("latex-proof").appendChild(box);
         MathJax.typeset();
+
     }
 
     add_theo_card(at, controller, type_id = "available_theorems") {
@@ -281,7 +299,7 @@ class Visualizer {
         theodesc_container.className = 'math-content-container';
         
         let theodesc = document.createElement("div");
-        theodesc.className = 'math-content';
+        theodesc.className = 'math-content scroll-equation';
 
         theodesc.textContent = at.text[`${local_langsel.current_language.language_name}`];
 
@@ -297,7 +315,7 @@ class Visualizer {
         
         let occ_container = document.createElement('div');
         occ_container.className = "tbox-container";
-        occ_container.textContent = "occurrence: "          // TODO language
+        occ_container.textContent = `${local_langsel.current_language.OCCURRENCE}:`
         let occ = document.createElement("INPUT");
         occ.setAttribute("type", "number");
         occ.value = 1;
@@ -309,7 +327,7 @@ class Visualizer {
         for (let v of theorem_variables) {
             let var_container = document.createElement('div');
             var_container.className = "tbox-container";
-            var_container.textContent = `value of ${v}: `        // TODO language
+            var_container.textContent = `${local_langsel.current_language.VALUEOF} ${v}: `
             let var_input = document.createElement("INPUT");
             var_input.setAttribute("type", "text");
             var_container.appendChild(var_input);
@@ -348,7 +366,7 @@ class Visualizer {
         let show_controls = document.createElement("button");
         show_controls.className = "button-4";
         show_controls.onclick = () => {hidden_section.style.display == "block" ? hidden_section.style.display = "none" : hidden_section.style.display = "block"};
-        show_controls.textContent = `More controls`;            // TODO language
+        show_controls.textContent = `${local_langsel.current_language.MORECONTROLS}`;
         
         let show_controls_container = document.createElement('div');
         show_controls_container.appendChild(show_controls);
@@ -374,15 +392,19 @@ class Visualizer {
         theodesc_container.className = 'math-content-container';
         
         let theodesc = document.createElement("div");
-        theodesc.className = 'math-content';
+        theodesc.className = 'math-content scroll-equation';
 
         theodesc.textContent = at.text[`${local_langsel.current_language.language_name}`];
         document.getElementById("available_tactics").appendChild(theobox);
 
         let header = document.createElement('div');
         header.className = "math-header theorem-header";
-        header.textContent = at.name;
-        
+
+        if (at.display_name)
+            header.textContent = at.display_name[`${local_langsel.current_language.language_name}`];
+        else
+            header.textContent = at.name;
+
         header.addEventListener("click", () => {
             const content = header.nextElementSibling;
             content.style.display = content.style.display === "block" ? "none" : "block";
@@ -444,11 +466,12 @@ class Visualizer {
     add_hp_application_card (controller) {
 
         let local_langsel = new LanguageSelector();
-
+        let theorem_parser = new TheoremParser();
+        
         let hypbox = document.createElement("div");
         hypbox.className = 'theorem-card';
         let theodesc = document.createElement("div");
-        theodesc.className = 'math-content';
+        theodesc.className = 'math-content scroll-equation';
         theodesc.textContent = `${local_langsel.current_language.CHOOSEHYP}:`;
         document.getElementById("hypman").appendChild(hypbox);
 
@@ -456,30 +479,75 @@ class Visualizer {
         header.className = "math-header hypothesis-header";
         header.textContent = local_langsel.current_language.APPLYHYP;
         
+        let currifier = new Currifier(controller);
+        
         let tbox_container = document.createElement("div");
         tbox_container.className = "tbox-container";
         
         let tbox = document.createElement("select");
         tbox.className = "hyp-dropdown"
         
+
+        let hidden_section = document.createElement('div');
         let occ_container = document.createElement('div');
         occ_container.className = "tbox-container";
-        occ_container.textContent = "occurrence: "
+        occ_container.textContent = `${local_langsel.current_language.OCCURRENCE}: `;
+        
+        let show_controls = document.createElement("button");
+        show_controls.className = "button-4";
+        show_controls.onclick = () => {hidden_section.style.display == "block" ? hidden_section.style.display = "none" : hidden_section.style.display = "block"};
+        show_controls.textContent = `${local_langsel.current_language.MORECONTROLS}`;
+
+        let show_controls_container = document.createElement('div');
+        show_controls_container.appendChild(show_controls);
+
+        let more_controls_container = document.createElement('div');
+        
+        hidden_section.appendChild(more_controls_container);
+        hidden_section.appendChild(occ_container);
+        hidden_section.style.display = "none";
+        
         let occ = document.createElement("INPUT");
         occ.setAttribute("type", "number");
-        occ_container.appendChild(occ);
         occ.value = 1;
+        occ_container.appendChild(occ);
+        
+        let var_containers = [];
+        let var_inputs = [];
+        let hypothesis_variables = [];
+        
+        tbox.onchange = (() => {
+            more_controls_container.innerHTML = "";
+            let hp_body = controller.observer.get_hp_body(tbox.value);
+            hypothesis_variables = theorem_parser.get_variables(hp_body);
+            
+            var_inputs = []
+            
+            for (let v of hypothesis_variables) {
+                let var_container = document.createElement('div');
+                var_container.className = "tbox-container";
+                var_container.textContent = `${local_langsel.current_language.VALUEOF} ${v}: `
+                let var_input = document.createElement("INPUT");
+                var_input.setAttribute("type", "text");
+                var_container.appendChild(var_input);
+
+                more_controls_container.appendChild(var_container);
+                var_inputs.push(var_input);
+            }
+            
+        });
+        
         
         let rw_lr = document.createElement("button");
         rw_lr.className = "button-4";
         rw_lr.textContent = `${local_langsel.current_language.APPLY} (→)`;
-        rw_lr.onclick = () => {controller.rewrite_theorem(tbox.value, true, occ.value, [], [])};
+        rw_lr.onclick = () => {controller.rewrite_theorem(tbox.value, true, occ.value, var_inputs.map(x => currifier.currify(x.value)), hypothesis_variables)};
 
         controller.visualizer.apply_buttons.push(rw_lr);
         
         let rw_rl = document.createElement("button");
         rw_rl.className = "button-4";
-        rw_rl.onclick = () => {controller.rewrite_theorem(tbox.value, false, occ.value, [], [])};
+        rw_rl.onclick = () => {controller.rewrite_theorem(tbox.value, false, occ.value, var_inputs.map(x => currifier.currify(x.value)), hypothesis_variables)};
         rw_rl.textContent = `${local_langsel.current_language.APPLY} (←)`;
         
         controller.visualizer.apply_buttons.push(rw_rl);
@@ -488,7 +556,8 @@ class Visualizer {
         hypbox.appendChild(theodesc);
         tbox_container.appendChild(tbox);
         hypbox.appendChild(tbox_container);
-        hypbox.appendChild(occ_container);
+        hypbox.appendChild(show_controls_container);
+        hypbox.appendChild(hidden_section);
         hypbox.appendChild(rw_lr);
         hypbox.appendChild(rw_rl);
         MathJax.typeset();

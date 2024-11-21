@@ -16,7 +16,8 @@
          <div class="topbar">
         <nav>
             <a href="#" style="color: white; margin: 0 15px;">Home</a>
-            <a href="#" style="color: white; margin: 0 15px;">Tutorial</a>
+            <a href="./telegram.html" style="color: white; margin: 0 15px;">Telegram Channel</a>
+            <a href="https://github.com/mell-o-tron/fdi-proof-assistant" style="color: white; margin: 0 15px;">Github</a>
             
              <div style="float : right;margin: 0 15px;">
 
@@ -33,44 +34,49 @@
 
    <div class="home_page">
 
+   <div id="use-firefox" style="text-align: center; display: none;"> <h1>Usa <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a></h1>
+   Alcune feature ancora non funzionano su browser diversi da firefox, ci stiamo lavorando.
+   <hr>
+   </div>
+
    <h1> Liste </h1>
    <div class="list-group theorem-l">
-  <a href="./proof_env.html?theorem_name=list1&theorem_topic=list1&language=italiano" class="list-group-item list-group-item-action" aria-current="true">
+  <a href="./proof_env.html?theorem_name=list1&theorem_topic=list1&language=italiano" class="list-group-item list-group-item-action overflow-scroll" aria-current="true">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 1</h5>
     </div>
     <p class="mb-1">\(\texttt{app}\) di una lista e la lista vuota equivale alla prima list.
                     $$ \forall l_1 \in L_A .\; \texttt{app}(l_1,[]) = l_1 $$</p>
   </a>
-  <a href="./proof_env.html?theorem_name=list2&theorem_topic=list2&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list2&theorem_topic=list2&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 2</h5>
     </div>
     <p class="mb-1">\(\texttt{app}\) è associativa.
                     $$ \forall l_1,l_2,l_3 \in L_A .\; \texttt{app}(\texttt{app}(l_1,l_2),l_3) = \texttt{app}(l_1,\texttt{app}(l_2,l_3))$$</p>
   </a>
-  <a href="./proof_env.html?theorem_name=list3&theorem_topic=list3&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list3&theorem_topic=list3&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 3</h5>
     </div>
-    <p class="mb-1">Interazione fra \(\texttt{rev}\) di \(\texttt{app}\) (distributività di \(\texttt{rev}\) su \(\texttt{app}\)).
+    <p class="mb-1">Interazione fra \(\texttt{rev}\) e \(\texttt{app}\) (distributività di \(\texttt{rev}\) su \(\texttt{app}\)).
                     $$ \forall l_1,l_2 \in L_A .\; \texttt{rev}(\texttt{app}(l_1,l_2)) = \texttt{app}(\texttt{rev}(l_2),\texttt{rev}(l_1)) $$</p>
   </a>
-  <a href="./proof_env.html?theorem_name=list4&theorem_topic=list4&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list4&theorem_topic=list4&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 4</h5>
     </div>
     <p class="mb-1">La lunghezza della lista ottenuta concatenando due liste è equivalente alla somma delle lunghezze delle due liste.
                     $$ \forall l_1,l_2 \in L_A .\; \texttt{len}(\texttt{app}(l_1,l_2)) = \texttt{len}(l_1) + \texttt{len}(l_2) $$</p>
   </a>
-  <a href="./proof_env.html?theorem_name=list5&theorem_topic=list5&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list5&theorem_topic=list5&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 5</h5>
     </div>
     <p class="mb-1">Rovesciare una lista non cambia la sua lungezza.
                     $$ \forall l \in L_A . \; \texttt{len}(\texttt{rev}(l)) = \texttt{len}(l) $$</p>
   </a>
-  <a href="./proof_env.html?theorem_name=list6&theorem_topic=list6&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list6&theorem_topic=list6&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 6</h5>
     </div>
@@ -78,14 +84,14 @@
                     $$ \forall l_1,l_2 \in L_A .\; \forall b \in A .\; \texttt{belList}(\texttt{app}(l_1,l_2),b) = \texttt{belList}(l_1,b) \vee \texttt{belList}(l_2,b) $$</p>
   </a>
   <h3> Teoremi extra </h3>
-  <a href="./proof_env.html?theorem_name=list-ex1&theorem_topic=list-ex1&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list-ex1&theorem_topic=list-ex1&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 1</h5>
     </div>
     <p class="mb-1">Interazione fra \(\texttt{belList}\) e \(\texttt{rev}\).
     $$ \forall l \in L_A . \; \forall b \in A. \; \texttt{belList}(\texttt{rev}(l),b) = \texttt{belList}(l,b) $$ </p>
   </a>
-  <a href="./proof_env.html?theorem_name=list-ex2&theorem_topic=list-ex2&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=list-ex2&theorem_topic=list-ex2&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 2</h5>
     </div>
@@ -96,7 +102,7 @@
 
    <h1> Alberi </h1>
    <div class="list-group theorem-l">
-  <a href="./proof_env.html?theorem_name=tree1&theorem_topic=tree1&language=italiano" class="list-group-item list-group-item-action" aria-current="true">
+  <a href="./proof_env.html?theorem_name=tree1&theorem_topic=tree1&language=italiano" class="list-group-item list-group-item-action overflow-scroll" aria-current="true">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 1</h5>
     </div>
@@ -104,7 +110,7 @@
 $$ \forall t \in BT_A . \; \forall b \in A. \; \texttt{belList}(\texttt{visist2}(t),b) = \texttt{belBT}(t,b) $$
     </p>
   </a>
-  <a href="./proof_env.html?theorem_name=tree2&theorem_topic=tree2&language=italiano" class="list-group-item list-group-item-action">
+  <a href="./proof_env.html?theorem_name=tree2&theorem_topic=tree2&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1 theorem-name">Teorema 2</h5>
     </div>
@@ -112,8 +118,96 @@ $$ \forall t \in BT_A . \; \forall b \in A. \; \texttt{belList}(\texttt{visist2}
 $$ \forall t \in BT_\mathbb{N} . \; \texttt{sumList}(\texttt{visit2}(t)) = \texttt{sumBT}(t) $$
     </p>
   </a>
+  </div>
+
+  
+   <h1> \(\mathcal{N}\)Term </h1>
+   <div class="list-group theorem-l">
+  <a href="./proof_env.html?theorem_name=nat1&theorem_topic=nat1&language=italiano" class="list-group-item list-group-item-action overflow-scroll" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 1</h5>
+    </div>
+    <p class="mb-1">
+    \(\texttt{add}\) è corretta.
+     $$ \forall n,m \in \mathcal{N}Term . \; \texttt{val}(\texttt{add}(n,m)) = \texttt{val}(n) + \texttt{val}(m) $$
+    </p>
+  </a>
+  <a href="./proof_env.html?theorem_name=nat2&theorem_topic=nat2&language=italiano" class="list-group-item list-group-item-action overflow-scroll" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 2</h5>
+    </div>
+    <p class="mb-1">
+    \(\texttt{mul}\) è corretta.
+     $$ \forall n,m \in \mathcal{N}Term . \; \texttt{val}(\texttt{mul}(n,m)) = \texttt{val}(n) * \texttt{val}(m) $$
+    </p>
+  </a>
+  <a href="./proof_env.html?theorem_name=nat3&theorem_topic=nat3&language=italiano" class="list-group-item list-group-item-action overflow-scroll" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 3</h5>
+    </div>
+    <p class="mb-1">
+    \(\texttt{exp}\) è corretta.
+     $$ \forall n,m \in \mathcal{N}Term . \; \texttt{val}(\texttt{exp}(n,m)) = \texttt{val}(m) ^ {\texttt{val}(n)} $$
+    </p>
+  </a>
+    <a href="./proof_env.html?theorem_name=natp1&theorem_topic=natp1&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 4</h5>
+    </div>
+    <p class="mb-1">
+      Unità di \(\texttt{add}\).
+      $$ \forall n \in \mathcal{N}Term . \; \texttt{add}(n, Z) = n $$
+    </p>
+  </a>
+  <a href="./proof_env.html?theorem_name=natp2&theorem_topic=natp2&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 5</h5>
+    </div>
+    <p class="mb-1">
+     \(\texttt{add}\) di un qualsiasi \(\mathcal{N}Term\) e il succesore di un'altro \(\mathcal{N}Term\) equivale al succesore della somma di essi.
+     $$ \forall n \in \mathcal{N}Term . \; \texttt{add}(n, S(m)) = S(add(n,m)) $$
+    </p>
+  </a>
+  <a href="./proof_env.html?theorem_name=natp3&theorem_topic=natp3&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 6</h5>
+    </div>
+    <p class="mb-1">
+      \(\texttt{add}\) è associativa.
+      $$ \forall n,m,o \in \mathcal{N}Term . \; \texttt{add}(\texttt{add}(n,m),o) = \texttt{add}(n,\texttt{add}(m,o)) $$
+    </p>
+  </a>
+  <a href="./proof_env.html?theorem_name=natp4&theorem_topic=natp4&language=italiano" class="list-group-item list-group-item-action overflow-scroll">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 theorem-name">Teorema 7</h5>
+    </div>
+    <p class="mb-1">
+      \(\texttt{add}\) è commutativa.
+      $$ \forall n,m \in \mathcal{N}Term . \; \texttt{add}(n,m) = \texttt{add}(m, n) $$
+    </p>
+  </a>
    </div>
       <script>
+          function getBrowser() {
+            if( navigator.userAgent.indexOf("Chrome") != -1 ) {
+              return "Chrome";
+            } else if( navigator.userAgent.indexOf("Opera") != -1 ) {
+              return "Opera";
+            } else if( navigator.userAgent.indexOf("MSIE") != -1 ) {
+              return "IE";
+            } else if( navigator.userAgent.indexOf("Firefox") != -1 ) {
+              return "Firefox";
+            } else {
+              return "unknown";
+            }
+          }
+
+          if (getBrowser() != "Firefox") {
+            const use_firefox = document.getElementById('use-firefox');
+            use_firefox.style.display = "block";
+          }
+
+
          const queryString = window.location.search;
          const urlParams = new URLSearchParams(queryString);
          const language = urlParams.get('language') ? urlParams.get('language') : "italiano";

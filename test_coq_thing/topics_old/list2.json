@@ -6,8 +6,8 @@
       "display_name": "lists",
       "text":
         {
-          "english" : "Let \\(A\\) be a set. The set \\(L_A\\) of lists of elements of \\( A \\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\([] \\in L_A\\)</li><li>Inductive Clause: \\(\\forall a \\in A . \\forall l \\in L_A . a :: l \\in L_A \\).</li></ul>The notation \\( a::b::c::[] \\) is equivalent to \\([a, b, c]\\).",
-          "italiano": "Sia \\(A\\) un insieme. L'insieme \\(L_A\\) delle liste di elementi di \\( A \\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\([] \\in L_A\\)</li><li> Clausola Induttiva: \\(\\forall a \\in A .\\; \\forall l \\in L_A .\\; a :: l \\in L_A \\).</li></ul>La notazione \\( a::b::c::[] \\) è equivalente alla notazione \\([a, b, c]\\)."
+          "english" : "Let \\(A\\) be a set. The set \\(L_A\\) of lists of elements of \\( A \\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\([] \\in L_A\\)</li><li>Inductive Clause: \\(\\forall a \\in A . \\forall l \\in L_A . a :: [] \\in L_A \\).</li></ul>The notation \\( a::b::c::[] \\) is equivalent to \\([a, b, c]\\).",
+          "italiano": "Sia \\(A\\) un insieme. L'insieme \\(L_A\\) delle liste di elementi di \\( A \\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\([] \\in L_A\\)</li><li> Clausola Induttiva: \\(\\forall a \\in A .\\; \\forall l \\in L_A .\\; a :: [] \\in L_A \\).</li></ul>La notazione \\( a::b::c::[] \\) è equivalente alla notazione \\([a, b, c]\\)."
         },
       "coq": "Variable A : Type.\nInductive list : Type := | nil : list | cons : A -> list -> list.\nInfix \"::\" := cons (at level 60, right associativity).\nNotation \"[ ]\" := nil (format \"[ ]\").\nNotation \"[ x ]\" := (cons x nil).\nNotation \"[ x ; y ; .. ; z ]\" := (cons x (cons y .. (cons z nil) ..)).\n"
     },
@@ -18,7 +18,7 @@
       "display_name": "app",
       "text":
       {
-        "english" : "Let \\( \\texttt {app} : L_A \\times L_A \\to L_A \\) be defined as follows:<ul style=\"padding : 15px;\"><li>Base Clause: \\( \\texttt{app}([], l_2) = l_2 \\)</li><li>Inductive Clause: \\( \\texttt{app}(a :: l_1, l_2) = a :: \\texttt{app} (l_1, l_2) \\).</li></ul>",
+        "english" : "Let \\( \\texttt {app} : L_A \\times L_A \\to L_A \\) be defined as follows:<ul style=\"padding : 15px;\"><li>Base Clause: \\( \\texttt{app}([], l_2) = l_2 \\)</li><li>Inductive Clause: \\( \\texttt{app}(a :: l_1, l_2) =  \\texttt{app} a :: (l_1, l_2) \\).</li></ul>",
         "italiano" : "Sia \\( \\texttt {app} : L_A \\times L_A \\to L_A \\) definita come segue:<ul style=\"padding : 15px;\"><li>Clausola Base: \\( \\texttt{app}([], l_2) = l_2 \\)</li><li>Clausola Induttiva: \\( \\texttt{app}(a :: l_1, l_2) =  a :: \\texttt{app} (l_1, l_2) \\).</li></ul>"
       },
       "coq": "Fixpoint app (x y : list) : list := match x with | [] => y | x::xs => x :: app xs y end.\n"
@@ -44,15 +44,15 @@
         "italiano": "app (clausola induttiva)"
       },
       "text": {
-        "english": "Inductive clause of the definition of \\(\\texttt{app}\\):\n\n\\[ \\forall l_1,l_2 \\in L_A .\\; \\forall a \\in A .\\; \\texttt{app}(a :: l_1, l_2) = a :: \\texttt{app} (l_1, l_2) \\]",
-        "italiano": "Clausola induttiva della definizione di \\(\\texttt{app}\\):\n\n\\[ \\forall l_1,l_2 \\in L_A .\\; \\forall a \\in A .\\; \\texttt{app}(a :: l_1, l_2) = a :: \\texttt{app} (l_1, l_2) \\]"
+        "english": "Inductive clause of the definition of \\(\\texttt{app}\\):\n\n\\[ \\forall l_1,l_2 \\in L_A .\\; \\forall a \\in A .\\; \\texttt{app}(a :: l_1, l_2) = \\texttt{app} (l_1, l_2) \\]",
+        "italiano": "Clausola induttiva della definizione di \\(\\texttt{app}\\):\n\n\\[ \\forall l_1,l_2 \\in L_A .\\; \\forall a \\in A .\\; \\texttt{app}(a :: l_1, l_2) = \\texttt{app} (l_1, l_2) \\]"
       },
       "coq": "Theorem app_inductive_clause : forall (l1 : list) (l2 : list) (a : A) , app (a :: l1) l2 = a :: app l1 l2.\nProof.\nAdmitted."
     }
   ],
   "tactics" : [
     {
-      "name": "induction","display_name": {"english":"induction", "italiano" : "induzione"},
+      "name": "induction",
       "n_params" : 1,
       "param_types" : ["text"],
       "text":
@@ -64,7 +64,7 @@
     },
 
     {
-      "name": "intro", "display_name": {"english":"variable introduction", "italiano" : "introduzione di variabile"},
+      "name": "intro",
       "n_params" : 0,
       "text":
         {
@@ -75,7 +75,7 @@
     },
 
     {
-      "name": "reflexivity", "display_name": {"english":"reflexivity", "italiano" : "riflessività"},
+      "name": "reflexivity",
       "n_params" : 0,
       "text":
         {

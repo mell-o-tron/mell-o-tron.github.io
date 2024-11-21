@@ -1,0 +1,156 @@
+{
+  "definitions": [
+    {
+      "name": "nterm",
+      "is_function" : "false",
+      "display_name": "nterm",
+      "constructors": [
+        {"name": "S", "arity": 1}
+      ],
+      "text":
+        {
+          "english" : "The set \\(\\mathcal{N}Term\\\\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\(Z \\in \\mathcal{N}Term\\)</li><li>Inductive Clause: \\(\\forall n \\in \\mathcal{N}Term .\\; S(n) \\in \\mathcal{N}Term\\).</li></ul>",
+          "italiano": "L'insieme \\(\\mathcal{N}Term\\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\(Z \\in \\mathcal{N}Term\\)</li><li> Clausola Induttiva: \\(\\forall n \\in \\mathcal{N}Term .\\; S(n) \\in \\mathcal{N}Term\\).</li></ul>"
+        },
+      "coq": "Inductive nterm := | Z : nterm | S : nterm -> nterm.\n"
+    },
+    {
+      "name": "add",
+      "is_function": "true",
+      "arity": 2,
+      "display_name": "add",
+      "text":
+      {
+        "english" : "Let \\( \\texttt{add} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) be defined as follows:<ul style=\"padding : 15px\"><li>Base Clause: \\( \\texttt{add}(Z, m) = m \\)</li><li>Inductive Clause: \\( \\texttt{add}(S(n), m) = S(\\texttt{add}(n,m)) \\).</li></ul>",
+        "italiano" : "Sia \\( \\texttt{add} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) definito come segue:<ul style=\"padding : 15px\"><li>Clausola Base: \\( \\texttt{add}(Z, m) = m \\)</li><li>Clausola Induttiva: \\( \\texttt{add}(S(n), m) = S(\\texttt{add}(n,m)) \\).</li></ul>"
+      },
+      "coq": "Fixpoint add (n m : nterm) : nterm := match n with | Z => m | S n' => S (add n' m) end.\n"
+    }
+      ],
+    "theorems": [
+    {
+      "name": "add_base_clause",
+      "display_name": {
+        "english": "add (base clause)",
+        "italiano": "add (clausola base)"
+      },
+      "text":
+        {
+          "english": "Base clause of the definition of \\(\\texttt{add}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{add}(Z, m) = m \\]",
+          "italiano": "Clausola base della definizione di \\(\\texttt{add}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{add}(Z, m) = m \\]"
+        },
+        "coq": "Theorem add_base_clause : forall m : nterm , add Z m = m.\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "name": "add_inductive_clause",
+      "display_name": {
+        "english": "add (inductive clause)",
+        "italiano": "add (clausola induttiva)"
+      },
+      "text":
+        {
+          "english": "Inductive clause of the definition of \\(\\texttt{add}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(S(n), m) = S(\\texttt{add}(n, m)) \\]",
+          "italiano": "Clausola induttiva della definizione di \\(\\texttt{add}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(S(n), m) = S(\\texttt{add}(n, m)) \\]"
+        },
+      "coq": "Theorem add_inductive_clause: forall n m : nterm , add (S n) m = S (add n m).\nProof.\nreflexivity.\nQed.\n"
+        },
+    {
+      "name": "add_zero",
+      "display_name": {
+        "english": "Identity of \\(\\texttt{add}\\)",
+        "italiano": "Unità di \\(\\texttt{add}\\)"
+      },
+      "text":
+        {
+          "english": "\\(Z\\) is the identity element of \\(\\texttt{add}\\): \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, Z) = n \\]",
+          "italiano": "\\(Z\\) è l'elemento neutro di \\(\\texttt{add}\\): \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, Z) = n \\]"
+        },
+    "coq": "Theorem add_zero: forall n : nterm , add n Z = n.\nProof.\nAdmitted.\n"
+        },
+    {
+      "name": "add_succ",
+      "display_name": {
+        "english": "\\(\\texttt{add}\\) of succ",
+        "italiano": "\\(\\texttt{add}\\) di un succesore"
+      },
+      "text":
+        {
+
+        "english" : "\\(\\texttt{add}\\) of an \\(\\mathcal{N}Term\\) and the succesor of another \\(\\mathcal{N}Term\\) equals the successor of the sum of them: \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, S(m)) = S(add(n,m)) \\]",
+        "italiano" : "\\(\\texttt{add}\\) di un qualsiasi \\(\\mathcal{N}Term\\) e il succesore di un'altro \\(\\mathcal{N}Term\\) equivale al succesore della somma di essi: \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, S(m)) = S(add(n,m)) \\]"
+        },
+    "coq": "Theorem add_succ: forall n m : nterm , add n (S m) = S (add n m).\nProof.\nAdmitted.\n"
+        },
+    {
+      "name": "add_assoc",
+      "display_name": {
+        "english": "associativity of \\(\\texttt{add}\\)",
+        "italiano": "Associatività di \\(\\texttt{add}\\)"
+      },
+      "text":
+        {
+          "english": "\\(\\texttt{add}\\) is associative: \\[ \\forall n,m,o \\in \\mathcal{N}Term . \\; \\texttt{add}(\\texttt{add}(n,m), o) = \\texttt{add}(n,\\texttt{add}(m,o)) \\]",
+          "italiano": "\\(\\texttt{add}\\) è associativa: \\[ \\forall n,m,o \\in \\mathcal{N}Term . \\; \\texttt{add}(\\texttt{add}(n,m), o) = \\texttt{add}(n,\\texttt{add}(m,o)) \\]"
+        },
+    "coq": "Theorem add_assoc: forall n m o : nterm , add (add n m) o = add n (add m o).\nProof.\nAdmitted.\n"
+        }
+  ],
+  "tactics" : [
+    {
+      "name": "induction","display_name": {"english":"induction", "italiano" : "induzione"},
+      "n_params" : 1,
+      "param_types" : ["text"],
+      "text":
+        {
+          "english" : "Proof by induction. Enter the induction variable:",
+          "italiano" : "Dimostrazione per induzione. Inserisci la variabile d'induzione:"
+        },
+      "coq" : "induction $0."
+    },
+
+    {
+      "name": "intro", "display_name": {"english":"variable introduction", "italiano" : "introduzione di variabile"},
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Introduce a variable:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ becomes }\\texttt{\"}\\text{given $P$ prove $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : nat) , P\\texttt{\"} \\text{ becomes } \\texttt{\"}\\text{given $(x : nat)$ prove $P$}\\texttt{\"} \\]",
+          "italiano" : "Introduce una variabile:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ diventa }\\texttt{\"}\\text{dato $P$ dimostra $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : nat) , P\\texttt{\"} \\text{ diventa } \\texttt{\"}\\text{dato $(x : nat)$ dimostra $P$}\\texttt{\"} \\]"
+        },
+      "coq" : "intro."
+    },
+
+    {
+      "name": "reflexivity", "display_name": {"english":"reflexivity", "italiano" : "riflessività"},
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Equality is reflexive.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ becomes } \\texttt{\"true\"}\\]",
+          "italiano" : "L'uguaglianza è riflessiva.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ diventa } \\texttt{\"vero\"}\\]"
+        },
+      "coq" : "reflexivity."
+    },
+
+    {
+      "name": "destruct", "display_name": {"english":"proof by cases", "italiano" : "dimostrazione per casi"},
+      "n_params" : 1,
+      "param_types" : ["text"],
+      "text":
+        {
+          "english" : "Proof by cases. Insert the expression on which the proof will be split:",
+          "italiano" : "Dimostrazione per casi. Inserire l'espressione su cui dividere i casi:"
+        },
+      "coq" : "destruct_with_eqn ($0)."
+    },
+    
+    {
+      "name": "simplify arithmetic", "display_name": {"english":"simplify arithmetic", "italiano" : "semplifica aritmetica"},
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Simplify an arithmetic expression, i.e. \\[x+7+y+0+3=2+x+3+4+y+1\\] becomes \\[x+y+10=x+y+10\\]",
+          "italiano" : "Semplifica una espressione aritmetica, i.e. \\[x+7+y+0+3=2+x+3+4+y+1\\] diventa \\[x+y+10=x+y+10\\]"
+        },
+      "coq" : "ring_simplify."
+    }
+  ]
+}

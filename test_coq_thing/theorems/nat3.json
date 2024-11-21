@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{exp}\\) is correct (\\(\\texttt{exp}\\) of two \\(\\mathcal{N}Term\\) is equivalent to the exponentation of the corresponding corrispondent numerical values of the two \\(\\mathcal{N}Term\\)), i.e. \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{exp}(n,m)) = \\texttt{val}(m) ^ {\\texttt{val}(n)} \\]",
+        "italiano" : "Teorema: \\(\\texttt{exp}\\) è corretta (\\(\\texttt{exp}\\) di due \\(\\mathcal{N}Term\\) equivale all'esponenziazione dei corrispondenti valori numerici dei due \\(\\mathcal{N}Term\\)), i.e. \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{exp}(n,m)) = \\texttt{val}(m) ^ {\\texttt{val}(n)} \\]"
+      },
+    "coq": "Theorem val_exp: forall n m : nterm , val (exp n m) = val m ^ val n."
+  }
+} 

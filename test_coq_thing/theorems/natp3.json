@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{add}\\) is associative, i.e.  \\[ \\forall n,m,o \\in \\mathcal{N}Term . \\; \\texttt{add}(\\texttt{add}(n,m),o) = \\texttt{add}(n,\\texttt{add}(m,o)) \\]",
+        "italiano" : "Teorema: \\(\\texttt{add}\\) è associativa, i.e. \\[ \\forall n,m,o \\in \\mathcal{N}Term . \\; \\texttt{add}(\\texttt{add}(n,m),o) = \\texttt{add}(n,\\texttt{add}(m,o)) \\]"
+      },
+    "coq": "Theorem add_assoc: forall n m o : nterm , add (add n m) o  = add n (add m o)."
+  }
+} 

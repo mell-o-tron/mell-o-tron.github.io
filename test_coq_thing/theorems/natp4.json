@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{add}\\) is commutative, i.e.  \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(n,m) = \\texttt{add}(m, n) \\]",
+        "italiano" : "Teorema: \\(\\texttt{add}\\) è commutativa, i.e. \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(n,m) = \\texttt{add}(m, n) \\]"
+      },
+    "coq": "Theorem add_comm: forall n m : nterm , add n m = add m n."
+  }
+} 

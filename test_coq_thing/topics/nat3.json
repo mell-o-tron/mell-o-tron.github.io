@@ -1,0 +1,293 @@
+{
+  "definitions": [
+    {
+      "name": "nterm",
+      "is_function" : "false",
+      "display_name": "nterm",
+      "constructors": [
+        {"name": "S", "arity": 1}
+      ],
+      "text":
+        {
+          "english" : "The set \\(\\mathcal{N}Term\\\\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\(Z \\in \\mathcal{N}Term\\)</li><li>Inductive Clause: \\(\\forall n \\in \\mathcal{N}Term .\\; S(n) \\in \\mathcal{N}Term\\).</li></ul>",
+          "italiano": "L'insieme \\(\\mathcal{N}Term\\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\(Z \\in \\mathcal{N}Term\\)</li><li> Clausola Induttiva: \\(\\forall n \\in \\mathcal{N}Term .\\; S(n) \\in \\mathcal{N}Term\\).</li></ul>."
+        },
+      "coq": "Require Import NArith.\nOpen Scope N_scope.\nNotation nat := N.\nInductive nterm := | Z : nterm | S : nterm -> nterm.\n"
+    },
+    {
+      "name": "val",
+      "is_function" : "true",
+      "arity" : 1,
+      "display_name": "val",
+      "text":
+      {
+        "english" : "Let \\( \\texttt{val} : \\mathcal{N}Term \\to \\mathbb{N} \\) be defined as follows:<ul style=\"padding : 15px;\"><li>Base Clause: \\( \\texttt{val}(Z) = 0 \\)</li><li>Inductive Clause: \\( \\texttt{val}(S(n)) = \\texttt{val}(n) + 1 \\).</li></ul>",
+        "italiano" : "Sia \\( \\texttt{val} : \\mathcal{N}Term \\to \\mathbb{N} \\) definita come segue:<ul style=\"padding : 15px;\"><li>Clausola Base: \\( \\texttt{val}(Z) = 0 \\)</li><li>Clausola Induttiva: \\( \\texttt{val}(S(n)) = \\texttt{val}(n) + 1 \\).</li></ul>"
+      },
+      "coq": "Fixpoint val (n : nterm) : nat := match n with | Z => 0 | S n' => val n' + 1 end.\n"
+    },
+    {
+      "name": "add",
+      "is_function": "true",
+      "arity": 2,
+      "display_name": "add",
+      "text":
+      {
+        "english" : "Let \\( \\texttt{add} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) be defined as follows:<ul style=\"padding : 15px\"><li>Base Clause: \\( \\texttt{add}(Z, m) = m \\)</li><li>Inductive Clause: \\( \\texttt{add}(S(n), m) = S(\\texttt{add}(n,m)) \\).</li></ul>",
+        "italiano" : "Sia \\( \\texttt{add} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) definito come segue:<ul style=\"padding : 15px\"><li>Clausola Base: \\( \\texttt{add}(Z, m) = m \\)</li><li>Clausola Induttiva: \\( \\texttt{add}(S(n), m) = S(\\texttt{add}(n,m)) \\).</li></ul>"
+      },
+      "coq": "Fixpoint add (n m : nterm) : nterm := match n with | Z => m | S n' => S (add n' m) end.\n"
+    },
+    {
+      "name": "mul",
+      "is_function": "true",
+      "arity": 2,
+      "display_name": "mul",
+      "text":
+      {
+        "english" : "Let \\( \\texttt{mul} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) be defined as follows:<ul style=\"padding : 15px\"><li>Base Clause: \\( \\texttt{mul}(Z, m) = m \\)</li><li>Inductive Clause: \\( \\texttt{mul}(S(n), m) = \\texttt{add}(\\texttt{mul}(n,m), m) \\).</li></ul>",
+        "italiano" : "Sia \\( \\texttt{mul} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) definito come segue:<ul style=\"padding : 15px\"><li>Clausola Base: \\( \\texttt{mul}(Z, m) = m \\)</li><li>Clausola Induttiva: \\( \\texttt{mul}(S(n), m) = \\texttt{add}(\\texttt{mul}(n,m), m) \\).</li></ul>"
+      },
+      "coq": "Fixpoint mul (n m : nterm) : nterm := match n with | Z => Z | S n' => add (mul n' m) m end.\n"
+    },
+    {
+      "name": "exp",
+      "is_function": "true",
+      "arity": 2,
+      "display_name": "exp",
+      "text":
+      {
+        "english" : "Let \\( \\texttt{exp} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) be defined as follows:<ul style=\"padding : 15px\"><li>Base Clause: \\( \\texttt{exp}(Z, m) = m \\)</li><li>Inductive Clause: \\( \\texttt{exp}(S(n), m) = \\texttt{mul}(\\texttt{exp}(n,m)), m) \\).</li></ul>",
+        "italiano" : "Sia \\( \\texttt{exp} : \\mathcal{N}Term \\to \\mathcal{N}Term \\) definito come segue:<ul style=\"padding : 15px\"><li>Clausola Base: \\( \\texttt{exp}(Z, m) = m \\)</li><li>Clausola Induttiva: \\( \\texttt{exp}(S(n), m)) = \\texttt{mul}(\\texttt{exp}(n,m)), m) \\).</li></ul>"
+      },
+      "coq": "Fixpoint exp (n m : nterm) : nterm := match n with | Z => S Z | S n' => mul (exp n' m) m end.\n"
+    }
+      ],
+    "theorems": [
+    {
+      "name": "val_base_clause",
+      "display_name": {
+        "english": "val (base clause)",
+        "italiano": "val (clausola base)"
+      },
+      "text": {
+        "english": "Base clause of definition of \\(\\texttt{val}\\):\n\n\\[ \\texttt{val}(Z) = 0 \\]",
+        "italiano": "Clausola base della definizione di \\(\\texttt{val}\\):\n\n\n\\[ \\texttt{val}(Z) = 0 \\]"
+      },
+      "coq": "Theorem val_base_clause : val Z = 0.\nProof.\nreflexivity.\nQed."
+    },
+    {
+      "name": "val_inductive_clause",
+      "display_name": {
+        "english": "val (inductive clause)",
+        "italiano": "val (clausola induttiva)"
+      },
+      "text": {
+        "english": "Inductive clause of the definition of \\(\\texttt{val}\\):\n\n\\[ \\forall n \\in \\mathcal{N}Term .\\; \\texttt{val}(S(n)) = \\texttt{val}(n) + 1  \\]",
+        "italiano": "Clausola induttiva della definizione di \\(\\texttt{val}\\):\n\n\\[ \\forall n \\in \\mathcal{N}Term .\\; \\texttt{val}(S(n)) = \\texttt{val}(n) + 1  \\]"
+      },
+      "coq": "Theorem val_inductive_clause : forall (n : nterm) , val (S n) = val n + 1.\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "display_name": {
+        "english": "add (base clause)",
+        "italiano": "add (clausola base)"
+      },
+      "name": "add_base_clause",
+      "text":
+        {
+          "english": "Base clause of the definition of \\(\\texttt{add}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{add}(Z, m) = m \\]",
+          "italiano": "Clausola base della definizione di \\(\\texttt{add}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{add}(Z, m) = m \\]"
+        },
+        "coq": "Theorem add_base_clause : forall m : nterm , add Z m = m.\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "display_name": {
+        "english": "add (inductive clause)",
+        "italiano": "add (clausola induttiva)"
+      },
+      "name": "add_inductive_clause",
+      "text":
+        {
+          "english": "Inductive clause of the definition of \\(\\texttt{add}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(S(n), m) = S(\\texttt{add}(n, m)) \\]",
+          "italiano": "Clausola induttiva della definizione di \\(\\texttt{add}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(S(n), m) = S(\\texttt{add}(n, m)) \\]"
+        },
+      "coq": "Theorem add_inductive_clause: forall n m : nterm , add (S n) m = S (add n m).\nProof.\nreflexivity.\nQed.\n"
+        },
+    {
+      "display_name": {
+        "english": "mul (base clause)",
+        "italiano": "mul (clausola base)"
+      },
+      "name": "mul_base_clause",
+      "text":
+        {
+          "english": "Base clause of the definition of \\(\\texttt{mul}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{mul}(Z, m) = Z \\]",
+          "italiano": "Clausola base della definizione di \\(\\texttt{mul}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{mul}(Z, m) = Z \\]"
+        },
+        "coq": "Theorem mul_base_clause : forall m : nterm , mul Z m = Z.\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "display_name": {
+        "english": "mul (inductive clause)",
+        "italiano": "mul (clausola induttiva)"
+      },
+      "name": "mul_inductive_clause",
+      "text":
+        {
+          "english": "Inductive clause of the definition of \\(\\texttt{mul}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{mul}(S(n), m) = \\texttt{add}(\\texttt{mul}(n,m), m) \\]",
+          "italiano": "Clausola induttiva della definizione di \\(\\texttt{mul}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{mul}(S(n), m) = \\texttt{add}(\\texttt{mul}(n,m), m) \\]"
+        },
+      "coq": "Theorem mul_inductive_clause: forall n m : nterm , mul (S n) m = add (mul n m) m.\nProof.\nreflexivity.\nQed.\n"
+        },
+    {
+      "display_name": {
+        "english": "exp (base clause)",
+        "italiano": "exp (clausola base)"
+      },
+      "name": "exp_base_clause",
+      "text":
+        {
+          "english": "Base clause of the definition of \\(\\texttt{exp}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{exp}(Z, m) = S(Z) \\]",
+          "italiano": "Clausola base della definizione di \\(\\texttt{exp}\\): \\[ \\forall m \\in \\mathcal{N}Term .\\; \\texttt{exp}(Z, m) = S(Z) \\]"
+        },
+        "coq": "Theorem exp_base_clause : forall m : nterm , exp Z m = S Z.\nProof.\nreflexivity.\nQed.\n"
+    },
+    {
+      "display_name": {
+        "english": "exp (inductive clause)",
+        "italiano": "exp (clausola induttiva)"
+      },
+      "name": "exp_inductive_clause",
+      "text":
+        {
+          "english": "Inductive clause of the definition of \\(\\texttt{exp}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{exp}(S(n), m) = \\texttt{mul}(\\texttt{exp}(n, m), m) \\]",
+          "italiano": "Clausola induttiva della definizione di \\(\\texttt{exp}\\): \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{exp}(S(n), m) = \\texttt{mul}(\\texttt{exp}(n, m), m) \\]"
+        },
+      "coq": "Theorem exp_inductive_clause: forall n m : nterm , exp (S n) m = mul (exp n m) m.\nProof.\nreflexivity.\nQed.\n"
+        },
+    {
+      "display_name": {
+        "english": "add is correct",
+        "italiano": "add è corretta"
+      },
+      "name": "val_add",
+      "text":
+        {
+          "english": "\\(\\texttt{add}\\) is correct: \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(n, m) = \\texttt{val}(n) + \\texttt{val}(m) \\]",
+          "italiano": "\\(\\texttt{add}\\) è corretta: \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{add}(n, m) = \\texttt{val}(n) + \\texttt{val}(m) \\]"
+        },
+      "coq": "Theorem val_add: forall n m : nterm , val (add n m) = val n + val m.\nProof.\nAdmitted.\n"
+        },
+    {
+      "display_name": {
+        "english": "mul is correct",
+        "italiano": "mul è corretta"
+      },
+      "name": "val_mul",
+      "text":
+        {
+        "english" : "Teorema: \\(\\texttt{mul}\\) is correct: \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{mul}(n,m)) = \\texttt{val}(n) * \\texttt{val}(m) \\]",
+        "italiano" : "Teorema: \\(\\texttt{mul}\\) è corretta: \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{mul}(n,m)) = \\texttt{val}(n) * \\texttt{val}(m) \\]"
+        },
+      "coq": "Theorem val_mul: forall n m : nterm , val (mul n m) = val n * val m.\nProof.\nAdmitted.\n"
+        },
+    {
+      "display_name": {
+        "english": "multiplication definition",
+        "italiano": "definizione multiplicazione"
+      },
+      "name": "mul_def",
+      "text":
+        {
+          "english": "Definition of multiplication between natura numbers: \\[ \\forall n,m \\in \\mathbb{N} . \\; (n + 1) * m = n * m + m \\]",
+          "italiano": "Definizione moltiplicazione fra numeri naturali: \\[ \\forall n,m \\in \\mathbb{N} . \\; (n + 1) * m = n * m + m \\]"
+        },
+      "coq": "Theorem mul_def: forall n m : nat, (n + 1) * m = n * m + m.\nProof.\nAdmitted.\n"
+        },
+    {
+      "display_name": {
+        "english": "exponential definition (base clause)",
+        "italiano": "definizione esponenziale (clausola base)"
+      },
+      "name": "exp_def_base",
+      "text":
+        {
+          "english": "Definition of a number to the power of 0: \\[ \\forall m \\in \\mathbb{N} . \\; m ^ 0 = 1 \\]",
+          "italiano": "Definizione di un numero elevato alla 0: \\[ \\forall m \\in \\mathbb{N} . \\; m ^ 0 = 1 \\]"
+        },
+      "coq": "Theorem exp_def_base: forall m : nat, m ^ 0 = 1.\nProof.\nexact N.pow_0_r.\nQed.\n"
+        },
+    {
+      "display_name": {
+        "english": "exponential definition (inductive clause)",
+        "italiano": "definizione esponenziale (clausola induttiva)"
+      },
+      "name": "exp_def_inductive",
+      "text":
+        {
+          "english": "Definition of a number to the power of a positive number: \\[ \\forall n,m \\in \\mathbb{N} . \\; m ^ {n+1} = m^n * m \\]",
+          "italiano": "Definizione di un numero elevato ad un numero positivo: \\[ \\forall n,m \\in \\mathbb{N} . \\; m ^ {n+1} = m^n * m \\]"
+        },
+      "coq": "Theorem exp_def_inductive: forall n m : nat, m ^ (n+1) = (m ^ n) * m.\nProof.\nintros ; rewrite N.add_1_r ; rewrite N.pow_succ_r' ; rewrite N.mul_comm ; reflexivity.\nQed.\n"
+        }
+  ],
+  "tactics" : [
+    {
+      "name": "induction",
+      "n_params" : 1,
+      "param_types" : ["text"],
+      "text":
+        {
+          "english" : "Proof by induction. Enter the induction variable:",
+          "italiano" : "Dimostrazione per induzione. Inserisci la variabile d'induzione:"
+        },
+      "coq" : "induction $0."
+    },
+
+    {
+      "name": "intro",
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Introduce a variable:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ becomes }\\texttt{\"}\\text{given $P$ prove $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : A) , P\\texttt{\"} \\text{ becomes } \\texttt{\"}\\text{given $(x : A)$ prove $P$}\\texttt{\"} \\]",
+          "italiano" : "Introduce una variabile:\\[ \\texttt{\"} P \\to Q \\texttt{\"} \\text{ diventa }\\texttt{\"}\\text{dato $P$ dimostra $Q$}\\texttt{\"} \\]\\[ \\texttt{\"}\\forall (x : A) , P\\texttt{\"} \\text{ diventa } \\texttt{\"}\\text{dato $(x : A)$ dimostra $P$}\\texttt{\"} \\]"
+        },
+      "coq" : "intro."
+    },
+
+    {
+      "name": "reflexivity",
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Equality is reflexive.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ becomes } \\texttt{\"true\"}\\]",
+          "italiano" : "L'uguaglianza è riflessiva.\\[ \\texttt{\"}A = A\\texttt{\"} \\text{ diventa } \\texttt{\"vero\"}\\]"
+        },
+      "coq" : "reflexivity."
+    },
+
+    {
+      "name": "destruct",
+      "n_params" : 1,
+      "param_types" : ["text"],
+      "text":
+        {
+          "english" : "Proof by cases. Insert the expression on which the proof will be split:",
+          "italiano" : "Dimostrazione per casi. Inserire l'espressione su cui dividere i casi:"
+        },
+      "coq" : "destruct_with_eqn ($0)."
+    },
+    
+    {
+      "name": "simplify arithmetic",
+      "n_params" : 0,
+      "text":
+        {
+          "english" : "Simplify an arithmetic expression, i.e. \\[x+7+y+0+3=2+x+3+4+y+1\\] becomes \\[x+y+10=x+y+10\\]",
+          "italiano" : "Semplifica una espressione aritmetica, i.e. \\[x+7+y+0+3=2+x+3+4+y+1\\] diventa \\[x+y+10=x+y+10\\]"
+        },
+      "coq" : "ring_simplify."
+    }
+  ]
+}

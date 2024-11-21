@@ -6,8 +6,8 @@
       "display_name": "lists",
       "text":
         {
-          "english" : "Let \\(A\\) be a set. The set \\(L_A\\) of lists of elements of \\( A \\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\([] \\in L_A\\)</li><li>Inductive Clause: \\(\\forall a \\in A . \\forall l \\in L_A . a :: l \\in L_A \\).</li></ul>The notation \\( a::b::c::[] \\) is equivalent to \\([a, b, c]\\).",
-          "italiano": "Sia \\(A\\) un insieme. L'insieme \\(L_A\\) delle liste di elementi di \\( A \\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\([] \\in L_A\\)</li><li> Clausola Induttiva: \\(\\forall (a \\in A), (l \\in L_A) . a :: l \\in L_A \\).</li></ul>La notazione \\( a::b::c::[] \\) è equivalente alla notazione \\([a, b, c]\\)."
+          "english" : "Let \\(A\\) be a set. The set \\(L_A\\) of lists of elements of \\( A \\) is defined as follows: <ul style=\"padding : 15px;\"><li>Base Clause: \\([] \\in L_A\\)</li><li>Inductive Clause: \\(\\forall a \\in A . \\forall l \\in L_A . a :: [] \\in L_A \\).</li></ul>The notation \\( a::b::c::[] \\) is equivalent to \\([a, b, c]\\).",
+          "italiano": "Sia \\(A\\) un insieme. L'insieme \\(L_A\\) delle liste di elementi di \\( A \\) è definito come segue: <ul style=\"padding : 15px;\"><li>Clausola Base: \\([] \\in L_A\\)</li><li> Clausola Induttiva: \\(\\forall (a \\in A), (l \\in L_A) . a :: [] \\in L_A \\).</li></ul>La notazione \\( a::b::c::[] \\) è equivalente alla notazione \\([a, b, c]\\)."
         },"display_name": "len",
       "coq": "From Coq Require Import List Arith ZArith.\nImport ListNotations.\n"
     },
@@ -88,7 +88,7 @@
   ],
   "tactics" : [
     {
-      "name": "induction","display_name": {"english":"induction", "italiano" : "induzione"},
+      "name": "induction",
       "n_params" : 1,
       "param_types" : ["text"],
       "text":
@@ -100,7 +100,7 @@
     },
 
     {
-      "name": "intro", "display_name": {"english":"variable introduction", "italiano" : "introduzione di variabile"},
+      "name": "intro",
       "n_params" : 0,
       "text":
         {
@@ -111,7 +111,7 @@
     },
 
     {
-      "name": "reflexivity", "display_name": {"english":"reflexivity", "italiano" : "riflessività"},
+      "name": "reflexivity",
       "n_params" : 0,
       "text":
         {

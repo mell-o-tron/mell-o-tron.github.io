@@ -3,11 +3,14 @@ class TheoremParser {
     
     get_variables(theo_text) {
         console.log("THEO PARSER TEXT", theo_text)
+        
+        if (!theo_text) return [];
+        
         let res = [];
         
         let m = theo_text.match(/forall\s+(.+?),/);
         
-        if (!m) return;
+        if (!m) return [];
         
         let var_string = m[1];
         

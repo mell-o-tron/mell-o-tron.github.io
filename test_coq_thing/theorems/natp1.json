@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: Identity of \\(\\texttt{add}\\), i.e.  \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, Z) = n \\]",
+        "italiano" : "Teorema: Unità di \\(\\texttt{add}\\), i.e. \\[ \\forall n \\in \\mathcal{N}Term . \\; \\texttt{add}(n, Z) = n \\]"
+      },
+    "coq": "Theorem add_zero: forall n : nterm , add n Z = n."
+  }
+} 

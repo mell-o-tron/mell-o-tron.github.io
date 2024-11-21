@@ -76,7 +76,15 @@ class Observer {
           dropdown.appendChild(hopt);
         }
         
+        dropdown.onchange();
+        
       }); 
+  }
+  
+  get_hp_body(name){
+    for (let h of this.current_goal.hypotheses){
+      if(h.name == name) return h.body;
+    }
   }
   
   coqReady() {  this._ready(); }

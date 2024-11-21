@@ -1,0 +1,13 @@
+{
+  "definitions": [
+    
+  ],
+  "theorem": {
+    "text":
+      {
+        "english" : "Teorema: \\(\\texttt{add}\\) is correct (\\(\\texttt{add}\\) of two \\(\\mathcal{N}Term\\) is equivalent to the sum of the correspondent numberical values of the two \\(\\mathcal{N}Term)), i.e. \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{add}(n,m)) = \\texttt{val}(n) + \\texttt{val}(m) \\]",
+        "italiano" : "Teorema: \\(\\texttt{add}\\) è corretta (\\(\\texttt{add}\\) di due \\(\\mathcal{N}Term\\) equivale alla somma dei corrispondenti valori numerici dei due \\(\\mathcal{N}Term)), i.e. \\[ \\forall n,m \\in \\mathcal{N}Term . \\; \\texttt{val}(\\texttt{add}(n,m)) = \\texttt{val}(n) + \\texttt{val}(m) \\]"
+      },
+    "coq": "Theorem val_add: forall n m : nterm , val (add n m) = val n + val m."
+  }
+} 
