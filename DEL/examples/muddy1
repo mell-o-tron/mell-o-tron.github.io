@@ -1,0 +1,26 @@
+VARS: ["child 0 is muddy", "child 1 is muddy"]
+
+** No information at the beginning
+THETA: true
+
+** child 0 can observe whether child 1 is muddy
+** child 1 can observe whether child 0 is muddy
+
+AGENTS: [["child 1 is muddy"],
+        ["child 0 is muddy"]]
+
+** The initial state
+STATE: ["child 1 is muddy"]
+
+
+** does child 1 know he is muddy? No.
+CHECK: K(1, $("child 1 is muddy"));
+
+** after he is told he is, does child 1 know he is muddy? Yes
+CHECK: GA([1], $("child 1 is muddy"), K(1, $("child 1 is muddy")));
+
+** does child 0 know whether child 1 knows if he is muddy? No.
+CHECK: K(0, K(1, $("child 1 is muddy")));
+
+** after child 1 is told that he is muddy, does child 0 know that child 1 knows that he is muddy? No
+CHECK: GA([1], $("child 1 is muddy"), K(0, K(1, $("child 1 is muddy"))))

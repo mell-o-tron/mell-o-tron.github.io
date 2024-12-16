@@ -1,0 +1,71 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>DEL Model Checker</title>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css"></link>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/monokai.min.css"></link>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/neat.min.css"></link>
+<link rel="stylesheet" type="text/css" href="./style.css"></link>
+
+</head>
+<body>
+
+<div class="topnav">
+  <a class="active" href="#home">DEL model checker</a>
+  <a href="#home">Github</a>
+</div>
+
+<div class="row">
+  <div class="column_l">
+    <div class="work-area">
+    <h2> Model </h2>
+<div class="code-wrapper">
+<textarea id="code" name="code">
+VARS: ["child 0 is muddy", "child 1 is muddy"]
+
+** No information at the beginning
+THETA: true
+
+** child 0 can observe whether child 1 is muddy
+** child 1 can observe whether child 0 is muddy
+
+AGENTS: [["child 1 is muddy"],
+        ["child 0 is muddy"]]
+
+** The initial state
+STATE: ["child 1 is muddy"]
+
+
+** does child 1 know he is muddy? No.
+CHECK: K(1, $("child 1 is muddy"))
+</textarea>
+</div>
+<div style="width: 20%;float:left">
+<button class="check-button button4" id="check_button"> Check </button>
+</div>
+<div style="width: 80%;float:right;text-align:right">
+<select name="examples" id="example_select">
+  <option value="muddy1">Muddy Children 1</option>
+  <option value="muddy2">Muddy Children 2</option>
+</select>
+<button class="check-button button4" id="load_button"> Load Example </button>
+</div>
+</div>
+</div>
+  <div class="column_r">
+    <h2>Result</h2>
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
+</body>
+
+
+
+<script>
+
+</script>
+<script language="javascript" type="module" src="./out.js"></script>
+</html>

@@ -1,0 +1,28 @@
+VARS: ["child 0 is muddy", "child 1 is muddy", "child 2 is muddy"]
+
+** The state formula - initially no child has info, so true
+THETA: true
+
+** The facts that each agent can observe
+AGENTS: [["child 1 is muddy", 
+          "child 2 is muddy"],
+          
+        ["child 0 is muddy", 
+         "child 2 is muddy"],
+         
+        ["child 0 is muddy", 
+         "child 1 is muddy"]]
+
+** The initial state
+STATE: ["child 0 is muddy", "child 1 is muddy", "child 2 is muddy"]
+
+
+** No child knows their own state
+
+CHECK: !(K(0, $("child 0 is muddy")) \/ K(0, !$("child 0 is muddy"))) /\
+       !(K(1, $("child 1 is muddy")) \/ K(1, !$("child 1 is muddy"))) /\
+       !(K(2, $("child 2 is muddy")) \/ K(2, !$("child 2 is muddy")));
+
+
+** child 0 knows he does not know
+CHECK: K(0, !K(0, $("child 0 is muddy")))
