@@ -1,0 +1,10 @@
+(executable
+ (public_name epistemic)
+ (name main)
+ (preprocess
+  (pps js_of_ocaml-ppx))
+ (libraries epistemic menhirLib js_of_ocaml)
+ (flags
+  (:standard -g))
+
+(modes byte))

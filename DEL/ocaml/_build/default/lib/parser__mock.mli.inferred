@@ -1,0 +1,42 @@
+type token =
+    VARDECL
+  | VAR
+  | TRUE
+  | THETADECL
+  | STRING of string
+  | STATEDECL
+  | SEMICOLON
+  | RPAREN
+  | RBRACKET
+  | PA
+  | OR
+  | NOT
+  | LPAREN
+  | LBRACKET
+  | K
+  | INT of int
+  | GA
+  | EOF
+  | Character of char
+  | COMMA
+  | COLON
+  | CHECK
+  | C
+  | AND
+  | AGENTSDECL
+val menhir_begin_marker : int
+val xv_varlist_items : Ast.var list
+val xv_var_list_list : Ast.var list list
+val xv_var_list : Ast.var list
+val xv_var_declaration : Ast.var list
+val xv_theta_declaration : Ast.bform
+val xv_state_declaration : Ast.var list
+val xv_option_SEMICOLON_ : unit option
+val xv_main : Ast.env
+val xv_formula_list : Ast.formula list
+val xv_formula : Ast.formula
+val xv_bool_form : Ast.bform
+val xv_agentlist_items : Ast.agent list
+val xv_agentlist : Ast.agent list
+val xv_agent_declaration : Ast.var list list
+val menhir_end_marker : int

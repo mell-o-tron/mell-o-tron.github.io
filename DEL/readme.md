@@ -1,0 +1,3 @@
+# DEL Model Checker
+
+This is a model checker for [Dynamic Epistemic Logic](https://plato.stanford.edu/ENTRIES/dynamic-epistemic/index.html) based on the semantics on Knowledge Structures described in [this paper](https://www.semanticscholar.org/paper/Symbolic-model-checking-for-Dynamic-Epistemic-Logic-Benthem-Eijck/21f9cb1f70b7e0aa6f1c7f7098d351fc2fdcad05). Unlike the model checker developed by the authors ([SMCDEL](https://github.com/jrclogic/SMCDEL)), this one does not feature any significant optimization and does not use BDDs to represent boolean formulas.
