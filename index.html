@@ -13,7 +13,11 @@
   <meta name="keywords" content="latex.css,css library,class-less css,latex css" />
   <meta property="og:title" content="mell-o-tron" />
   <meta property="og:type" content="website" />
-
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-roman.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-sans.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-mono.css" />
+  
   <link rel="stylesheet" href="https://latex.now.sh/style.css">
   <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
   
@@ -21,6 +25,7 @@
     body {
       max-width: 45%;
       font-size: 19px;
+      font-family: 'Latin Modern Sans';
     }
     a:link {
       color: #8ad0ff;
@@ -252,6 +257,18 @@
 
         <h2 id="about">Selection of projects</h2>
         This is a selection of my main projects. Some of them (UNI) are my university projects, the others are personal.
+        
+        <h3> Currently active programming projects </h3>
+        <ul>
+        <li><a title="Minimal, collaboratively written kernel"
+        href="https://github.com/mell-o-tron/MellOs">
+        MellOS</a> (A minimal, collaboratively written kernel) <br>I have been working on this project on and off for several years, with the help of many collaborators from all over the world. Our initial goal, which I would say we achieved, was to write a simple kernel with a minimal command line interface, which would allow the user to read and write files and run executables. We are now working on making it less minimalistic by improving memory allocation, adding multi-processing, and developing a graphical interface library.</li><br>
+        
+         <li><a title="Perkelang"
+        href="https://github.com/Alex23087/Perkelang">
+        Perkelang</a> (A low level programming language with modern features) <br>This is a collaboration with Alessandro Scala, PhD Student @ University of Edinburgh. Alessandro is a main contributor to MellOS, and we share the opinion that the C programming language, in spite of its <a href=https://www.youtube.com/watch?v=tas0O586t80>simplicity and elegance</a>, is a pretty cursed and old fashioned language. This is why we decided to start working on Perkelang, a more modern language (with typeclasses, option types, lambdas...) that compiles down to C, providing a rich compatibility layer with it. Currently it's in a bit of an embryonic state, but we're working on it at a frantic, almost unhealthy pace.</li>
+       </ul>
+        
         <h3> Recreational/Educational Computer Science </h3>
         <ul>
         <li><a title=""
@@ -268,28 +285,29 @@
         
        </ul>
         
-        <h3> Programming Projects </h3>
-        <ul>
-        <li><a title="Minimal, collaboratively written kernel"
-        href="https://github.com/mell-o-tron/MellOs">
-        MellOS</a>: A minimal, collaboratively written kernel</li>
-        <li><a title="Computer Graphics"
-        href="./progettino/index.html" target="_blank" >
-        CG project</a> (UNI)</li>
-         <li><a title=""
-                href="https://github.com/mell-o-tron/CORDIC-FixedPoint">
-            CORDIC FixedPoint</a>: A performance test for trigonometric functions (UNI) </li>
-      </ul>
         
-        
-        <h3> Complex Systems </h3>
+        <h3> Smaller Projects </h3>
+  
+        <h4> Complex Systems </h4>
         <ul>
          <li><a title="" href="https://github.com/mell-o-tron/road-network-sim">
             Road Network Simulator</a>: A microscopic / macroscopic traffic simulator (UNI) </li>
          </ul>
         
+        <h4> Green Computing </h4>
+        <ul>
+        <li><a title=""
+                href="https://github.com/mell-o-tron/CORDIC-FixedPoint">
+            CORDIC FixedPoint</a>: A performance test for trigonometric functions (UNI) </li></ul>
         
-        <h3> Maths Visualization </h3>
+        <h4> Computer Graphics</h4>
+        <ul>
+         <li><a title="Computer Graphics"
+        href="./progettino/index.html" target="_blank" >
+        CG project</a> (UNI)</li>
+         </ul>
+        
+        <h4> Maths Visualization </h4>
             <ul>
                 <li><a title=""
                 href="https://github.com/mell-o-tron/PySimplex2D">
