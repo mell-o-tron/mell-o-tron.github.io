@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .code-block {
+            background-color: #1e293b;
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+        
+        .nav-link:hover {
+            color: #8b5cf6;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+        }
+        
+        /* Syntax highlighting */
+        .keyword { color: #f472b6; }
+        .type { color: #60a5fa; }
+        .string { color: #86efac; }
+        .comment { color: #64748b; }
+        .function { color: #fbbf24; }
+        .number { color: #a78bfa; }
