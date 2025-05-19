@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MellOS × Perkelang</title>
+    <title>MellOS × Perk</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -16,7 +16,7 @@
                     <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
                         <span class="text-white font-bold">P</span>
                     </div>
-                    <span class="text-xl font-bold">Mellos × Perkelang</span>
+                    <span class="text-xl font-bold">Mellos × Perk</span>
                 </div>
                 <nav class="hidden md:flex space-x-8">
                     <a href="#features" class="nav-link text-gray-300 hover:text-white transition">Features</a>
@@ -43,12 +43,12 @@
                 <div class="flex flex-col md:flex-row items-center">
                     <div class="md:w-1/2 mb-12 md:mb-0">
                         <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                            <span class="gradient-text">Perkelang</span>
+                            <span class="gradient-text">Perk</span>
                         </h1>
                         <p class="text-xl text-gray-300 mb-8">
-                            A modern, ergonomic, low level programming language. <br><br>
+                            <i>A modern, ergonomic, low level programming language.</i> <br><br>
 
-                            From the devs of <span class="gradient-text">MellOS</span>, designed with the goal of providing a better language for writing operating systems and scientific applications. <br><br> Perkelang is an open source project, and it is <i>still in development</i>.
+                            From the devs of <span class="gradient-text">MellOS</span>, designed with the goal of providing a better language for writing operating systems and scientific applications. <br><br> Perk is an open source project, and it is <i>still in development</i>.
                         </p>
                         <div class="flex space-x-4">
                             <a href="https://github.com/Alex23087/Perkelang">
@@ -58,36 +58,30 @@
                             </a>
                         </div>
                     </div>
+
                     <div class="md:w-1/2">
                         <div class="code-block rounded-lg p-6 shadow-xl">
                             
-                    <pre class="code-font text-sm overflow-x-auto"><code><span class="keyword">fun</span> <span class="function">is_prime</span>(n: <span class="type">int</span>) : <span class="type">int</span> {
-    <span class="keyword">if</span> (n &lt; 2) {
-        <span class="keyword">return</span> 0;
-    };
-    <span class="comment">// type inference!</span>
-    <span class="keyword">let</span> i := 2;
-    <span class="keyword">while</span> (i &lt; <span class="function">isqrt</span>(n) + 1) {
-        <span class="keyword">if</span> (n % i == 0) {
-            <span class="keyword">return</span> 0;
-        };
-        i++;
-    };
-    <span class="keyword">return</span> 1;
-}
 
-<span class="keyword">fun</span> <span class="function">main</span>() : <span class="type">int</span> {
-    <span class="keyword">let</span> nums := <span class="function">list_from_range</span>(10);
-    <span class="comment">// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9</span>
-    nums.<span class="function">print</span>();
-    <span class="comment">// higher order functions and lambdas!</span>
-    nums.<span class="function">map</span>((x: <span class="type">int</span>) : <span class="type">int</span> =&gt; {
-        <span class="keyword">return</span> <span class="function">is_prime</span>(x)
-    });
-    <span class="comment">// 0, 0, 1, 1, 0, 1, 0, 1, 0, 0</span>
-    nums.<span class="function">print</span>();
+<pre class="code-font text-sm overflow-x-auto"><code><span class="keyword">fun</span> <span class="function">main</span>(): <span class="type">int</span> {
+    <span class="function">printf</span>(<span class="string">"Hello, World!\n"</span>);
+
+    <span class="comment">// type inference</span>
+    <span class="keyword">let</span> pi := 3.1415;
+
+    <span class="comment">// option types</span>
+    <span class="keyword">let</span> x: <span class="type">float*?</span> = <span class="keyword">nothing</span>;
+    x = <span class="function">just</span> &amp;pi;
+
+    <span class="comment">// lambdas</span>
+    <span class="keyword">let</span> area: <span class="type">float =&gt; float</span> = (r: <span class="type">float</span>) : <span class="type">float</span> {
+        <span class="keyword">return</span> pi * r * r
+    };
+
+    <span class="comment">// ...and more!</span>
 }
-</code></pre>
+    </code></pre>
+
     </div>
 </div>
                     
@@ -98,7 +92,7 @@
         <!-- Features Section -->
         <section id="features" class="py-20 bg-gray-900/50">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-16">Why <span class="gradient-text">Perkelang</span>?</h2>
+                <h2 class="text-3xl font-bold text-center mb-16">Why <span class="gradient-text">Perk</span>?</h2>
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="feature-card bg-gray-800 p-8 rounded-xl transition duration-300">
                         <div class="w-12 h-12 rounded-full bg-indigo-900/50 flex items-center justify-center mb-4">
@@ -106,7 +100,7 @@
                         </div>
                         <h3 class="text-xl font-semibold mb-3">C is a relic from the past</h3>
                         <p class="text-gray-300">
-                            Perkelang builds on C's simple foundation, adding modern features such as <span class="gradient-text">option types</span>, <span class="gradient-text">type inference</span>, <span class="gradient-text">lambdas</span> and <span class="gradient-text">typeclasses</span>, while remaining as low level and efficient as C.
+                            Perk builds on C's simple foundation, adding modern features such as <span class="gradient-text">option types</span>, <span class="gradient-text">type inference</span>, <span class="gradient-text">lambdas</span> and <span class="gradient-text">typeclasses</span>, while remaining as low level and efficient as C.
                         </p>
                     </div>
                     <div class="feature-card bg-gray-800 p-8 rounded-xl transition duration-300">
@@ -115,7 +109,7 @@
                         </div>
                         <h3 class="text-xl font-semibold mb-3">C++ is bloated</h3>
                         <p class="text-gray-300">
-                            C++ has all the features Perkelang will ever have, and a hundred more.  In the spirit of C, Perkelang provides a <span class="gradient-text">minimal but powerful feature set</span>, aiming to keep the language compact and easy to learn. <br><br> Additionally, unlike C++, perkelang does not currently require runtime support.
+                            C++ has all the features Perk will ever have, and a hundred more.  In the spirit of C, Perk provides a <span class="gradient-text">minimal but powerful feature set</span>, aiming to keep the language compact and easy to learn. <br><br> Additionally, unlike C++, Perk does not currently require runtime support.
                         </p>
                     </div>
                     <div class="feature-card bg-gray-800 p-8 rounded-xl transition duration-300">
@@ -124,7 +118,7 @@
                         </div>
                         <h3 class="text-xl font-semibold mb-3">Rust is not ergonomic</h3>
                         <p class="text-gray-300">
-                            Rust provids strong safety guarantees at the cost of significantly constraining the developer. <br><br>  This makes it an absolute pain to work with. In Perkelang, we decided to <span class="gradient-text">prioritize the ergonomics</span> of the language. This means safety is not completely guaranteed, but it's still safer than C.
+                            Rust provids strong safety guarantees at the cost of significantly constraining the developer. <br><br>  This makes it an absolute pain to work with. In Perk, we decided to <span class="gradient-text">prioritize the ergonomics</span> of the language. This means safety is not completely guaranteed, but it's still safer than C.
                         </p>
                     </div>
                 </div>
@@ -134,7 +128,7 @@
         <!-- Examples Section -->
         <section id="examples" class="py-20">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-16">Perkelang <span class="gradient-text">Examples</span></h2>
+                <h2 class="text-3xl font-bold text-center mb-16">Perk <span class="gradient-text">Examples</span></h2>
                 
                 <div class="grid md:grid-cols-2 gap-8 mb-12">
                     <div>
@@ -245,7 +239,7 @@
                     </a>
                 </div>
                 <div class="text-gray-400 text-sm">
-                    &copy; 2025 Perkelang Project - Still figuring out licence
+                    &copy; 2025 Perk Project - Still figuring out licence
                 </div>
             </div>
         </div>
