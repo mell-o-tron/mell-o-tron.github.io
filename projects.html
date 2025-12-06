@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="tm5Y6ZNTf-lBqbwniGjQPv1q02o2TuUQZ9GTYa4SMLg" />
+  <title>mell-o-tron</title>
+
+  <meta name="description"
+    content="" />
+  <meta name="keywords" content="latex.css,css library,class-less css,latex css" />
+  <meta property="og:title" content="mell-o-tron" />
+  <meta property="og:type" content="website" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-roman.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-sans.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-mono.css" />
+  
+  <link rel="stylesheet" href="https://latex.now.sh/style.css">
+  <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
+  <link rel="stylesheet" href="topmenu.css">
+  
+  <style>
+    body {
+      max-width: 45%;
+      font-size: 19px;
+      font-family: 'Latin Modern Sans';
+    }
+    a:link {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #8ad0ff;
+      font-style: italic;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #a8dcff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 1500px){
+     body {
+      max-width: 90%;
+    }
+    
+    }
+    /* Wall-like boxes for lists inside the article */
+    article ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem 0;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    /* Tighter spacing for currently active projects */
+    article ul.compact-tiles {
+      gap: 0.32rem;
+    }
+
+    article ul li {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    article ul li:hover {
+      transform: none;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+
+    article ul li a {
+      color: #8ad0ff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* Make the small <br> spacing inside list items a bit less harsh */
+    article ul li br {
+      content: '';
+      display: block;
+      margin-bottom: 0.45rem;
+    }
+
+    /* Grouped single box for smaller projects */
+    .group-box {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.6);
+      margin-bottom: 1rem;
+    }
+
+    /* Neutralize per-list-item tiles when inside the grouped box */
+    .group-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .group-box ul li {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 6px 0;
+      margin: 0;
+    }
+
+    .group-box h4 {
+      margin-top: 0.4rem;
+      margin-bottom: 0.25rem;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Focused box for the active projects section */
+    .focus-box {
+      background: linear-gradient(180deg, rgba(138,208,255,0.02), rgba(138,208,255,0.01));
+      border: 1px solid rgba(138,208,255,0.22);
+      padding: 14px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(8,20,30,0.6), 0 0 18px rgba(138,208,255,0.04) inset;
+      margin-bottom: 1rem;
+    }
+
+    .focus-box h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: #cfeeff;
+    }
+
+    /* When compact-tiles exist inside focus-box, keep them tight */
+    .focus-box ul.compact-tiles { gap: 0.28rem; }
+</style>
+  
+</head>
+
+
+<body id="top" style = "background: #212121;color: white" onload="myFunction()">
+  <nav class="top-menu" aria-label="Main navigation">
+    <ul>
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/projects.html" class="active">Projects</a></li>
+      <li><a href="/pub_sem_teaching.html">Seminars & Teaching</a></li>
+      <li><a href="/misc.html">Misc</a></li>
+    </ul>
+  </nav>
+  <header style = "background: #1a1a1a; border-radius: 25px;text-align: center;">
+    <div style = "text-align: center; padding: 20px;"><b style="font-size:250%"><span class="latex"><code>My projects</code></b><br>
+
+    <img src="imgs/perkegain.png" style="max-width:220px;height:auto;display:block;margin:0.5rem auto;">
+
+    </div>
+
+  </header>
+
+
+  <main>
+    <article>
+        <h2 id="about">Selection of projects</h2>
+        
+        <div class="focus-box">
+        <h3> Currently active programming projects </h3>
+        <ul class="compact-tiles">
+        <li><a title="Minimal, collaboratively written kernel"
+        href="https://mell-os.org/">
+        MellOS</a> (A minimal, collaboratively written kernel) <br>I have been working on this project on and off for several years, with the help of many collaborators from all over the world. Our initial goal, which I would say we achieved, was to write a simple kernel with a minimal command line interface, which would allow the user to read and write files and run executables. We are now working on making it less minimalistic by improving memory allocation, adding multi-processing, and developing a graphical interface library.</li><br>
+        
+         <li><a title="Perkelang"
+        href="https://perklang.org/">
+        Perkelang</a> (A low level programming language with modern features) <br>This is a collaboration with Alessandro Scala, PhD Student @ University of Edinburgh. Alessandro is a main contributor to MellOS, and we share the opinion that the C programming language, in spite of its <a href=https://www.youtube.com/watch?v=tas0O586t80>simplicity and elegance</a>, is a pretty cursed and old fashioned language. This is why we decided to start working on Perkelang, a more modern language (with typeclasses, option types, lambdas...) that compiles down to C, providing a rich compatibility layer with it. Currently it's in a bit of an embryonic state, but we're working on it at a frantic, almost unhealthy pace.</li>
+       </ul>
+        </div>
+        <h3> Recreational/Educational Computer Science </h3>
+
+        <div class="group-box">
+        <ul>
+        <li><a title=""
+        href="https://github.com/mell-o-tron/Lambda-Compiler">
+        λ-compiler</a>: An x86 compiler of the λ-calculus.</li>
+        <li><a title=""
+            href="https://github.com/mell-o-tron/OCaml-Turing-Machine">
+          OCaml-Turing-Machine</a>: An OCaml implementation of the Turing Machine </li>
+        <li><a title="DEL Model Checker"
+            href="https://github.com/mell-o-tron/DEL-Model-Checker">
+          DEL Model Checker</a>: A web-based tool for Dynamic Epistemic Logic (DEL) model checking and visualization.</li>
+        <li><a title="FDI Proof Assistant"
+            href="https://fdi-proof-assistant.di.unipi.it/" target="_blank">
+          FDI Proof Assistant</a>: A theorem prover web interface made for the Computer Science Department at UniPi. This theorem prover is currently being used for the foundation of informatics course at the University of Pisa, yet I am no longer its lead developer.</li>
+        <li><a title=""
+            href="https://github.com/mell-o-tron/Lambda-Maj7">
+          λ-maj7</a>: My earliest (bad) attempt at an interpreter. </li>
+        
+        
+         </ul>
+         </div>
+        
+        
+        <h3> Smaller Projects </h3>
+
+        <div class="group-box">
+        <h4> Complex Systems </h4>
+        <ul>
+         <li><a title="" href="https://github.com/mell-o-tron/road-network-sim">
+          Road Network Simulator</a>: A microscopic / macroscopic traffic simulator (UNI) </li>
+         </ul>
+        
+        <h4> Green Computing </h4>
+        <ul>
+        <li><a title=""
+            href="https://github.com/mell-o-tron/CORDIC-FixedPoint">
+          CORDIC FixedPoint</a>: A performance test for trigonometric functions (UNI) </li></ul>
+        
+        <h4> Computer Graphics</h4>
+        <ul>
+         <li><a title="Computer Graphics"
+        href="./progettino/index.html" target="_blank" >
+        CG project</a> (UNI)</li>
+         </ul>
+        
+        <h4> Maths Visualization </h4>
+          <ul>
+            <li><a title=""
+            href="https://github.com/mell-o-tron/PySimplex2D">
+          PySimplex2D</a>: Symplex algorithm in $\mathbb R^2$. </li>
+          <li><a title=""
+            href="https://github.com/mell-o-tron/PyNewton">
+          PyNewton</a>: Newton's method for single (real) valued functions.</li>
+          <li><a title=""
+            href="https://github.com/mell-o-tron/PyNewtonFractal">
+          PyNewtonFractal</a>: The fractal that arises from Newton's method in the complex plane. </li>
+          <li><a title=""
+            href="https://github.com/mell-o-tron/PyGraphTheory">
+          PyGraphTheory</a>: A selection of graph algorithms and visualizations </li>
+           <li><a title=""
+            href="https://github.com/mell-o-tron/pyLattice">
+          PyLattice</a>: A simple tool for visualizing and animating 2D lattices </li>
+
+          </ul>
+        </div>
+            
+        <h3> Notes </h3>
+        <ul>
+        <li><a title="Operations Research Notes"
+                href="https://github.com/mell-o-tron/RO-Capitolo4">
+            $\LaTeX$'d version</a> of Chapter 4 of professor Bigi's Operations Research notes, in Italian; now <a title=""
+                href="http://pages.di.unipi.it/bigi/dida/rob/2223/appunti/cap4-pre-latex-alt.pdf">
+            published</a> on the professor's website. (UNI)</li>
+        </ul>
+        
+        <!--<li><a title=""
+                href="https://github.com/mell-o-tron/PyKarnaugh">
+            PyKarnaugh</a>: A boolean expression simplifier based on $n$-dimensional k-maps. </li>-->
+        
+
+            <!--<li><a title=""
+                href="https://github.com/mell-o-tron/alpt">
+            alpt</a>: A <i>literate programming</i> tool </li>-->
+            
+     </article>
+  </main>
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'],],
+      },
+    }
+    const toggle = document.getElementById('typeface-toggle')
+    const typeface = document.getElementById('typeface')
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('libertinus')
+      typeface.textContent = document.body.classList.contains('libertinus') ? 'Libertinus' : 'Latin Modern'
+    })
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+
+  <script async defer data-domain="latex.now.sh" src="https://plausible.io/js/plausible.js"></script>
+</body>
+<br><br>
+<div style="font-size:80%">
+Credit to <b>Vincent Dörig</b> for their brilliant template; I'm not giving this justice, you'll find the full thing here:  <a title=""
+                href="https://github.com/vincentdoerig/latex-css"> <code>https://github.com/vincentdoerig/latex-css</code></a>
+</div>
+</html>
+

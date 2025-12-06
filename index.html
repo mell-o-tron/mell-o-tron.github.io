@@ -20,6 +20,7 @@
   
   <link rel="stylesheet" href="https://latex.now.sh/style.css">
   <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
+  <link rel="stylesheet" href="/topmenu.css">
   
   <style>
     body {
@@ -68,13 +69,21 @@
 
 
 <body id="top" style = "background: #212121;color: white" onload="myFunction()">
+  <nav class="top-menu" aria-label="Main navigation">
+    <ul>
+      <li><a href="/index.html" class="active">Home</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/pub_sem_teaching.html">Seminars & Teaching</a></li>
+      <li><a href="/misc.html">Misc</a></li>
+    </ul>
+  </nav>
   <header style = "background: #1a1a1a; border-radius: 25px;text-align: center;">
     <div style = "text-align: center;"><b style="font-size:250%"><span class="latex"><code>mell-o-tron</code></b><br>
     
     <canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;">
     
     </div>
-<b>Lorenzo Pace</b>, Computer Science graduate student at the <i>University of Pisa</i>.
+<b>Lorenzo Pace</b>, soon to be PhD student @ <i>Max Planck Institute for Informatics</i>.
         <br><br>
     
     <script>
@@ -240,144 +249,7 @@
 
   <main>
     <article>
-        <h2 id="about">Publications and seminars</h2>
-        <ul>
-        <li><a title="BSc Thesis"
-        href="https://arxiv.org/abs/2312.02996" target="_blank" >
-        BSc Thesis</a> Revised version on arXiv.</li>
-        <li><a title=""
-        href="https://github.com/mell-o-tron/Curry-Howard-Lambek-Seminar" target="_blank" >
-        Curry-Howard-Lambek</a> Seminar on the Curry-Howard-Lambek correspondence.</li>
-        <li><a title="coqshop"
-        href="https://github.com/mell-o-tron/coqshop" target="_blank" >
-        CoqShop</a> Seminar on Coq, part of a series of seminars by "The Knights Who Say $\lambda$"</li>
-        <li> More of <a title=""
-        href="https://mell-o-tron.github.io/kwsl/" target="_blank" >The Knights who say $\lambda$</a> .</li>
-        </ul>
-
-        <h2 id="about">Selection of projects</h2>
-        This is a selection of my main projects. Some of them (UNI) are my university projects, the others are personal.
         
-        <h3> Currently active programming projects </h3>
-        <ul>
-        <li><a title="Minimal, collaboratively written kernel"
-        href="https://github.com/mell-o-tron/MellOs">
-        MellOS</a> (A minimal, collaboratively written kernel) <br>I have been working on this project on and off for several years, with the help of many collaborators from all over the world. Our initial goal, which I would say we achieved, was to write a simple kernel with a minimal command line interface, which would allow the user to read and write files and run executables. We are now working on making it less minimalistic by improving memory allocation, adding multi-processing, and developing a graphical interface library.</li><br>
-        
-         <li><a title="Perkelang"
-        href="https://github.com/Alex23087/Perkelang">
-        Perkelang</a> (A low level programming language with modern features) <br>This is a collaboration with Alessandro Scala, PhD Student @ University of Edinburgh. Alessandro is a main contributor to MellOS, and we share the opinion that the C programming language, in spite of its <a href=https://www.youtube.com/watch?v=tas0O586t80>simplicity and elegance</a>, is a pretty cursed and old fashioned language. This is why we decided to start working on Perkelang, a more modern language (with typeclasses, option types, lambdas...) that compiles down to C, providing a rich compatibility layer with it. Currently it's in a bit of an embryonic state, but we're working on it at a frantic, almost unhealthy pace.</li>
-       </ul>
-        
-        <h3> Recreational/Educational Computer Science </h3>
-        <ul>
-        <li><a title=""
-        href="https://github.com/mell-o-tron/Lambda-Compiler">
-        λ-compiler</a>: An x86 compiler of the λ-calculus.</li>
-        <li><a title=""
-                href="https://github.com/mell-o-tron/OCaml-Turing-Machine">
-            OCaml-Turing-Machine</a>: An OCaml implementation of the Turing Machine </li>
-        
-        <li><a title=""
-                href="https://github.com/mell-o-tron/Lambda-Maj7">
-            λ-maj7</a>: My earliest (bad) attempt at an interpreter. </li>
-        
-        
-       </ul>
-        
-        
-        <h3> Smaller Projects </h3>
-  
-        <h4> Complex Systems </h4>
-        <ul>
-         <li><a title="" href="https://github.com/mell-o-tron/road-network-sim">
-            Road Network Simulator</a>: A microscopic / macroscopic traffic simulator (UNI) </li>
-         </ul>
-        
-        <h4> Green Computing </h4>
-        <ul>
-        <li><a title=""
-                href="https://github.com/mell-o-tron/CORDIC-FixedPoint">
-            CORDIC FixedPoint</a>: A performance test for trigonometric functions (UNI) </li></ul>
-        
-        <h4> Computer Graphics</h4>
-        <ul>
-         <li><a title="Computer Graphics"
-        href="./progettino/index.html" target="_blank" >
-        CG project</a> (UNI)</li>
-         </ul>
-        
-        <h4> Maths Visualization </h4>
-            <ul>
-                <li><a title=""
-                href="https://github.com/mell-o-tron/PySimplex2D">
-            PySimplex2D</a>: Symplex algorithm in $\mathbb R^2$. </li>
-            <li><a title=""
-                href="https://github.com/mell-o-tron/PyNewton">
-            PyNewton</a>: Newton's method for single (real) valued functions.</li>
-            <li><a title=""
-                href="https://github.com/mell-o-tron/PyNewtonFractal">
-            PyNewtonFractal</a>: The fractal that arises from Newton's method in the complex plane. </li>
-            <li><a title=""
-                href="https://github.com/mell-o-tron/PyGraphTheory">
-            PyGraphTheory</a>: A selection of graph algorithms and visualizations </li>
-             <li><a title=""
-                href="https://github.com/mell-o-tron/pyLattice">
-            PyLattice</a>: A simple tool for visualizing and animating 2D lattices </li>
-
-            </ul>
-            
-        <h3> Notes </h3>
-        <ul>
-        <li><a title="Operations Research Notes"
-                href="https://github.com/mell-o-tron/RO-Capitolo4">
-            $\LaTeX$'d version</a> of Chapter 4 of professor Bigi's Operations Research notes, in Italian; now <a title=""
-                href="http://pages.di.unipi.it/bigi/dida/rob/2223/appunti/cap4-pre-latex-alt.pdf">
-            published</a> on the professor's website. (UNI)</li>
-        </ul>
-        <!--<li><a title=""
-                href="https://github.com/mell-o-tron/PyKarnaugh">
-            PyKarnaugh</a>: A boolean expression simplifier based on $n$-dimensional k-maps. </li>-->
-        
-
-            <!--<li><a title=""
-                href="https://github.com/mell-o-tron/alpt">
-            alpt</a>: A <i>literate programming</i> tool </li>-->
-            
-
-
-        <h2 id="about">Interests</h2>
-        <h3> Two lists of things I like <br></h3>
-        The following is a short, non-exhaustive list of topics I currently find interesing; I update this list quite often, as my interests are currently quite dynamic:
-
-        <ul>
-        <li>Category Theory</li>
-        <li>Automated Theorem Proving</li>
-        <li>Computer-assisted Theorem Proving</li>
-        <li>Visualization of <i>pretty maths</i>, through:
-            <ul>
-            <li>illustrations (<code>TikZ</code>)</li>
-            <li>animations (I'm learning <i>Manim</i>)</li>
-            <li>interactive visualizations (mostly <code>PyGame</code>)</li>
-            </ul></li>
-        <li>Graph theory</li>
-        <li>Computational models of complex systems</li>
-        </ul>
-
-        This second list is another short list, of more informal nature.
-
-        <ul>
-        <li> Music:
-
-            <ul>
-                <li> <a title=""
-                href="https://www.youtube.com/watch?v=Uktj2MYSsaU&ab_channel=Playliszt"> John Field - Nocturnes</a>  </li>
-                <li> <a title=""
-                href="https://www.youtube.com/watch?v=zqZM71MXNfs&ab_channel=flashspacer"> Radiohead - Fog (Again)</a>  </li>
-            </ul></li>
-        <li> What... is <a title=""
-                href="https://www.youtube.com/watch?v=RbTaP0_Galg&ab_channel=nOizyGR"> the airspeed velocity of an unladen swallow</a>? </li>
-        </ul>
      </article>
   </main>
 

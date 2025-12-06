@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="tm5Y6ZNTf-lBqbwniGjQPv1q02o2TuUQZ9GTYa4SMLg" />
+  <title>mell-o-tron</title>
+
+  <meta name="description"
+    content="" />
+  <meta name="keywords" content="latex.css,css library,class-less css,latex css" />
+  <meta property="og:title" content="mell-o-tron" />
+  <meta property="og:type" content="website" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-roman.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-sans.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-mono.css" />
+  
+  <link rel="stylesheet" href="https://latex.now.sh/style.css">
+  <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css"/>
+    <link rel="stylesheet" href="/topmenu.css">
+  
+  <style>
+    body {
+      max-width: 45%;
+      font-size: 19px;
+      font-family: 'Latin Modern Sans';
+    }
+    a:link {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #8ad0ff;
+      font-style: italic;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #a8dcff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: #8ad0ff;
+      font-weight: bold;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 1500px){
+     body {
+      max-width: 90%;
+    }
+    
+    }
+</style>
+  
+</head>
+
+
+<body id="top" style = "background: #212121;color: white" onload="myFunction()">
+  <nav class="top-menu" aria-label="Main navigation">
+    <ul>
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/pub_sem_teaching.html" class="active">Seminars & Teaching</a></li>
+      <li><a href="/misc.html">Misc</a></li>
+    </ul>
+  </nav>
+  <header style = "background: #1a1a1a; border-radius: 25px;text-align: center;">
+    <div style = "text-align: center;  padding: 20px;"><b style="font-size:250%"><span class="latex"><code>Publications and Seminars</code></b><br>
+
+    <img src="imgs/logo.png" style="max-width:220px;height:auto;display:block;margin:0.5rem auto;">
+    </div>
+  </header>
+
+
+  <main>
+    <article>
+        <h2 id="about">Publications and seminars</h2>
+        <ul>
+        <li><a title="BSc Thesis"
+        href="https://arxiv.org/abs/2312.02996" target="_blank" >
+        BSc Thesis</a> Revised version on arXiv.</li>
+        <li><a title=""
+        href="https://github.com/mell-o-tron/Curry-Howard-Lambek-Seminar" target="_blank" >
+        Curry-Howard-Lambek</a> Seminar on the Curry-Howard-Lambek correspondence.</li>
+        <li><a title="coqshop"
+        href="https://github.com/mell-o-tron/coqshop" target="_blank" >
+        CoqShop</a> Seminar on Coq, part of a series of seminars by "The Knights Who Say $\lambda$"</li>
+        <li> More of <a title=""
+        href="https://mell-o-tron.github.io/kwsl/" target="_blank" >The Knights who say $\lambda$</a> .</li>
+        </ul>
+
+        <h2 id="about">Teaching</h2>
+        <ul>
+         <li> I was Teaching Assistant for the course <i>Fondamenti dell'Informatica</i> at the University of Pisa, performing a series of lectures cohosted by then CS student Dario Tasinato. During these lectures, we used <a href="https://fdi-proof-assistant.di.unipi.it/">a tool we developed</a> to instruct first year students on how to perform mathematical proofs.</li>
+        </ul>
+     </article>
+  </main>
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'],],
+      },
+    }
+    const toggle = document.getElementById('typeface-toggle')
+    const typeface = document.getElementById('typeface')
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('libertinus')
+      typeface.textContent = document.body.classList.contains('libertinus') ? 'Libertinus' : 'Latin Modern'
+    })
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+
+  <script async defer data-domain="latex.now.sh" src="https://plausible.io/js/plausible.js"></script>
+</body>
+<br><br>
+<div style="font-size:80%">
+Credit to <b>Vincent Dörig</b> for their brilliant template; I'm not giving this justice, you'll find the full thing here:  <a title=""
+                href="https://github.com/vincentdoerig/latex-css"> <code>https://github.com/vincentdoerig/latex-css</code></a>
+</div>
+</html>
+
