@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Online Logic Handbook</title>
+  
+  <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],   // Enable $...$ for inline math
+                displayMath: [['$$', '$$']] // Enable $$...$$ for display math
+            }
+        };
+  </script>
+  
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="stylesheet" type="text/css" href="./style.css"></link>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-roman.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-sans.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-mono.css" />
+
+
+      <div class="rounded-all"> 
+      <h1>The Online Logic Handbook</h1>
+      This is a collection of definitions, theorems and proofs I compiled while taking a Mathematical Logic course when I was in uni.<br>
+      
+      If you find any grammatical (or mathematical!) oddities they might have been introduced when part of this website was semi-automatically translated from Italian to English. <br><br><b>If you want to correct any of these or complete any of the incomplete proofs, feel free to contribute <a href="https://github.com/mell-o-tron/Logic">here</a></b>.
+      </div>
+      <br>
+</head>
+<body>
+    <div class="rounded-top theorem-list"><h2>Theorem List</h2>
+     <div id="theorem_list" class="theorem-list-inner"></div>
+    </div>
+    
+    <div class="rounded-bottom theorem-list"><h2>Definition List</h2>
+     <div id="definition_list" class="theorem-list-inner"></div>
+    </div>
+  
+  <script>
+    
+    function capitalizeWords(str) {
+      return str.split(' ').map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      }).join(' ');
+    }
+
+    async function readJsonFile(url) {
+      try {
+          // Fetch the JSON file
+          const response = await fetch(url);
+          if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          // Parse the JSON data
+          const jsonData = await response.json();
+          // Return the parsed data
+          return jsonData;
+      } catch (err) {
+          console.error(`Error fetching or parsing file "${url}":`, err);
+          return null; // Return null in case of an error
+      }
+    }
+    
+    readJsonFile("index.json").then(names => {
+        
+        const elem_list = document.getElementById("theorem_list");
+        
+        for (let n of names.theorems) {
+          let element = document.createElement(`li`);
+          element.class = "theo-list-element"
+          let link = document.createElement(`a`);
+          link.href = `./proof.html?theorem=${n}`
+          link.text = capitalizeWords(n)
+          element.appendChild(link);
+          elem_list.appendChild(element);
+        }
+        
+        const def_list = document.getElementById("definition_list");
+        
+        for (let n of names.definitions) {
+          let element = document.createElement(`li`);
+          element.class = "theo-list-element"
+          let link = document.createElement(`a`);
+          link.href = `./def.html?definition=${n}`
+          link.text = capitalizeWords(n)
+          element.appendChild(link);
+          def_list.appendChild(element);
+        }
+        
+    })
+    
+    
+  </script>
+</body>
+</html> 

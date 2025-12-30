@@ -1,0 +1,87 @@
+body {
+    background-color: RGB(240, 240, 240);
+    font-family: 'Latin Modern Sans';
+}
+
+.md-content {
+    background-color: RGB(255, 255, 255);
+    margin-top:     50px;
+    margin-left:    25%;
+    margin-right:   25%;
+    
+    padding:        20px;
+    border-radius:  25px;
+    
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.rounded-bottom {
+    background-color: RGB(255, 255, 255);
+    margin-top:     0px;
+    margin-left:    25%;
+    margin-right:   25%;
+    
+    padding:        20px;
+    border-radius:  0px 0px 25px 25px;
+    
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    
+    border-top-style: dashed;
+    border-top-width: 1px;
+}
+
+.rounded-top {
+    background-color: RGB(255, 255, 255);
+    margin-top:     50px;
+    margin-left:    25%;
+    margin-right:   25%;
+    
+    padding:        20px;
+    border-radius:  25px 25px 0px 0px;
+    
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.rounded-all {
+    background-color: RGB(255, 255, 255);
+    margin-top:     0px;
+    margin-left:    25%;
+    margin-right:   25%;
+    
+    padding:        20px;
+    border-radius:  25px 25px 25px 25px;
+    
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    border-top-width: 1px;
+}
+
+
+.theorem-list {
+    background-color: RGB(255, 255, 255);
+    margin-top:     0px;
+    margin-left:    25%;
+    margin-right:   25%;
+    
+    padding:        10px 40px 20px 40px;
+    
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.theorem-list-inner {
+    column-count: 3;   
+    font-size: 13pt;
+    font-family: 'Latin Modern Mono';
+}
+
+@media only screen and (max-width: 1400px) {
+    .md-content {
+        margin-left:    5%;
+        margin-right:   5%;
+    }
+    
+    .theorem-list {
+        margin-left:    5%;
+        margin-right:   5%;
+    }
+}

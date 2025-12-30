@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Definition</title>
+  
+  <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],   // Enable $...$ for inline math
+                displayMath: [['$$', '$$']] // Enable $$...$$ for display math
+            }
+        };
+  </script>
+  
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="stylesheet" type="text/css" href="./style.css"></link>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-mono.css" />
+
+  <a href="./">Back to theorem List</a>  
+</head>
+<body>
+    
+  <div id="definition" class="md-content"></div>
+  
+  <script>
+    
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    
+    // Override function
+    const renderer = {
+      heading({ tokens, depth }) {
+        const text = this.parser.parseInline(tokens);
+        const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+        return `
+                <h${depth}>
+                  <a name="${escapedText}" class="anchor" href="#${escapedText}">
+                    <span class="header-link"></span>
+                  </a>
+                  ${text}
+                </h${depth}>`;
+      }
+    };
+
+        // Create an inline math extension
+    const inlineMath = {
+      name: 'inlineMath',
+      level: 'inline', // This extension applies to inline text
+      start(src) {
+        // Look for the first dollar sign in the source
+        return src.indexOf('$');
+      },
+      tokenizer(src) {
+        // Regex that captures math between single dollar signs,
+        // ensuring we only match non-greedy content.
+        const rule = /^\$([^\$]+?)\$/;
+        const match = rule.exec(src);
+        if (match) {
+          return {
+            type: 'inlineMath',
+            raw: match[0],
+            text: `$${match[1].trim()}$`
+          };
+        }
+      },
+      renderer(token) {
+        // Render inline math wrapped in a span (or any custom tag)
+        return `<span class="math-inline">${token.text}</span>`;
+      }
+    };
+
+    // Create a block math extension
+    const blockMath = {
+      name: 'blockMath',
+      level: 'block', // This extension applies to block-level content
+      start(src) {
+        // Look for the first occurrence of "$$"
+        return src.indexOf('$$');
+      },
+      tokenizer(src) {
+        // Regex that captures math between double dollar signs
+        const rule = /^\$\$([^$]+?)\$\$/;
+        const match = rule.exec(src);
+        if (match) {
+          console.log(`$$${match[1].trim()}$$`)
+          return {
+            type: 'blockMath',
+            raw: match[0],
+            text: `$$${match[1].trim()}$$`
+          };
+        }
+      },
+      renderer(token) {
+        // Render block math wrapped in a div (or another element)
+        return `<div class="math-block">${token.text}</div>`;
+      }
+    };
+
+    // Tell marked to use these extensions
+    marked.use({ extensions: [inlineMath, blockMath] });
+    
+    marked.use({ renderer });
+  
+    document.getElementById('MathJax-script').onload = () => {
+        fetch(`./definitions/${urlParams.get('definition')}.md`)
+            .then((res) => res.text())
+            .then((text) => {
+                let text1 = text//.replaceAll("\\", "\\\\")
+                // console.log(text1)
+                document.getElementById('definition').innerHTML =
+                marked.parse(text1);
+                MathJax.typeset();
+                
+                let target_title = document.getElementsByName(window.location.hash.replace("#", ""))[0]
+                
+                if (target_title) target_title.scrollIntoView();
+            })
+            .catch((e) => console.error(e));
+            
+    }
+  </script>
+</body>
+</html> 
